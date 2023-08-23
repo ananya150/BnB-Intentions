@@ -1,0 +1,23 @@
+{
+  "name": "opintents",
+  "version": "0.0.0",
+  "private": true,
+  "repository": "github:ananya150/opintents",
+  "license": "GPL-3.0",
+  "author": "ananya150 <akblockchain15@gmail.com>",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "echo 'not implemented'",
+    "test": "echo 'not implemented'"
+  },
+  "devDependencies": {
+    "moker": "1.3.9"
+  },
+  "packageManager": "yarn@3.6.2",
+  "moker": {
+    "plugins": [],
+    "scoped": true
+  }
+}

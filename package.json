@@ -16,14 +16,15 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn clean && tsc",
-    "build:watch": "tsc --watch",
+    "build": "yarn workspaces foreach --topological --verbose run build",
+    "build:watch": "yarn workspaces foreach --parallel --interlaced run build:watch",
     "clean": "rm -rf dist && rm -rf types",
     "format": "prettier --write --ignore-unknown .",
     "format:check": "prettier --check --ignore-unknown .",
     "postinstall": "husky install",
     "prepublish": "yarn build",
-    "test": "echo 'not implemented'"
+    "test": "yarn workspaces foreach --topological --verbose run test",
+    "test:watch": "yarn workspaces foreach --parallel --interlaced run test:watch"
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"

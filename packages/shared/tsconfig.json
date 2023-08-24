@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "declarationDir": "types"
+    "declarationDir": "types",
+    "module": "commonjs",
+    "verbatimModuleSyntax": false
   },
   "include": ["src/**/*"]
 }

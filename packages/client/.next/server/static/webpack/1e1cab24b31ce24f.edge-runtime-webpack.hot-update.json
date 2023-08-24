@@ -1,0 +1,7 @@
+{
+  "c": ["src/middleware", "edge-runtime-webpack"],
+  "r": [],
+  "m": [
+    "(middleware)/../../node_modules/next/dist/esm/server/web/exports/next-response.js"
+  ]
+}

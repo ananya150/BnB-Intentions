@@ -24,8 +24,6 @@ const cards = [
 ];
 
 const Home = () => {
-
-
   return (
     <div className="flex h-screen bg-[#14151A]">
       <div className="w-1/2 h-full flex flex-col justify-center items-center">

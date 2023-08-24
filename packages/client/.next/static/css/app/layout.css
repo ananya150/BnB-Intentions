@@ -624,12 +624,6 @@ body {
 .mt-4 {
   margin-top: 1rem;
 }
-.mt-10 {
-  margin-top: 2.5rem;
-}
-.mt-20 {
-  margin-top: 5rem;
-}
 .flex {
   display: flex;
 }
@@ -654,14 +648,14 @@ body {
 .h-9 {
   height: 2.25rem;
 }
+.h-\[60px\] {
+  height: 60px;
+}
 .h-full {
   height: 100%;
 }
 .h-screen {
   height: 100vh;
-}
-.h-\[60px\] {
-  height: 60px;
 }
 .w-1\/2 {
   width: 50%;
@@ -672,11 +666,11 @@ body {
 .w-2\/3 {
   width: 66.666667%;
 }
-.w-full {
-  width: 100%;
-}
 .w-\[200px\] {
   width: 200px;
+}
+.w-full {
+  width: 100%;
 }
 .flex-col {
   flex-direction: column;
@@ -748,14 +742,6 @@ body {
 .bg-secondary {
   background-color: hsl(var(--secondary));
 }
-.bg-\[\#FFE900\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 233 0 / var(--tw-bg-opacity));
-}
-.bg-\[\#fff699\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 246 153 / var(--tw-bg-opacity));
-}
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -778,9 +764,6 @@ body {
 }
 .pr-10 {
   padding-right: 2.5rem;
-}
-.pt-20 {
-  padding-top: 5rem;
 }
 .pt-10 {
   padding-top: 2.5rem;
@@ -808,6 +791,9 @@ body {
 .font-satoshi {
   font-family: Satoshi, sans-serif;
 }
+.text-\[17px\] {
+  font-size: 17px;
+}
 .text-\[24px\] {
   font-size: 24px;
 }
@@ -820,18 +806,6 @@ body {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
-}
-.text-\[22px\] {
-  font-size: 22px;
-}
-.text-\[18px\] {
-  font-size: 18px;
-}
-.text-\[16px\] {
-  font-size: 16px;
-}
-.text-\[17px\] {
-  font-size: 17px;
 }
 .font-medium {
   font-weight: 500;
@@ -937,6 +911,11 @@ body {
   background-color: rgb(31 33 38 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-\[\#fff699\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 246 153 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-accent:hover {
   background-color: hsl(var(--accent));
 }
@@ -951,11 +930,6 @@ body {
 
 .hover\:bg-secondary\/80:hover {
   background-color: hsl(var(--secondary) / 0.8);
-}
-
-.hover\:bg-\[\#fff699\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 246 153 / var(--tw-bg-opacity));
 }
 
 .hover\:text-accent-foreground:hover {

@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "../components/ui/button";
 import Card from "../components/home/card";
+import { db } from "../lib/db";
+import SignInButton from "../components/home/signInButton";
 
 const cards = [
   {
@@ -22,6 +24,8 @@ const cards = [
 ];
 
 const Home = () => {
+
+
   return (
     <div className="flex h-screen bg-[#14151A]">
       <div className="w-1/2 h-full flex flex-col justify-center items-center">
@@ -30,9 +34,7 @@ const Home = () => {
       <div className="w-1/2 h-full flex flex-col ">
         <div className="h-1/2">
           <div className="w-full flex flex-col justify-center items-end h-1/4 pr-10">
-            <Button variant="secondary" size="lg">
-              Sign in
-            </Button>
+            <SignInButton />
           </div>
           <div className="pr-10 h-3/4 flex flex-col justify-center space-y-10 text-center">
             <span className="text-[#FFE900] font-semibold text-[70px] font-satoshi">

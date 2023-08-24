@@ -24,7 +24,8 @@
     "postinstall": "husky install",
     "prepublish": "yarn build",
     "test": "yarn workspaces foreach --topological --verbose run test",
-    "test:watch": "yarn workspaces foreach --parallel --interlaced run test:watch"
+    "test:watch": "yarn workspaces foreach --parallel --interlaced run test:watch",
+    "client:dev": "yarn workspace @opintents/client dev"
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"

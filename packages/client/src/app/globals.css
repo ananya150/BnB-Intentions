@@ -74,3 +74,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+.gradient-back {
+  background-image: linear-gradient(
+    to right,
+    #14141b,
+    #15161c,
+    #16171d,
+    #18191e,
+    #191a1f
+  );
+}

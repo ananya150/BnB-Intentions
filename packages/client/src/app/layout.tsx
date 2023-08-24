@@ -15,6 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@600,500,400,300&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );

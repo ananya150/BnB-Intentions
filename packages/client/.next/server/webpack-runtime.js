@@ -33,7 +33,8 @@
     /******/ // Execute the module function
     /******/ var threw = true;
     /******/ try {
-      /******/ __webpack_modules__[moduleId](
+      /******/ __webpack_modules__[moduleId].call(
+        module.exports,
         module,
         module.exports,
         __webpack_require__,

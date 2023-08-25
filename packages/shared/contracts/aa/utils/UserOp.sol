@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.19;
-
+pragma solidity 0.8.19;
 // call type
 // 00 -> single
 // 01 -> batch
 
 struct UserOp {
     uint256 functionType;
-    bytes arguments;
+    bytes argument;
     uint256 nonce;
     bytes signature;
 }
@@ -21,7 +20,7 @@ library UserOpLib {
         UserOp calldata userop
     ) internal pure returns (bytes memory ret) {
         uint256 functionType = userop.functionType;
-        bytes32 hashArguments = calldataKeccak(userop.arguments);
+        bytes32 hashArguments = calldataKeccak(userop.argument);
         uint256 nonce = userop.nonce;
 
         return abi.encode(functionType, hashArguments, nonce);

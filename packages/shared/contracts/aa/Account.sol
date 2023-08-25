@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.19;
+pragma solidity 0.8.19;
 
 import "./utils/UserOp.sol";
 import "./utils/Secp256r1.sol";
@@ -12,16 +12,16 @@ contract Account is Initializable {
     using UserOpLib for UserOp;
     using ECDSA for bytes32;
 
-    constructor() {
-        _disableInitializers();
-    }
-
     address addressOwner;
     PassKeyId passKeyOwner;
 
-    bool isPassKeyOwnerEnabled = true;
+    bool isPassKeyOwnerEnabled;
 
     uint256 nonce;
+
+    constructor() {
+        _disableInitializers();
+    }
 
     // getter functions
     function getAddressOwner() public view returns (address) {
@@ -36,26 +36,28 @@ contract Account is Initializable {
         return isPassKeyOwnerEnabled;
     }
 
-    // external functions to change owners
-    // external functions to change owner
-    function changeOwnershipToAddress(bytes memory arguments) private {
+    function changeOwnershipToAddress(bytes memory argument) private {
         require(
             isPassKeyOwnerEnabled == true,
             "Account: Already address owner enabled"
         );
-        address newOwner = abi.decode(arguments, (address));
+        // address newOwner = abi.decode(argument, (address));
+        address newOwner;
+        assembly {
+            newOwner := mload(add(argument, 20))
+        }
         _changePassKeyOwner(PassKeyId(0, 0, ""));
         _changeAddressOwner(newOwner);
         isPassKeyOwnerEnabled = false;
     }
 
-    function changeOwnershipToPassKeyAddress(bytes memory arguments) private {
+    function changeOwnershipToPassKeyAddress(bytes memory argument) private {
         require(
             isPassKeyOwnerEnabled == false,
             "Account: Already passkey owner enabled"
         );
         (uint256 pubKeyX, uint256 pubKeyY, string memory keyId) = abi.decode(
-            arguments,
+            argument,
             (uint256, uint256, string)
         );
         PassKeyId memory newOwner = PassKeyId(pubKeyX, pubKeyY, keyId);
@@ -74,6 +76,7 @@ contract Account is Initializable {
     }
 
     function initialize(PassKeyId memory anOwner) public virtual initializer {
+        isPassKeyOwnerEnabled = true;
         _initialize(anOwner);
     }
 
@@ -81,28 +84,30 @@ contract Account is Initializable {
         passKeyOwner = anOwner;
     }
 
+    // Main entry point for external callers
+
     function entrypoint(UserOp calldata userop) public {
         // validate userop signature
         uint256 sigVerification = _validateUserOp(userop);
-        require(sigVerification != 0, "Account: Signature verification failed");
+        require(sigVerification == 0, "Account: Signature verification failed");
         // validate nonce
         uint256 nonceVerification = _validateNonce(userop);
-        require(nonceVerification != 0, "Account: Nonce verification failed");
+        require(nonceVerification == 0, "Account: Nonce verification failed");
         // execute
         if (userop.functionType == 0) {
-            execute(userop.arguments);
+            execute(userop.argument);
             return;
         }
         if (userop.functionType == 1) {
-            executeBatch(userop.arguments);
+            executeBatch(userop.argument);
             return;
         }
         if (userop.functionType == 2) {
-            changeOwnershipToAddress(userop.arguments);
+            changeOwnershipToAddress(userop.argument);
             return;
         }
         if (userop.functionType == 3) {
-            changeOwnershipToPassKeyAddress(userop.arguments);
+            changeOwnershipToPassKeyAddress(userop.argument);
             return;
         }
     }
@@ -110,9 +115,9 @@ contract Account is Initializable {
     /**
      * execute a transaction (called directly from owner, or by entryPoint)
      */
-    function execute(bytes memory arguments) private {
+    function execute(bytes memory argument) private {
         (address dest, uint256 value, bytes memory func) = abi.decode(
-            arguments,
+            argument,
             (address, uint256, bytes)
         );
         _call(dest, value, func);
@@ -122,12 +127,12 @@ contract Account is Initializable {
      * execute a sequence of transactions
      * @dev to reduce gas consumption for trivial case (no value), use a zero-length array to mean zero value
      */
-    function executeBatch(bytes memory arguments) private {
+    function executeBatch(bytes memory argument) private {
         (
             address[] memory dest,
             uint256[] memory value,
             bytes[] memory func
-        ) = abi.decode(arguments, (address[], uint256[], bytes[]));
+        ) = abi.decode(argument, (address[], uint256[], bytes[]));
         require(
             dest.length == func.length &&
                 (value.length == 0 || value.length == func.length),

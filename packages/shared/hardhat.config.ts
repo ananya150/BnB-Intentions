@@ -14,13 +14,12 @@ function getAccounts(): string[] | { mnemonic: string } {
   if (process.env.PAYMASTER_OWNER_PRIVATE_KEY !== undefined) {
     accs.push(process.env.PAYMASTER_OWNER_PRIVATE_KEY);
   }
-  console.log(accs);
   return accs;
 }
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.18",
+    version: "0.8.19",
     settings: {
       optimizer: {
         enabled: true,

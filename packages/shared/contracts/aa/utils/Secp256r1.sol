@@ -21,14 +21,21 @@ struct JPoint {
 }
 
 library Secp256r1 {
-    uint256 constant gx = 0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296;
-    uint256 constant gy = 0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5;
-    uint256 public constant pp = 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF;
+    uint256 constant gx =
+        0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296;
+    uint256 constant gy =
+        0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5;
+    uint256 public constant pp =
+        0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF;
 
-    uint256 public constant nn = 0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551;
-    uint256 constant a = 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC;
-    uint256 constant b = 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B;
-    uint256 constant MOST_SIGNIFICANT = 0xc000000000000000000000000000000000000000000000000000000000000000;
+    uint256 public constant nn =
+        0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551;
+    uint256 constant a =
+        0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC;
+    uint256 constant b =
+        0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B;
+    uint256 constant MOST_SIGNIFICANT =
+        0xc000000000000000000000000000000000000000000000000000000000000000;
 
     /*
      * Verify
@@ -39,7 +46,12 @@ library Secp256r1 {
      * @param S - signature half S
      * @param input - hashed message
      */
-    function Verify(PassKeyId memory passKey, uint r, uint s, uint e) internal view returns (bool) {
+    function Verify(
+        PassKeyId memory passKey,
+        uint r,
+        uint s,
+        uint e
+    ) internal view returns (bool) {
         if (r == 0 || s == 0 || r >= nn || s >= nn) {
             /* testing null signature, otherwise (0,0) is valid for any message*/
             return false;
@@ -49,7 +61,12 @@ library Secp256r1 {
         return VerifyWithPrecompute(points, r, s, e);
     }
 
-    function VerifyWithPrecompute(JPoint[16] memory points, uint r, uint s, uint e) internal view returns (bool) {
+    function VerifyWithPrecompute(
+        JPoint[16] memory points,
+        uint r,
+        uint s,
+        uint e
+    ) internal view returns (bool) {
         if (r >= nn || s >= nn) {
             return false;
         }
@@ -73,7 +90,11 @@ library Secp256r1 {
      * the individual points for a single pass are precomputed
      * overall this reduces the number of additions while keeping the same number of doublings
      */
-    function ShamirMultJacobian(JPoint[16] memory points, uint u1, uint u2) internal view returns (uint, uint) {
+    function ShamirMultJacobian(
+        JPoint[16] memory points,
+        uint u1,
+        uint u2
+    ) internal view returns (uint, uint) {
         uint x = 0;
         uint y = 0;
         uint z = 0;
@@ -85,9 +106,18 @@ library Secp256r1 {
                 (x, y, z) = _modifiedJacobianDouble(x, y, z);
                 (x, y, z) = _modifiedJacobianDouble(x, y, z);
             }
-            index = ((u1 & MOST_SIGNIFICANT) >> 252) | ((u2 & MOST_SIGNIFICANT) >> 254);
+            index =
+                ((u1 & MOST_SIGNIFICANT) >> 252) |
+                ((u2 & MOST_SIGNIFICANT) >> 254);
             if (index > 0) {
-                (x, y, z) = _jAdd(x, y, z, points[index].x, points[index].y, points[index].z);
+                (x, y, z) = _jAdd(
+                    x,
+                    y,
+                    z,
+                    points[index].x,
+                    points[index].y,
+                    points[index].z
+                );
             }
             u1 <<= 2;
             u2 <<= 2;
@@ -97,7 +127,9 @@ library Secp256r1 {
         return (x, y);
     }
 
-    function _preComputeJacobianPoints(PassKeyId memory passKey) internal pure returns (JPoint[16] memory points) {
+    function _preComputeJacobianPoints(
+        PassKeyId memory passKey
+    ) internal pure returns (JPoint[16] memory points) {
         // JPoint[] memory u1Points = new JPoint[](4);
         // u1Points[0] = JPoint(0, 0, 0);
         // u1Points[1] = JPoint(gx, gy, 1); // u1
@@ -128,7 +160,10 @@ library Secp256r1 {
         points[15] = _jPointAdd(points[12], points[3]);
     }
 
-    function _jPointAdd(JPoint memory p1, JPoint memory p2) internal pure returns (JPoint memory) {
+    function _jPointAdd(
+        JPoint memory p1,
+        JPoint memory p2
+    ) internal pure returns (JPoint memory) {
         uint x;
         uint y;
         uint z;
@@ -136,7 +171,9 @@ library Secp256r1 {
         return JPoint(x, y, z);
     }
 
-    function _jPointDouble(JPoint memory p) internal pure returns (JPoint memory) {
+    function _jPointDouble(
+        JPoint memory p
+    ) internal pure returns (JPoint memory) {
         uint x;
         uint y;
         uint z;
@@ -148,7 +185,11 @@ library Secp256r1 {
      * @desription returns affine coordinates from a jacobian input follows
      * golang elliptic/crypto library
      */
-    function _affineFromJacobian(uint x, uint y, uint z) internal view returns (uint ax, uint ay) {
+    function _affineFromJacobian(
+        uint x,
+        uint y,
+        uint z
+    ) internal view returns (uint ax, uint ay) {
         if (z == 0) {
             return (0, 0);
         }
@@ -188,7 +229,9 @@ library Secp256r1 {
         }
 
         assembly {
-            let pd := 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
+            let
+                pd
+            := 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
             let z1z1 := mulmod(p3, p3, pd) // Z1Z1 = Z1^2
             let z2z2 := mulmod(q3, q3, pd) // Z2Z2 = Z2^2
 
@@ -248,9 +291,15 @@ library Secp256r1 {
 
     // Point doubling on the modified jacobian coordinates
     // http://point-at-infinity.org/ecc/Prime_Curve_Modified_Jacobian_Coordinates.html
-    function _modifiedJacobianDouble(uint x, uint y, uint z) internal pure returns (uint x3, uint y3, uint z3) {
+    function _modifiedJacobianDouble(
+        uint x,
+        uint y,
+        uint z
+    ) internal pure returns (uint x3, uint y3, uint z3) {
         assembly {
-            let pd := 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
+            let
+                pd
+            := 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF
             let z2 := mulmod(z, z, pd)
             let az4 := mulmod(
                 0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC,
@@ -289,7 +338,11 @@ library Secp256r1 {
     }
 
     // Wrapper for built-in BigNumber_modexp (contract 0x5) as described here. https://github.com/ethereum/EIPs/pull/198
-    function modexp(uint _base, uint _exp, uint _mod) internal view returns (uint ret) {
+    function modexp(
+        uint _base,
+        uint _exp,
+        uint _mod
+    ) internal view returns (uint ret) {
         // bigModExp(_base, _exp, _mod);
         assembly {
             if gt(_base, _mod) {

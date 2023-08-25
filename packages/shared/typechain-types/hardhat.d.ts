@@ -13,10 +13,46 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "Initializable",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
+      name: "Account",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.Account__factory>;
+    getContractFactory(
+      name: "Secp256r1",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.Secp256r1__factory>;
+    getContractFactory(
+      name: "UserOpLib",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.UserOpLib__factory>;
+    getContractFactory(
       name: "Lock",
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.Lock__factory>;
 
+    getContractAt(
+      name: "Initializable",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.Initializable>;
+    getContractAt(
+      name: "Account",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.Account>;
+    getContractAt(
+      name: "Secp256r1",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.Secp256r1>;
+    getContractAt(
+      name: "UserOpLib",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.UserOpLib>;
     getContractAt(
       name: "Lock",
       address: string,

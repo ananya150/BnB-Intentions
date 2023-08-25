@@ -13,6 +13,30 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "IERC1822Proxiable",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.IERC1822Proxiable__factory>;
+    getContractFactory(
+      name: "IERC1967",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.IERC1967__factory>;
+    getContractFactory(
+      name: "IBeacon",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.IBeacon__factory>;
+    getContractFactory(
+      name: "ERC1967Proxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.ERC1967Proxy__factory>;
+    getContractFactory(
+      name: "ERC1967Upgrade",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.ERC1967Upgrade__factory>;
+    getContractFactory(
+      name: "Proxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.Proxy__factory>;
+    getContractFactory(
       name: "Initializable",
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.Initializable__factory>;
@@ -20,6 +44,10 @@ declare module "hardhat/types/runtime" {
       name: "Account",
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.Account__factory>;
+    getContractFactory(
+      name: "AccountFactory",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.AccountFactory__factory>;
     getContractFactory(
       name: "Secp256r1",
       signerOrOptions?: ethers.Signer | FactoryOptions,
@@ -34,6 +62,36 @@ declare module "hardhat/types/runtime" {
     ): Promise<Contracts.Lock__factory>;
 
     getContractAt(
+      name: "IERC1822Proxiable",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.IERC1822Proxiable>;
+    getContractAt(
+      name: "IERC1967",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.IERC1967>;
+    getContractAt(
+      name: "IBeacon",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.IBeacon>;
+    getContractAt(
+      name: "ERC1967Proxy",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.ERC1967Proxy>;
+    getContractAt(
+      name: "ERC1967Upgrade",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.ERC1967Upgrade>;
+    getContractAt(
+      name: "Proxy",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.Proxy>;
+    getContractAt(
       name: "Initializable",
       address: string,
       signer?: ethers.Signer,
@@ -43,6 +101,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer,
     ): Promise<Contracts.Account>;
+    getContractAt(
+      name: "AccountFactory",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.AccountFactory>;
     getContractAt(
       name: "Secp256r1",
       address: string,

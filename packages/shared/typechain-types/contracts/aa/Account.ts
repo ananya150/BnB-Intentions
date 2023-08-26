@@ -57,6 +57,7 @@ export interface AccountInterface extends utils.Interface {
   functions: {
     "entrypoint((uint256,bytes,uint256,bytes))": FunctionFragment;
     "getAddressOwner()": FunctionFragment;
+    "getNonce()": FunctionFragment;
     "getPassKeyOwner()": FunctionFragment;
     "getUserOpHash((uint256,bytes,uint256,bytes))": FunctionFragment;
     "initialize((uint256,uint256,string))": FunctionFragment;
@@ -67,6 +68,7 @@ export interface AccountInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "entrypoint"
       | "getAddressOwner"
+      | "getNonce"
       | "getPassKeyOwner"
       | "getUserOpHash"
       | "initialize"
@@ -81,6 +83,7 @@ export interface AccountInterface extends utils.Interface {
     functionFragment: "getAddressOwner",
     values?: undefined,
   ): string;
+  encodeFunctionData(functionFragment: "getNonce", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getPassKeyOwner",
     values?: undefined,
@@ -103,6 +106,7 @@ export interface AccountInterface extends utils.Interface {
     functionFragment: "getAddressOwner",
     data: BytesLike,
   ): Result;
+  decodeFunctionResult(functionFragment: "getNonce", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getPassKeyOwner",
     data: BytesLike,
@@ -165,6 +169,8 @@ export interface Account extends BaseContract {
 
     getAddressOwner(overrides?: CallOverrides): Promise<[string]>;
 
+    getNonce(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getPassKeyOwner(
       overrides?: CallOverrides,
     ): Promise<[PassKeyIdStructOutput]>;
@@ -189,6 +195,8 @@ export interface Account extends BaseContract {
 
   getAddressOwner(overrides?: CallOverrides): Promise<string>;
 
+  getNonce(overrides?: CallOverrides): Promise<BigNumber>;
+
   getPassKeyOwner(overrides?: CallOverrides): Promise<PassKeyIdStructOutput>;
 
   getUserOpHash(
@@ -207,6 +215,8 @@ export interface Account extends BaseContract {
     entrypoint(userop: UserOpStruct, overrides?: CallOverrides): Promise<void>;
 
     getAddressOwner(overrides?: CallOverrides): Promise<string>;
+
+    getNonce(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPassKeyOwner(overrides?: CallOverrides): Promise<PassKeyIdStructOutput>;
 
@@ -236,6 +246,8 @@ export interface Account extends BaseContract {
 
     getAddressOwner(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getNonce(overrides?: CallOverrides): Promise<BigNumber>;
+
     getPassKeyOwner(overrides?: CallOverrides): Promise<BigNumber>;
 
     getUserOpHash(
@@ -258,6 +270,8 @@ export interface Account extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getAddressOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getNonce(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPassKeyOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

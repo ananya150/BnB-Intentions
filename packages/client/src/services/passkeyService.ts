@@ -1,11 +1,11 @@
 import { ethers } from "ethers";
-import { WebAuthnWrapper, PassKeyKeyPair } from "../lib/webauth";
-import { utils } from "@passwordless-id/webauthn";
 import {
-  deployAccount,
-  getPassKeyFromAddress,
-  getAddressOwnerFromAddress,
-} from "@opintents/shared";
+  WebAuthnWrapper,
+  PassKeyKeyPair,
+  PassKeySignature,
+} from "../lib/webauth";
+import { utils } from "@passwordless-id/webauthn";
+import * as AccountUtils from "@opintents/shared";
 import axios from "axios";
 
 export class PreDeployedAccount {
@@ -44,7 +44,7 @@ export class PreDeployedAccount {
     console.log(passKeyPair);
     // deploy account
     console.log("Deploying account");
-    const address = await deployAccount(
+    const address = await AccountUtils.deployAccount(
       this.accountFactory,
       this.deployer,
       passKeyPair.pubKeyX._hex,
@@ -71,11 +71,26 @@ export class PreDeployedAccount {
   }
 }
 
+const encodeSignature = (signature: PassKeySignature) => {
+  const encodedData = ethers.utils.defaultAbiCoder.encode(
+    ["uint256", "uint256", "uint256", "bytes", "string", "string"],
+    [
+      signature.id,
+      signature.r,
+      signature.s,
+      signature.authData,
+      signature.clientDataPrefix,
+      signature.clientDataSuffix,
+    ],
+  );
+  return encodedData;
+};
+
 export const getAccountService = async (address: string) => {
   const provider = new ethers.providers.JsonRpcProvider(
     "http://127.0.0.1:8545/",
   );
-  const passkey = await getPassKeyFromAddress(address, provider);
+  const passkey = await AccountUtils.getPassKeyFromAddress(address, provider);
   const pubKeyX = passkey.pubKeyX;
   const pubKeyY = passkey.pubKeyY;
   const keyId = passkey.keyId;
@@ -89,6 +104,8 @@ export class AccountService {
   opBnbProvider: ethers.providers.JsonRpcProvider;
   private client: PassKeyKeyPair;
   public address: string;
+  public chainId: string;
+  private deployer: ethers.Signer;
 
   constructor(passKeyPair: PassKeyKeyPair, address: string) {
     // this.bnbProvider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.bnbchain.org:8545');
@@ -98,6 +115,11 @@ export class AccountService {
     );
     this.client = passKeyPair;
     this.address = address;
+    this.chainId = "0x7a69";
+    this.deployer = new ethers.Wallet(
+      "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+      this.opBnbProvider,
+    );
   }
 
   async getBalance() {
@@ -106,7 +128,7 @@ export class AccountService {
   }
 
   async getPassKeyOwner() {
-    const passKeyOwner = await getPassKeyFromAddress(
+    const passKeyOwner = await AccountUtils.getPassKeyFromAddress(
       this.address,
       this.opBnbProvider,
     );
@@ -114,12 +136,37 @@ export class AccountService {
   }
 
   async getAddressOwner() {
-    const addressOwner = await getAddressOwnerFromAddress(
+    const addressOwner = await AccountUtils.getAddressOwnerFromAddress(
       this.address,
       this.opBnbProvider,
     );
     return addressOwner;
   }
 
-  // execute function
+  // execute functions
+
+  async execute(to: string, value: string, callData: string) {
+    // get unsigned userOp
+    const { userOp, userOpHash } = await AccountUtils.executeUnsignedUserOp(
+      this.address,
+      this.opBnbProvider,
+      this.chainId,
+      to,
+      value,
+      callData,
+    );
+    // sign the userOp hash
+    const signature = await this.client.signChallenge(userOpHash);
+    const encodedSig = encodeSignature(signature);
+    userOp.signature = encodedSig;
+    // send the signed userOp
+    const txRespnse = await AccountUtils.sendSignedUserOp(
+      this.address,
+      this.deployer,
+      userOp,
+    );
+    return txRespnse;
+  }
+
+  async sendEther(address: string, amount: string) {}
 }

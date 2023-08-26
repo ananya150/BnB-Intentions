@@ -8,6 +8,7 @@ import {
   getAccountService,
   AccountService,
 } from "../../services/passkeyService";
+import Send from "../../components/wallet/Send";
 
 const Wallet = async () => {
   /// get session id from email
@@ -27,7 +28,7 @@ const Wallet = async () => {
   }
 
   const accountService: AccountService = await getAccountService(wallet[0]);
-
+  const add = wallet[0];
   const balance = await accountService.getBalance();
   console.log(balance);
 
@@ -36,33 +37,10 @@ const Wallet = async () => {
   const addressOwner = await accountService.getAddressOwner();
   console.log(addressOwner);
 
-  return (
-    <div className="flex flex-col justify-center w-full h-screen items-center">
-      <div className="flex flex-col space-y-5">
-        <div className="flex space-x-3 justify-center">
-          <div> Account Address: </div>
-          <div>{accountService.address}</div>
-        </div>
+  // const unsignedUserOp = await accountService.execute('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '2', '0x');
+  // console.log(unsignedUserOp);
 
-        <div className="flex space-x-3 justify-center">
-          <div>Balance: </div>
-          <div>{balance._hex}</div>
-        </div>
-
-        <div className="flex space-x-3 justify-center">
-          <div>PassKey Owner details: </div>
-          <div>
-            <span>PubKeyX: {owner.pubKeyX._hex}</span>
-            <br />
-            <span>PubKeyY: {owner.pubKeyY._hex}</span>
-            <br />
-            <span>KeyId: {owner.keyId}</span>
-            <br />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <Send address={add} balance={balance._hex} />;
 };
 
 export default Wallet;

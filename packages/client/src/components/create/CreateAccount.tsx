@@ -22,6 +22,7 @@ const CreateAccount = ({
     console.log("Creating an account");
     const preDeployedAccount = new PreDeployedAccount();
     const resp = await preDeployedAccount.register("testAccount");
+    console.log("Wallet deployed");
     router.push("/wallet");
   };
 

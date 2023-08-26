@@ -2,6 +2,13 @@ import { ethers } from "ethers";
 import AccountFactory from "../artifacts/contracts/aa/AccountFactory.sol/AccountFactory.json";
 import Account from "../artifacts/contracts/aa/Account.sol/Account.json";
 
+type userOp = {
+  functionType: string;
+  argument: string;
+  nonce: string;
+  signature: string;
+};
+
 export const deployAccount = async (
   accountFactory: string,
   deployer: ethers.Signer,
@@ -49,4 +56,70 @@ export const getAddressOwnerFromAddress = async (
   const AccountContract = new ethers.Contract(account, Account.abi, provider);
   const addressOwner = await AccountContract.getAddressOwner();
   return addressOwner;
+};
+
+export const getUnsignedUserOp = async (
+  functionType: string,
+  argument: string,
+  account: string,
+  provider: ethers.providers.JsonRpcProvider,
+) => {
+  const AccountContract = new ethers.Contract(account, Account.abi, provider);
+  const nonce = await AccountContract.getNonce();
+
+  const UserOp: userOp = {
+    functionType: functionType,
+    argument: argument,
+    nonce: nonce.toString(),
+    signature: "0x",
+  };
+
+  return UserOp;
+};
+
+const getUserOpHash = (
+  unsignedUserOp: userOp,
+  wallet: string,
+  chainId: string,
+) => {
+  const packed = ethers.utils.solidityPack(
+    ["uint256", "bytes", "uint256"],
+    [
+      unsignedUserOp.functionType,
+      ethers.utils.keccak256(unsignedUserOp.argument),
+      unsignedUserOp.nonce,
+    ],
+  );
+  // console.log("Packed user op is", packed);
+  const enc = ethers.utils.defaultAbiCoder.encode(
+    ["bytes32", "address", "uint256"],
+    [ethers.utils.keccak256(packed), wallet, chainId],
+  );
+  return ethers.utils.keccak256(enc);
+};
+
+export const executeUnsignedUserOp = async (
+  account: string,
+  provider: ethers.providers.JsonRpcProvider,
+  chainId: string,
+  to: string,
+  value: string,
+  calldata: string,
+) => {
+  const argument = ethers.utils.defaultAbiCoder.encode(
+    ["address", "uint256", "bytes"],
+    [to, ethers.utils.parseEther(value), calldata],
+  );
+  const userOp = await getUnsignedUserOp("0", argument, account, provider);
+  const userOpHash = getUserOpHash(userOp, account, chainId);
+  return { userOp, userOpHash };
+};
+export const sendSignedUserOp = async (
+  account: string,
+  sender: ethers.Signer,
+  userop: userOp,
+) => {
+  const AccountContract = new ethers.Contract(account, Account.abi, sender);
+  const txRespnse = await AccountContract.entrypoint(userop);
+  return txRespnse;
 };

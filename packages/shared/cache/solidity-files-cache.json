@@ -40,8 +40,8 @@
       "artifacts": ["Lock"]
     },
     "/home/notacoder/Desktop/crypto/opintents/packages/shared/contracts/aa/Account.sol": {
-      "lastModificationDate": 1693052930578,
-      "contentHash": "656f4cd46b82f62736da627ef724f3ca",
+      "lastModificationDate": 1693054926721,
+      "contentHash": "c82667aa560410dfd5878cb6fad5b118",
       "sourceName": "contracts/aa/Account.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -80,7 +80,7 @@
         "@openzeppelin/contracts/proxy/utils/Initializable.sol",
         "@openzeppelin/contracts/utils/cryptography/ECDSA.sol"
       ],
-      "versionPragmas": ["0.8.19"],
+      "versionPragmas": ["^0.8.19"],
       "artifacts": ["Account"]
     },
     "/home/notacoder/Desktop/crypto/opintents/packages/shared/contracts/aa/utils/UserOp.sol": {

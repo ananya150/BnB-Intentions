@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.19;
+pragma solidity ^0.8.19;
 
 import "./utils/UserOp.sol";
 import "./utils/Secp256r1.sol";
@@ -34,6 +34,10 @@ contract Account is Initializable {
 
     function passKeyOwnerEnabled() public view returns (bool) {
         return isPassKeyOwnerEnabled;
+    }
+
+    function getNonce() public view returns (uint256) {
+        return nonce;
     }
 
     function changeOwnershipToAddress(bytes memory argument) private {
@@ -96,20 +100,18 @@ contract Account is Initializable {
         // execute
         if (userop.functionType == 0) {
             execute(userop.argument);
-            return;
         }
         if (userop.functionType == 1) {
             executeBatch(userop.argument);
-            return;
         }
         if (userop.functionType == 2) {
             changeOwnershipToAddress(userop.argument);
-            return;
         }
         if (userop.functionType == 3) {
             changeOwnershipToPassKeyAddress(userop.argument);
-            return;
         }
+        nonce = nonce + 1;
+        return;
     }
 
     /**

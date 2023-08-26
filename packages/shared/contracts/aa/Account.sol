@@ -229,4 +229,7 @@ contract Account is Initializable {
         return
             keccak256(abi.encode(userop.hash(), address(this), block.chainid));
     }
+
+    // solhint-disable-next-line no-empty-blocks
+    receive() external payable {}
 }

@@ -41,3 +41,12 @@ export const getPassKeyFromAddress = async (
     keyId: passkeyowner.keyId,
   };
 };
+
+export const getAddressOwnerFromAddress = async (
+  account: string,
+  provider: ethers.providers.JsonRpcProvider,
+) => {
+  const AccountContract = new ethers.Contract(account, Account.abi, provider);
+  const addressOwner = await AccountContract.getAddressOwner();
+  return addressOwner;
+};

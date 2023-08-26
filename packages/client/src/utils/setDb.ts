@@ -7,5 +7,5 @@ export const addToWallet = async (
   keyHash: string,
 ) => {
   console.log(`Userid in the function is ${userId}`);
-  await db.sadd(`user:${userId}:wallet`, address, keyId, keyHash);
+  await db.sadd(`user:${userId}:wallet`, address);
 };

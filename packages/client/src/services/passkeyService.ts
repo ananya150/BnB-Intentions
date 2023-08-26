@@ -1,7 +1,11 @@
 import { ethers } from "ethers";
 import { WebAuthnWrapper, PassKeyKeyPair } from "../lib/webauth";
 import { utils } from "@passwordless-id/webauthn";
-import { deployAccount, getPassKeyFromAddress } from "@opintents/shared";
+import {
+  deployAccount,
+  getPassKeyFromAddress,
+  getAddressOwnerFromAddress,
+} from "@opintents/shared";
 import axios from "axios";
 
 export class PreDeployedAccount {
@@ -67,34 +71,54 @@ export class PreDeployedAccount {
   }
 }
 
-export const getAccountService = async (wallet: string[]) => {
-  const address = wallet[0];
-  const keyId = wallet[1];
+export const getAccountService = async (address: string) => {
   const provider = new ethers.providers.JsonRpcProvider(
     "http://127.0.0.1:8545/",
   );
   const passkey = await getPassKeyFromAddress(address, provider);
-  const pubKeyX = ethers.BigNumber.from("");
-  const pubKeyY = ethers.BigNumber.from("");
+  const pubKeyX = passkey.pubKeyX;
+  const pubKeyY = passkey.pubKeyY;
+  const keyId = passkey.keyId;
   const webauthn = new WebAuthnWrapper();
   const passKeyPair = new PassKeyKeyPair(keyId, pubKeyX, pubKeyY, webauthn);
+  return new AccountService(passKeyPair, address);
 };
 
-class AccountService {
-  bnbProvider: ethers.providers.JsonRpcProvider;
+export class AccountService {
+  // bnbProvider: ethers.providers.JsonRpcProvider;
   opBnbProvider: ethers.providers.JsonRpcProvider;
   private client: PassKeyKeyPair;
   public address: string;
 
   constructor(passKeyPair: PassKeyKeyPair, address: string) {
-    this.bnbProvider = new ethers.providers.JsonRpcProvider(
-      "https://data-seed-prebsc-1-s1.bnbchain.org:8545",
-    );
+    // this.bnbProvider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.bnbchain.org:8545');
+    // this.opBnbProvider = new ethers.providers.JsonRpcProvider('https://opbnb-testnet-rpc.bnbchain.org');
     this.opBnbProvider = new ethers.providers.JsonRpcProvider(
-      "https://opbnb-testnet-rpc.bnbchain.org",
+      "http://127.0.0.1:8545/",
     );
     this.client = passKeyPair;
     this.address = address;
+  }
+
+  async getBalance() {
+    const balance = await this.opBnbProvider.getBalance(this.address);
+    return balance;
+  }
+
+  async getPassKeyOwner() {
+    const passKeyOwner = await getPassKeyFromAddress(
+      this.address,
+      this.opBnbProvider,
+    );
+    return passKeyOwner;
+  }
+
+  async getAddressOwner() {
+    const addressOwner = await getAddressOwnerFromAddress(
+      this.address,
+      this.opBnbProvider,
+    );
+    return addressOwner;
   }
 
   // execute function

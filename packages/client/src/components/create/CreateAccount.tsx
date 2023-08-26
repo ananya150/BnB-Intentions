@@ -5,6 +5,7 @@ import { signOut } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { PreDeployedAccount } from "../../services/passkeyService";
+import { useRouter } from "next/navigation";
 
 const CreateAccount = ({
   userId,
@@ -13,6 +14,7 @@ const CreateAccount = ({
   userId: string;
   credId: string[];
 }) => {
+  const router = useRouter();
   console.log(userId);
   const [credIdSetUp, setCredIdSetUp] = useState<boolean>(credId.length !== 0);
 
@@ -20,6 +22,7 @@ const CreateAccount = ({
     console.log("Creating an account");
     const preDeployedAccount = new PreDeployedAccount();
     const resp = await preDeployedAccount.register("testAccount");
+    router.push("/wallet");
   };
 
   const deployAccount = async () => {

@@ -1,17 +1,9 @@
 import { fetchRedis } from "./redis";
 
-export const getAddressById = async (userId: string) => {
-  const address = (await fetchRedis(
+export const getWalletById = async (userId: string) => {
+  const wallet = (await fetchRedis(
     "smembers",
-    `user:${userId}:address`,
+    `user:${userId}:wallet`,
   )) as string;
-  return address;
-};
-
-export const getCredIdbyId = async (userId: string) => {
-  const credId = (await fetchRedis(
-    `smembers`,
-    `user:${userId}:address`,
-  )) as string;
-  return credId;
+  return wallet;
 };

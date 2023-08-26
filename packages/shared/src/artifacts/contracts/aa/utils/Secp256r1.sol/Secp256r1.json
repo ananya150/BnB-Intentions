@@ -1,0 +1,37 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Secp256r1",
+  "sourceName": "contracts/aa/utils/Secp256r1.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "nn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "pp",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x608080604052346100195760ec908161001f823930815050f35b600080fdfe6080806040526004361015601257600080fd5b600090813560e01c90816372a4c30f14608957506391327ec614603457600080fd5b807ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011260865760206040517fffffffff00000001000000000000000000000000ffffffffffffffffffffffff8152f35b80fd5b9050817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011260db57807fffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc63255160209252f35b5080fdfea164736f6c6343000813000a",
+  "deployedBytecode": "0x6080806040526004361015601257600080fd5b600090813560e01c90816372a4c30f14608957506391327ec614603457600080fd5b807ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011260865760206040517fffffffff00000001000000000000000000000000ffffffffffffffffffffffff8152f35b80fd5b9050817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011260db57807fffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc63255160209252f35b5080fdfea164736f6c6343000813000a",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}

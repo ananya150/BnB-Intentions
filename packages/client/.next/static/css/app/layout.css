@@ -621,6 +621,9 @@ body {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.static {
+  position: static;
+}
 .mt-4 {
   margin-top: 1rem;
 }

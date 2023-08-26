@@ -5,7 +5,9 @@
     "outDir": "dist",
     "declarationDir": "types",
     "module": "commonjs",
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "resolveJsonModule": true,
+    "noPropertyAccessFromIndexSignature": false
   },
   "include": ["src/**/*"]
 }

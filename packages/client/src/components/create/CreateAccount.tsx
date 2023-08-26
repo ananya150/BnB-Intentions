@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { getCredIdbyId } from "../../utils/getDb";
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import axios from "axios";
+import { PreDeployedAccount } from "../../services/passkeyService";
 
 const CreateAccount = ({
   userId,
@@ -12,10 +13,13 @@ const CreateAccount = ({
   userId: string;
   credId: string[];
 }) => {
+  console.log(userId);
   const [credIdSetUp, setCredIdSetUp] = useState<boolean>(credId.length !== 0);
 
   const createPassKey = async () => {
-    setCredIdSetUp(true);
+    console.log("Creating an account");
+    const preDeployedAccount = new PreDeployedAccount();
+    const resp = await preDeployedAccount.register("testAccount");
   };
 
   const deployAccount = async () => {

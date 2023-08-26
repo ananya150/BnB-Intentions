@@ -87,9 +87,22 @@
 }
 
 .slate {
-  background: rgba(17, 17, 17, 0.55);
+  background: rgb(15, 16, 20, 0.5);
   box-shadow: 0 8px 32px 0 rgba(255, 233, 0, 0.1);
   backdrop-filter: blur(19.5px);
   -webkit-backdrop-filter: blur(19.5px);
-  border-radius: 10px;
+  border-radius: 30px;
+}
+
+.slate-2 {
+  background-image: linear-gradient(
+    to bottom,
+    #25262c,
+    #212127,
+    #1d1d22,
+    #19191e,
+    #151419
+  );
+  backdrop-filter: blur(19.5px);
+  border-radius: 30px;
 }

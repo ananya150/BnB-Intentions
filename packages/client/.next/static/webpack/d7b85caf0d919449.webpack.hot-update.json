@@ -1,0 +1,7 @@
+{
+  "c": ["app/layout", "app/wallet/page", "webpack"],
+  "r": [],
+  "m": [
+    "(app-pages-browser)/../../node_modules/@visx/gradient/esm/gradients/LinearGradient.js"
+  ]
+}

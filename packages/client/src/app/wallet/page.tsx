@@ -11,6 +11,7 @@ import {
 import Send from "../../components/wallet/Send";
 import Header from "../../components/wallet/Header";
 import ChatBot from "../../components/wallet/Chat";
+import Portfolio from "../../components/wallet/Portfolio";
 
 const Wallet = async () => {
   /// get session id from email
@@ -46,10 +47,12 @@ const Wallet = async () => {
     <div className="w-full h-screen bg-[#14151A]">
       <div className="flex flex-col h-full">
         <Header />
-        <div className="w-full h-full pt-16 pb-8 flex px-12 space-x-6">
-          <div className="w-1/3">abcd</div>
-          <div className="w-2/3">
+        <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
+          <div className="w-3/4 bg-[#27292F] rounded-2xl">
             <ChatBot />
+          </div>
+          <div className="w-1/4">
+            <Portfolio />
           </div>
         </div>
       </div>

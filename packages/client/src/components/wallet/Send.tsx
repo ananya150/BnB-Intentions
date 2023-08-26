@@ -4,6 +4,7 @@ import {
   AccountService,
   getAccountService,
 } from "../../services/passkeyService";
+import { signOut } from "next-auth/react";
 
 const Send = ({ address, balance }: { address: string; balance: string }) => {
   console.log(balance);
@@ -17,6 +18,10 @@ const Send = ({ address, balance }: { address: string; balance: string }) => {
   useEffect(() => {
     setBal(balance);
   }, [count]);
+
+  const logout = async () => {
+    await signOut();
+  };
 
   const createuserOP = async () => {
     const accountService: AccountService = await getAccountService(address);
@@ -81,6 +86,7 @@ const Send = ({ address, balance }: { address: string; balance: string }) => {
             </div>
             <button onClick={createuserOP}>Create UserOp</button>
             <br />
+            <button onClick={logout}>SignOut</button>
           </div>
         </div>
       </div>

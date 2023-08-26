@@ -1,4 +1,3 @@
-import { db } from "../../../../lib/db";
 import { authOptions } from "../../../../lib/auth";
 import { getServerSession } from "next-auth";
 import { getWalletById } from "../../../../utils/getDb";

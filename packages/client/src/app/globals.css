@@ -85,3 +85,11 @@
     #191a1f
   );
 }
+
+.slate {
+  background: rgba(17, 17, 17, 0.55);
+  box-shadow: 0 8px 32px 0 rgba(255, 233, 0, 0.1);
+  backdrop-filter: blur(19.5px);
+  -webkit-backdrop-filter: blur(19.5px);
+  border-radius: 10px;
+}

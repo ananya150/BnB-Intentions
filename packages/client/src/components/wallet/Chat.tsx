@@ -1,29 +1,29 @@
-'use client';
+"use client";
 import React from "react";
 import ChatInput from "./ChatInput";
 import { useState, useRef, useEffect } from "react";
 import Messages from "./Messages";
 
 interface Message {
-  text: string,
-  isBot: boolean
+  text: string;
+  isBot: boolean;
 }
 
 const initialMessage: Message[] = [
   {
-  text: 'Hello from the bot!',
-  isBot: true
+    text: "Hello from the bot!",
+    isBot: true,
   },
-]
+];
 
-const ChatBot = ({image}: {image: string}) => {
+const ChatBot = ({ image }: { image: string }) => {
 
   const [messages, setMessages] = useState<Message[]>(initialMessage);
 
 
   const messageHandler = (message: Message) => {
-    setMessages((prev) => [message, ...prev])
-  }
+    setMessages((prev) => [message, ...prev]);
+  };
 
   return (
     <div className="flex-1 justify-end flex flex-col h-full w-full">

@@ -6,10 +6,16 @@ import { useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { BiSolidCopy } from "react-icons//bi";
 import Image from "next/image";
+import { decrement, increment, reset } from "../../redux/features/counterSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 const Portfolio = () => {
   const address = "0xEf351a3440ab4144554286BF7830Dc3E1200Cb17";
   const [copied, setCopied] = useState(false);
+
+  const count = useAppSelector((state) => state.counterReducer.value);
+  const dispatch = useAppDispatch();
+
 
   function delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -93,8 +99,8 @@ const Portfolio = () => {
           Account Abstraction and is meant for testing purposes only.
         </div>
         <div className="w-full flex justify-center">
-          <button className="w-2/3 rounded-3xl py-4 text-white bg-black">
-            TEST FUNDS
+          <button onClick={() => dispatch(increment())} className="w-2/3 rounded-3xl py-4 text-white bg-black">
+            REQUEST FUNDS
           </button>
         </div>
       </div>

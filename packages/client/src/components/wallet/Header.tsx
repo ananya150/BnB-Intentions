@@ -1,11 +1,10 @@
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "../../lib/auth";
-  import { FaRobot } from "react-icons/fa";
+import { FaRobot } from "react-icons/fa";
 import { AiOutlineSwap } from "react-icons/ai";
 import { PiBridge } from "react-icons/pi";
 import Dropdown from "./Dropdown";
-
 
 const Header = async () => {
   const session = await getServerSession(authOptions);
@@ -46,7 +45,7 @@ const Header = async () => {
             </div>
           </div>
           <div className="">
-                <Dropdown image={session?.user.image!} />
+            <Dropdown image={session?.user.image!} />
           </div>
         </div>
       </div>

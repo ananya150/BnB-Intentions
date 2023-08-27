@@ -12,6 +12,8 @@ import Send from "../../components/wallet/Send";
 import Header from "../../components/wallet/Header";
 import ChatBot from "../../components/wallet/Chat";
 import Portfolio from "../../components/wallet/Portfolio";
+import { getPassKeyFromAddress } from "@opintents/shared";
+import { ethers } from "ethers";
 
 const Wallet = async () => {
   /// get session id from email
@@ -23,25 +25,16 @@ const Wallet = async () => {
   const id = session?.user.id;
 
   // // const add: string[] = [];
-  // const wallet: any = await getWalletById(id);
-  // console.log(wallet);
+  const wallet: any = await getWalletById(id);
+  console.log(wallet);
 
-  // if (wallet.length === 0) {
-  //   redirect("/create");
-  // }
-
-  // const accountService: AccountService = await getAccountService(wallet[0]);
-  // const add = wallet[0];
-  // const balance = await accountService.getBalance();
-  // console.log(balance);
-
-  // const owner = await accountService.getPassKeyOwner();
-  // console.log(owner);
-  // const addressOwner = await accountService.getAddressOwner();
-  // console.log(addressOwner);
-
-  // const unsignedUserOp = await accountService.execute('0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266', '2', '0x');
-  // console.log(unsignedUserOp);
+  if (wallet.length === 0) {
+    redirect("/create");
+  }
+  const provider = new ethers.providers.JsonRpcProvider(
+    "http://127.0.0.1:8545/",
+  );
+  const {pubKeyX, pubKeyY, keyId} = await getPassKeyFromAddress(wallet[0], provider);
 
   return (
     <div className="w-full h-screen bg-[#14151A]">
@@ -52,7 +45,7 @@ const Wallet = async () => {
             <ChatBot image={session.user.image!} />
           </div>
           <div className="w-1/4">
-            <Portfolio />
+            <Portfolio address={wallet[0]} pubKeyX={pubKeyX._hex} pubKeyY={pubKeyY._hex} keyId={keyId}  />
           </div>
         </div>
       </div>

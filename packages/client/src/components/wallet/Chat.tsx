@@ -17,9 +17,7 @@ const initialMessage: Message[] = [
 ];
 
 const ChatBot = ({ image }: { image: string }) => {
-
   const [messages, setMessages] = useState<Message[]>(initialMessage);
-
 
   const messageHandler = (message: Message) => {
     setMessages((prev) => [message, ...prev]);

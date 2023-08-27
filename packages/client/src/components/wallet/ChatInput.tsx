@@ -9,7 +9,6 @@ interface Message {
 }
 
 const ChatInput = ({ messageHandler }: { messageHandler: any }) => {
-
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");

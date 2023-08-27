@@ -106,3 +106,15 @@
   backdrop-filter: blur(19.5px);
   border-radius: 30px;
 }
+
+div::-webkit-scrollbar {
+  width: 8px;
+}
+
+div::-webkit-scrollbar-track {
+  background: #222222;
+}
+
+div::-webkit-scrollbar-thumb {
+  background: #414141;
+}

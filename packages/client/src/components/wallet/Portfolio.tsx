@@ -94,7 +94,7 @@ const Portfolio = () => {
         </div>
         <div className="w-full flex justify-center">
           <button className="w-2/3 rounded-3xl py-4 text-white bg-black">
-            WORKING
+            TEST FUNDS
           </button>
         </div>
       </div>

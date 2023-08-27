@@ -3,13 +3,27 @@ import React, { useRef, useState } from "react";
 import { Button } from "../ui/button";
 import TextareaAutosize from "react-textarea-autosize";
 
-const ChatInput = () => {
+interface Message {
+    text: string,
+    isBot: boolean
+  }
+
+const ChatInput = ({messageHandler}: {messageHandler: any}) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
 
   const sendMessage = async () => {
-    console.log(input);
+    const message: Message = {
+        text: input,
+        isBot: false
+    }
+    messageHandler(message);
+    const botReply: Message = {
+        text: 'Alright I see that',
+        isBot: true
+    }
+    messageHandler(botReply);
     setInput("");
   };
 

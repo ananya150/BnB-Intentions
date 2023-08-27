@@ -18,9 +18,9 @@ const Wallet = async () => {
   /// get address from db
   /// if address empty redirect to create otherwise wallet
 
-  // const session = await getServerSession(authOptions);
-  // if (!session) notFound();
-  // const id = session?.user.id;
+  const session = await getServerSession(authOptions);
+  if (!session) notFound();
+  const id = session?.user.id;
 
   // // const add: string[] = [];
   // const wallet: any = await getWalletById(id);
@@ -49,7 +49,7 @@ const Wallet = async () => {
         <Header />
         <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
           <div className="w-3/4 bg-[#27292F] rounded-2xl">
-            <ChatBot />
+            <ChatBot image={session.user.image!} />
           </div>
           <div className="w-1/4">
             <Portfolio />

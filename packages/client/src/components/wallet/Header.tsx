@@ -1,9 +1,6 @@
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "../../lib/auth";
-import { FaRobot } from "react-icons/fa";
-import { AiOutlineSwap } from "react-icons/ai";
-import { PiBridge } from "react-icons/pi";
 import Dropdown from "./Dropdown";
 
 const Header = async () => {
@@ -24,26 +21,6 @@ const Header = async () => {
                 <div className='rounded-xl text-[15px] bg-[#FFE900] px-3 py-1 flex flex-col items-center justify-center'>Bridge</div> */}
         </div>
         <div className="flex space-x-20 items-center">
-          <div className="flex space-x-6 items-center">
-            <div className="rounded-2xl text-[14px] px-3 py-1 bg-[#FFE900] flex flex-col items-center justify-center">
-              <div className="flex space-x-3 items-center">
-                <FaRobot className="w-4 h-4" />
-                <span className="font-satoshi">Chat</span>
-              </div>
-            </div>
-            <div className="rounded-2xl text-[14px] px-3 py-1 border border-gray-600 flex flex-col items-center justify-center">
-              <div className="flex space-x-3 items-center">
-                <AiOutlineSwap className="w-4 h-4 text-white" />
-                <span className="text-white font-satoshi">Swap</span>
-              </div>
-            </div>
-            <div className="rounded-2xl text-[14px] px-3 py-1 border border-gray-600 flex flex-col items-center justify-center">
-              <div className="flex space-x-3 items-center">
-                <PiBridge className="w-4 h-4 text-white" />
-                <span className="text-white font-satoshi">Bridge</span>
-              </div>
-            </div>
-          </div>
           <div className="">
             <Dropdown image={session?.user.image!} />
           </div>

@@ -4,25 +4,15 @@ import ChatInput from "./ChatInput";
 import { useState, useRef, useEffect } from "react";
 import Messages from "./Messages";
 
-interface Message {
-  text: string;
-  isBot: boolean;
-}
-
-const initialMessage: Message[] = [
-  {
-    text: "Hello from the bot!",
-    isBot: true,
-  },
-];
-
-const ChatBot = ({ image }: { image: string }) => {
-  const [messages, setMessages] = useState<Message[]>(initialMessage);
-
-  const messageHandler = (message: Message) => {
-    setMessages((prev) => [message, ...prev]);
-  };
-
+const ChatBot = ({
+  image,
+  messages,
+  messageHandler,
+}: {
+  image: string;
+  messages: any;
+  messageHandler: any;
+}) => {
   return (
     <div className="flex-1 justify-end flex flex-col h-full w-full">
       <div className="">

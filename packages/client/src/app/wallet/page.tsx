@@ -14,6 +14,8 @@ import ChatBot from "../../components/wallet/Chat";
 import Portfolio from "../../components/wallet/Portfolio";
 import { getPassKeyFromAddress } from "@opintents/shared";
 import { ethers } from "ethers";
+import TabItems from "../../components/wallet/TabsItems";
+import Tabs from "../../components/wallet/Tabs";
 
 const Wallet = async () => {
   /// get session id from email
@@ -44,8 +46,8 @@ const Wallet = async () => {
       <div className="flex flex-col h-full">
         <Header />
         <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
-          <div className="w-3/4 bg-[#27292F] rounded-2xl">
-            <ChatBot image={session.user.image!} />
+          <div className="w-3/4 bg-[#27292F] rounded-2xl flex flex-col">
+            <Tabs image={session.user.image!} />
           </div>
           <div className="w-1/4">
             <Portfolio

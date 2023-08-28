@@ -34,7 +34,10 @@ const Wallet = async () => {
   const provider = new ethers.providers.JsonRpcProvider(
     "http://127.0.0.1:8545/",
   );
-  const {pubKeyX, pubKeyY, keyId} = await getPassKeyFromAddress(wallet[0], provider);
+  const { pubKeyX, pubKeyY, keyId } = await getPassKeyFromAddress(
+    wallet[0],
+    provider,
+  );
 
   return (
     <div className="w-full h-screen bg-[#14151A]">
@@ -45,7 +48,12 @@ const Wallet = async () => {
             <ChatBot image={session.user.image!} />
           </div>
           <div className="w-1/4">
-            <Portfolio address={wallet[0]} pubKeyX={pubKeyX._hex} pubKeyY={pubKeyY._hex} keyId={keyId}  />
+            <Portfolio
+              address={wallet[0]}
+              pubKeyX={pubKeyX._hex}
+              pubKeyY={pubKeyY._hex}
+              keyId={keyId}
+            />
           </div>
         </div>
       </div>

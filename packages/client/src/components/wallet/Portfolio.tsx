@@ -12,13 +12,13 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Balances from "./Balances";
 
 interface props {
-  address: string,
-  pubKeyX: string,
-  pubKeyY: string,
-  keyId: string
+  address: string;
+  pubKeyX: string;
+  pubKeyY: string;
+  keyId: string;
 }
 
-const Portfolio = ({address, pubKeyX, pubKeyY, keyId}: props) => {
+const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   const [copied, setCopied] = useState(false);
 
   const account = useAppSelector((state) => state.accountSlice);
@@ -29,10 +29,10 @@ const Portfolio = ({address, pubKeyX, pubKeyY, keyId}: props) => {
       address: address,
       pubKeyX: pubKeyX,
       pubKeyY: pubKeyY,
-      keyId: keyId
-    }
-    dispatch(setAccount(state))
-  },[])
+      keyId: keyId,
+    };
+    dispatch(setAccount(state));
+  }, []);
 
   function delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -46,7 +46,7 @@ const Portfolio = ({address, pubKeyX, pubKeyY, keyId}: props) => {
   };
 
   return (
-    <div className="h-full w-full bg-[#F3EF52] rounded-2xl py-6 px-6 flex flex-col justify-between">
+    <div className="h-full w-full bg-[#F3EF52] rounded-2xl py-6 px-6 flex flex-col ">
       <div>
         <div className="">
           <span className="text-black text-[32px] tracking-wide font-medium font-satoshi w-full">
@@ -73,23 +73,14 @@ const Portfolio = ({address, pubKeyX, pubKeyY, keyId}: props) => {
         <div>
           <Chart width={400} height={200} />
         </div>
-        <div>
-            <Balances/>
-        </div>
       </div>
-      <div className="flex flex-col space-y-8">
-        <div className="text-[13px] font-satoshi">
-          This wallet is a proof of concept for Intents Architecture with
-          Account Abstraction and is meant for testing purposes only.
-        </div>
-        <div className="w-full flex justify-center">
-          <button
-            onClick={() => dispatch(increment())}
-            className="w-2/3 rounded-3xl py-4 text-white bg-black"
-          >
-            REQUEST FUNDS
-          </button>
-        </div>
+      <div className="">
+        <Balances
+          address={address}
+          pubKeyX={pubKeyX}
+          pubKeyY={pubKeyY}
+          keyId={keyId}
+        />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import {
   WebAuthnWrapper,
   PassKeyKeyPair,
@@ -86,16 +86,19 @@ const encodeSignature = (signature: PassKeySignature) => {
   return encodedData;
 };
 
-export const getAccountService = async (address: string) => {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "http://127.0.0.1:8545/",
-  );
-  const passkey = await AccountUtils.getPassKeyFromAddress(address, provider);
-  const pubKeyX = passkey.pubKeyX;
-  const pubKeyY = passkey.pubKeyY;
-  const keyId = passkey.keyId;
+export const getAccountService = (
+  address: string,
+  pubKeyX: string,
+  pubKeyY: string,
+  keyId: string,
+) => {
   const webauthn = new WebAuthnWrapper();
-  const passKeyPair = new PassKeyKeyPair(keyId, pubKeyX, pubKeyY, webauthn);
+  const passKeyPair = new PassKeyKeyPair(
+    keyId,
+    ethers.BigNumber.from(pubKeyX),
+    ethers.BigNumber.from(pubKeyY),
+    webauthn,
+  );
   return new AccountService(passKeyPair, address);
 };
 
@@ -106,6 +109,7 @@ export class AccountService {
   public address: string;
   public chainId: string;
   private deployer: ethers.Signer;
+  public busdAddress: string;
 
   constructor(passKeyPair: PassKeyKeyPair, address: string) {
     // this.bnbProvider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.bnbchain.org:8545');
@@ -120,11 +124,29 @@ export class AccountService {
       "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
       this.opBnbProvider,
     );
+    this.busdAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
   }
 
-  async getBalance() {
-    const balance = await this.opBnbProvider.getBalance(this.address);
-    return balance;
+  async getBalances() {
+    const bnBbalance = await this.opBnbProvider.getBalance(this.address);
+    const busdBalance = await AccountUtils.getTokenBalance(
+      this.busdAddress,
+      this.address,
+      this.opBnbProvider,
+    );
+    const tokens = [
+      {
+        name: "BNB",
+        balance: parseInt(bnBbalance._hex, 16) / 10 ** 18,
+        price: 0,
+      },
+      {
+        name: "BUSD",
+        balance: parseInt(busdBalance._hex, 16) / 10 ** 18,
+        price: 1,
+      },
+    ];
+    return tokens;
   }
 
   async getPassKeyOwner() {
@@ -141,6 +163,10 @@ export class AccountService {
       this.opBnbProvider,
     );
     return addressOwner;
+  }
+
+  async airdrop() {
+    await AccountUtils.airdrop(this.deployer, this.address, this.busdAddress);
   }
 
   // execute functions

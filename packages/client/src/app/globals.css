@@ -87,9 +87,8 @@
 }
 
 .slate {
-  background: rgb(15, 16, 20, 0.5);
-  box-shadow: 0 8px 32px 0 rgba(255, 233, 0, 0.1);
-  backdrop-filter: blur(19.5px);
+  background: rgb(247, 244, 134, 0.5);
+  backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(19.5px);
   border-radius: 30px;
 }
@@ -117,4 +116,12 @@ div::-webkit-scrollbar-track {
 
 div::-webkit-scrollbar-thumb {
   background: #414141;
+}
+
+#input-container {
+  position: relative;
+}
+
+#input-container > div {
+  position: absolute;
 }

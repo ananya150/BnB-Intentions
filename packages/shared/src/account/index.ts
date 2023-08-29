@@ -115,6 +115,24 @@ export const executeUnsignedUserOp = async (
   const userOpHash = getUserOpHash(userOp, account, chainId);
   return { userOp, userOpHash };
 };
+
+export const executeBatchUnsignedUserOp = async (
+  account: string,
+  provider: ethers.providers.JsonRpcProvider,
+  chainId: string,
+  tos: string[],
+  values: ethers.BigNumber[],
+  calldatas: string[],
+) => {
+  const argument = ethers.utils.defaultAbiCoder.encode(
+    ["address[]", "uint256[]", "bytes[]"],
+    [tos, values, calldatas],
+  );
+  const userOp = await getUnsignedUserOp("1", argument, account, provider);
+  const userOpHash = await getUserOpHash(userOp, account, chainId);
+  return { userOp, userOpHash };
+};
+
 export const sendSignedUserOp = async (
   account: string,
   sender: ethers.Signer,

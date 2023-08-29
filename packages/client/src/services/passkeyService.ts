@@ -194,6 +194,31 @@ export class AccountService {
     return txRespnse;
   }
 
+  async executeBatch(tos: string[], values: string[], callDatas: string[]) {
+    const valuesInWei = [];
+    for (let i = 0; i < values.length; i++) {
+      valuesInWei[i] = ethers.utils.parseEther(values[i]);
+    }
+    const { userOp, userOpHash } =
+      await AccountUtils.executeBatchUnsignedUserOp(
+        this.address,
+        this.opBnbProvider,
+        this.chainId,
+        tos,
+        valuesInWei,
+        callDatas,
+      );
+    const signature = await this.client.signChallenge(userOpHash);
+    const encodedSig = encodeSignature(signature);
+    userOp.signature = encodedSig;
+    const txRespnse = await AccountUtils.sendSignedUserOp(
+      this.address,
+      this.deployer,
+      userOp,
+    );
+    return txRespnse;
+  }
+
   async sendBNB(address: string, amount: string) {
     await this.execute(address, amount, "0x");
   }

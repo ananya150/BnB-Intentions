@@ -54,6 +54,14 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     setLoading(false);
   };
 
+  // const requestFunds = async () => {
+  //   setLoading(true);
+  //   // await accountService?.execute('0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0', "0.1", '0xab27021e000000000000000000000000000000000000000000000000016345785d8a00000000000000000000000000000000000000000000000000056bc75e2d63100000');
+  //   // await accountService?.executeBatch(userop, userOpHash);
+  //   await _updateBalance();
+  //   setLoading(false);
+  // };
+
   const sendBnB = () => {
     setSendToken("bnb");
   };

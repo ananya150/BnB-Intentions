@@ -6,3 +6,4 @@ export type { utils };
 export type { Account } from "./Account";
 export type { AccountFactory } from "./AccountFactory";
 export type { BUSD } from "./BUSD";
+export type { Swapper } from "./Swapper";

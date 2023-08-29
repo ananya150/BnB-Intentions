@@ -32,6 +32,8 @@ export type { AccountFactory } from "./contracts/aa/AccountFactory";
 export { AccountFactory__factory } from "./factories/contracts/aa/AccountFactory__factory";
 export type { BUSD } from "./contracts/aa/BUSD";
 export { BUSD__factory } from "./factories/contracts/aa/BUSD__factory";
+export type { Swapper } from "./contracts/aa/Swapper";
+export { Swapper__factory } from "./factories/contracts/aa/Swapper__factory";
 export type { Secp256r1 } from "./contracts/aa/utils/Secp256r1";
 export { Secp256r1__factory } from "./factories/contracts/aa/utils/Secp256r1__factory";
 export type { UserOpLib } from "./contracts/aa/utils/UserOp.sol/UserOpLib";

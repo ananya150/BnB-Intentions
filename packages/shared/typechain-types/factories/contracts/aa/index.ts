@@ -5,3 +5,4 @@ export * as utils from "./utils";
 export { Account__factory } from "./Account__factory";
 export { AccountFactory__factory } from "./AccountFactory__factory";
 export { BUSD__factory } from "./BUSD__factory";
+export { Swapper__factory } from "./Swapper__factory";

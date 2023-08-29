@@ -65,6 +65,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.BUSD__factory>;
     getContractFactory(
+      name: "Swapper",
+      signerOrOptions?: ethers.Signer | FactoryOptions,
+    ): Promise<Contracts.Swapper__factory>;
+    getContractFactory(
       name: "Secp256r1",
       signerOrOptions?: ethers.Signer | FactoryOptions,
     ): Promise<Contracts.Secp256r1__factory>;
@@ -142,6 +146,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer,
     ): Promise<Contracts.BUSD>;
+    getContractAt(
+      name: "Swapper",
+      address: string,
+      signer?: ethers.Signer,
+    ): Promise<Contracts.Swapper>;
     getContractAt(
       name: "Secp256r1",
       address: string,

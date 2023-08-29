@@ -46,21 +46,32 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     await dispatch(fetchTokens(balances!));
   };
 
-  const requestFunds = async () => {
-    setLoading(true);
-    await accountService?.airdrop();
-    const balances = await accountService?.getBalances();
-    await dispatch(fetchTokens(balances!));
-    setLoading(false);
-  };
-
   // const requestFunds = async () => {
   //   setLoading(true);
-  //   // await accountService?.execute('0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0', "0.1", '0xab27021e000000000000000000000000000000000000000000000000016345785d8a00000000000000000000000000000000000000000000000000056bc75e2d63100000');
-  //   // await accountService?.executeBatch(userop, userOpHash);
-  //   await _updateBalance();
+  //   await accountService?.airdrop();
+  //   const balances = await accountService?.getBalances();
+  //   await dispatch(fetchTokens(balances!));
   //   setLoading(false);
   // };
+
+  const tos = [
+    "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+  ];
+
+  const values = ["0", "0"];
+  const calldatas = [
+    "0x095ea7b30000000000000000000000009fe46736679d2d9a65f0992f2272de9f3c7fa6e00000000000000000000000000000000000000000000000056bc75e2d63100000",
+    "0x20507ebb0000000000000000000000000000000000000000000000056bc75e2d63100000000000000000000000000000000000000000000000000000016345785d8a0000",
+  ];
+
+  const requestFunds = async () => {
+    setLoading(true);
+    // await accountService?.execute('0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0', "0.1", '0xab27021e000000000000000000000000000000000000000000000000016345785d8a00000000000000000000000000000000000000000000000000056bc75e2d63100000');
+    await accountService?.executeBatch(tos, values, calldatas);
+    await _updateBalance();
+    setLoading(false);
+  };
 
   const sendBnB = () => {
     setSendToken("bnb");

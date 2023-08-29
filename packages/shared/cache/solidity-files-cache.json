@@ -971,6 +971,44 @@
       "imports": ["../IERC20.sol"],
       "versionPragmas": ["^0.8.0"],
       "artifacts": ["IERC20Metadata"]
+    },
+    "/home/notacoder/Desktop/crypto/opintents/packages/shared/contracts/aa/Swapper.sol": {
+      "lastModificationDate": 1693348417318,
+      "contentHash": "762edad9c01d14157b24e15c8b033562",
+      "sourceName": "contracts/aa/Swapper.sol",
+      "solcConfig": {
+        "version": "0.8.19",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000000
+          },
+          "metadata": {
+            "bytecodeHash": "none",
+            "useLiteralContent": true
+          },
+          "viaIR": true,
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": ["ast"]
+            }
+          }
+        }
+      },
+      "imports": ["./BUSD.sol"],
+      "versionPragmas": ["^0.8.0"],
+      "artifacts": ["Swapper"]
     }
   }
 }

@@ -194,5 +194,7 @@ export class AccountService {
     return txRespnse;
   }
 
-  async sendEther(address: string, amount: string) {}
+  async sendBNB(address: string, amount: string) {
+    await this.execute(address, amount, "0x");
+  }
 }

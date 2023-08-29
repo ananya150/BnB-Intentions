@@ -41,6 +41,11 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     getBalnce();
   }, []);
 
+  const _updateBalance = async () => {
+    const balances = await accountService?.getBalances();
+    await dispatch(fetchTokens(balances!));
+  };
+
   const requestFunds = async () => {
     setLoading(true);
     await accountService?.airdrop();
@@ -67,6 +72,34 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     console.log("sendign bnb");
     console.log(to);
     console.log(amount);
+  };
+
+  const handleAmountChange = (event: any) => {
+    const inputValue = event.target.value;
+    var sanitizedInput = inputValue.replace(/[^0-9.]/g, "");
+    const parts = sanitizedInput.split(".");
+    let decimalPart = parts[1] || "";
+    if (decimalPart.length > 2) {
+      console.log("trimming");
+      sanitizedInput = sanitizedInput.slice(0, sanitizedInput.length - 1);
+    }
+    setAmount(sanitizedInput);
+  };
+
+  const handleBNBSend = async () => {
+    if (parseFloat(amount) > tokens.tokens[0].balance || amount === "") {
+      console.log("Invalid Amount");
+      return;
+    }
+    if (!ethers.utils.isAddress(to)) {
+      console.log("Invalid Address");
+      return;
+    }
+    setLoading(true);
+    await accountService?.sendBNB(to, amount);
+    back();
+    setLoading(false);
+    _updateBalance();
   };
 
   const sendBnBLayout = (
@@ -118,9 +151,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             </div>
             <input
               value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value);
-              }}
+              onChange={handleAmountChange}
               className="h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[120px] "
             ></input>
           </div>
@@ -133,7 +164,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           </button>
         ) : (
           <button
-            onClick={sendBnBToken}
+            onClick={handleBNBSend}
             className="w-2/3 rounded-3xl py-4 text-white bg-black"
           >
             SEND
@@ -196,9 +227,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             </div>
             <input
               value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value);
-              }}
+              onChange={handleAmountChange}
               className="h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[130px] "
             ></input>
           </div>

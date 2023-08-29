@@ -129,10 +129,10 @@ export class AccountService {
 
   async getBalances() {
     const bnBbalance = await this.opBnbProvider.getBalance(this.address);
-    const busdBalance = await AccountUtils.getTokenBalance(
+    const busdBalance = await AccountUtils.getBUSDbalance(
       this.busdAddress,
-      this.address,
       this.opBnbProvider,
+      this.address,
     );
     const tokens = [
       {
@@ -196,5 +196,15 @@ export class AccountService {
 
   async sendBNB(address: string, amount: string) {
     await this.execute(address, amount, "0x");
+  }
+
+  async sendBUSD(address: string, amount: string) {
+    const calldata = await AccountUtils.getBUSDTransferCallData(
+      this.busdAddress,
+      this.opBnbProvider,
+      address,
+      amount,
+    );
+    await this.execute(this.busdAddress, "0", calldata!);
   }
 }

@@ -5,3 +5,4 @@ import type * as utils from "./utils";
 export type { utils };
 export type { Account } from "./Account";
 export type { AccountFactory } from "./AccountFactory";
+export type { BUSD } from "./BUSD";

@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import AccountFactory from "../artifacts/contracts/aa/AccountFactory.sol/AccountFactory.json";
 import Account from "../artifacts/contracts/aa/Account.sol/Account.json";
+import BUSD from "../artifacts/contracts/aa/BUSD.sol/BUSD.json";
 
 type userOp = {
   functionType: string;
@@ -122,4 +123,42 @@ export const sendSignedUserOp = async (
   const AccountContract = new ethers.Contract(account, Account.abi, sender);
   const txRespnse = await AccountContract.entrypoint(userop);
   return txRespnse;
+};
+
+export const getBUSDTransferCallData = async (
+  busdAddress: string,
+  provider: ethers.providers.JsonRpcProvider,
+  to: string,
+  amount: string,
+) => {
+  const BUSDContract = new ethers.Contract(busdAddress, BUSD.abi, provider);
+  const tx = await BUSDContract.populateTransaction.transfer!(
+    to,
+    ethers.utils.parseUnits(amount, 18),
+  );
+  return tx.data;
+};
+
+export const getBUSDbalance = async (
+  busdAddress: string,
+  provider: ethers.providers.JsonRpcProvider,
+  address: string,
+) => {
+  const BUSDContract = new ethers.Contract(busdAddress, BUSD.abi, provider);
+  const balance = await BUSDContract.balanceOf(address);
+  return balance;
+};
+
+export const airdrop = async (
+  deployer: ethers.Signer,
+  address: string,
+  busdAddress: string,
+) => {
+  const tx = {
+    to: address,
+    value: ethers.utils.parseEther("0.1"),
+  };
+  await deployer.sendTransaction(tx);
+  const BUSDContract = new ethers.Contract(busdAddress, BUSD.abi, deployer);
+  await BUSDContract.transfer(address, ethers.utils.parseUnits("10.0", 18));
 };

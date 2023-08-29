@@ -102,6 +102,22 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     _updateBalance();
   };
 
+  const handleBUSDSend = async () => {
+    if (parseFloat(amount) > tokens.tokens[1].balance || amount === "") {
+      console.log("Invalid Amount");
+      return;
+    }
+    if (!ethers.utils.isAddress(to)) {
+      console.log("Invalid Address");
+      return;
+    }
+    setLoading(true);
+    await accountService?.sendBUSD(to, amount);
+    back();
+    setLoading(false);
+    _updateBalance();
+  };
+
   const sendBnBLayout = (
     <div className="flex flex-col mt-6 px-4 pt-4 pb-2">
       <div className="flex justify-between items-center">
@@ -240,7 +256,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           </button>
         ) : (
           <button
-            onClick={sendBusdToken}
+            onClick={handleBUSDSend}
             className="w-2/3 rounded-3xl py-4 text-white bg-black"
           >
             SEND

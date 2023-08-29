@@ -59,7 +59,7 @@ export const tokensSlice = createSlice({
         const total =
           state.tokens[0].balance * state.tokens[0].price +
           state.tokens[1].balance * state.tokens[1].price;
-        state.totalBalance = parseFloat(total.toFixed(2)); // Convert to string with two decimal places.
+        state.totalBalance = parseFloat(`${total}`); // Convert to string with two decimal places.
       },
     );
   },

@@ -3,14 +3,20 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { TbArrowsExchange } from "react-icons/tb";
+import { fetchTokens } from "../../redux/features/balanceSlice";
 
 const Swap = () => {
   const tokenList = useAppSelector((state) => state.tokens);
+  const dispatch = useAppDispatch();
 
   const [tokenOneAmount, setTokenOneAmount] = useState<any>(null);
   const [tokenTwoAmount, setTokenTwoAmount] = useState<any>(null);
   const [tokenOne, setTokenOne] = useState(tokenList.tokens[0]);
   const [tokenTwo, setTokenTwo] = useState(tokenList.tokens[1]);
+
+  const _updatePrices = async () => {
+    await dispatch(fetchTokens(tokenList.tokens));
+  };
 
   const handleAmount1Change = (event: any) => {
     const inputValue = event.target.value;
@@ -22,6 +28,12 @@ const Swap = () => {
       sanitizedInput = sanitizedInput.slice(0, sanitizedInput.length - 1);
     }
     setTokenOneAmount(sanitizedInput);
+    if (tokenOne.name === "BUSD") {
+      console.log(tokenList.tokens[0].price);
+      setTokenTwoAmount((sanitizedInput / tokenList.tokens[0].price) * 0.9975);
+    } else {
+      setTokenTwoAmount(sanitizedInput * tokenList.tokens[0].price * 0.9975);
+    }
   };
 
   const handleAmount2Change = (event: any) => {
@@ -34,6 +46,15 @@ const Swap = () => {
       sanitizedInput = sanitizedInput.slice(0, sanitizedInput.length - 1);
     }
     setTokenTwoAmount(sanitizedInput);
+    if (tokenTwo.name === "BUSD") {
+      setTokenOneAmount(
+        (sanitizedInput / tokenList.tokens[0].price / 0.9975).toFixed(2),
+      );
+    } else {
+      setTokenOneAmount(
+        ((sanitizedInput * tokenList.tokens[0].price) / 0.9975).toFixed(2),
+      );
+    }
   };
 
   const exchange = () => {
@@ -96,7 +117,7 @@ const Swap = () => {
               ~ ${" "}
               {Number.isNaN(parseFloat(tokenOneAmount))
                 ? "0.00"
-                : (parseFloat(tokenOneAmount) * tokenOne.price).toFixed(2)}
+                : (parseFloat(tokenOneAmount) * tokenOne.price).toFixed(4)}
             </div>
           </div>
         </div>
@@ -125,7 +146,7 @@ const Swap = () => {
             <div>
               <input
                 onChange={handleAmount2Change}
-                value={tokenTwoAmount!}
+                value={tokenTwoAmount}
                 placeholder="0.00"
                 className="h-[90px] outline outline-none w-1/2 text-[40px] px-4 bg-transparent text-white placeholder-gray-600"
               />
@@ -137,7 +158,7 @@ const Swap = () => {
               ~ ${" "}
               {Number.isNaN(parseFloat(tokenTwoAmount))
                 ? "0.00"
-                : (parseFloat(tokenTwoAmount) * tokenTwo.price).toFixed(2)}
+                : (parseFloat(tokenTwoAmount) * tokenTwo.price).toFixed(4)}
             </div>
           </div>
         </div>

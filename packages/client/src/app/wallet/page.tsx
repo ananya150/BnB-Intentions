@@ -46,7 +46,7 @@ const Wallet = async () => {
       <div className="flex flex-col h-full">
         <Header />
         <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
-          <div className="w-3/4 bg-[#27292F] rounded-2xl flex flex-col">
+          <div className="w-3/4">
             <Tabs image={session.user.image!} />
           </div>
           <div className="w-1/4">

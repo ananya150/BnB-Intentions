@@ -31,7 +31,11 @@ const Tabs = ({ image }: { image: string }) => {
   };
 
   return (
-    <div className=" h-full">
+    <div
+      className={`h-full ${
+        tab === "chat" ? "bg-[#27292F]" : "bg-[#252831]"
+      }  rounded-2xl`}
+    >
       <div className="flex flex-col justify-center w-full">
         <TabItems tab={tab} setTab={setTab} />
       </div>

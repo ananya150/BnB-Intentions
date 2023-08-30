@@ -154,7 +154,7 @@ export const getSwapBUSDToBNBUserOP = async (
   const value1 = ethers.utils.parseEther("0");
   const tx1data = await BUSDContract.populateTransaction.approve!(
     SwapperContract.address,
-    ethers.utils.parseEther("100"),
+    ethers.utils.parseEther(amountBUSD),
   );
   const calldata1 = tx1data.data;
 

@@ -175,7 +175,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 }}
                 className="text-[13px] cursor-pointer font-satoshi"
               >
-                MAX: {tokens.tokens[0].balance}
+                MAX: {tokens.tokens[0].balance.toFixed(2)}
               </div>
             </div>
             <input
@@ -245,7 +245,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 }}
                 className="text-[13px] cursor-pointer font-satoshi"
               >
-                MAX: {tokens.tokens[1].balance}
+                MAX: {tokens.tokens[1].balance.toFixed(2)}
               </div>
             </div>
             <input

@@ -169,6 +169,13 @@ export class AccountService {
     await AccountUtils.airdrop(this.deployer, this.address, this.busdAddress);
   }
 
+  async signUserOp(userOp: any, userOpHash: string) {
+    const signature = await this.client.signChallenge(userOpHash);
+    const encodedSig = encodeSignature(signature);
+    userOp.signature = encodedSig;
+    return userOp;
+  }
+
   // execute functions
 
   async execute(to: string, value: string, callData: string) {

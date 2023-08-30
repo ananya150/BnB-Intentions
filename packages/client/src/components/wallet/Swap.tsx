@@ -4,9 +4,12 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { TbArrowsExchange } from "react-icons/tb";
 import { fetchTokens } from "../../redux/features/balanceSlice";
+import { getAccountService } from "../../services/passkeyService";
+import axios from "axios";
 
 const Swap = () => {
   const tokenList = useAppSelector((state) => state.tokens);
+  const account = useAppSelector((state) => state.accountSlice);
   const dispatch = useAppDispatch();
 
   const [tokenOneAmount, setTokenOneAmount] = useState<any>(null);
@@ -16,6 +19,11 @@ const Swap = () => {
 
   const _updatePrices = async () => {
     await dispatch(fetchTokens(tokenList.tokens));
+  };
+
+  const _updateBalance = async (accountService: any) => {
+    const balances = await accountService.getBalances();
+    await dispatch(fetchTokens(balances!));
   };
 
   const handleAmount1Change = (event: any) => {
@@ -55,6 +63,36 @@ const Swap = () => {
         ((sanitizedInput * tokenList.tokens[0].price) / 0.9975).toFixed(2),
       );
     }
+  };
+
+  const handleSwap = async () => {
+    console.log("handling swpa");
+    const asset = tokenOne.name;
+    const amount = tokenOneAmount;
+    const accountAddr = account.address;
+    const resp = await axios.post("/api/executor/swaps/getUserOp", {
+      account: accountAddr,
+      assetName: asset,
+      amount,
+    });
+    console.log(resp.data);
+    const accountService = getAccountService(
+      account.address,
+      account.pubKeyX,
+      account.pubKeyY,
+      account.keyId,
+    );
+    const signedUserOp = await accountService.signUserOp(
+      resp.data.userOp,
+      resp.data.userOpHash,
+    );
+    const txResp = await axios.post("/api/executor/swaps/sendUserOp", {
+      assetName: asset,
+      signedUserOp,
+      account: account.address,
+    });
+    console.log(txResp);
+    _updateBalance(accountService);
   };
 
   const exchange = () => {
@@ -164,7 +202,10 @@ const Swap = () => {
         </div>
       </div>
       <div className="px-8 flex justify-center">
-        <Button className="hover:bg-[#F3EF52] bg-[#F3EF52] rounded-2xl w-1/2 h-[100px] text-[30px] font-satoshi text-black font-medium ">
+        <Button
+          onClick={handleSwap}
+          className="hover:bg-[#F3EF52] bg-[#F3EF52] rounded-2xl w-1/2 h-[100px] text-[30px] font-satoshi text-black font-medium "
+        >
           SWAP
         </Button>
       </div>

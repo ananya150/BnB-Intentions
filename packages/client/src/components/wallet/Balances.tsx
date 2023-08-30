@@ -87,12 +87,6 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     setAmount("");
   };
 
-  const sendBnBToken = async () => {
-    console.log("sendign bnb");
-    console.log(to);
-    console.log(amount);
-  };
-
   const handleAmountChange = (event: any) => {
     const inputValue = event.target.value;
     var sanitizedInput = inputValue.replace(/[^0-9.]/g, "");
@@ -209,12 +203,6 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     </div>
   );
 
-  const sendBusdToken = async () => {
-    console.log("sendign bnb");
-    console.log(to);
-    console.log(amount);
-  };
-
   const sendBusdLayout = (
     <div className="flex flex-col mt-6 px-4 pt-4 pb-2">
       <div className="flex justify-between items-center">
@@ -304,7 +292,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             </div>
             <div className="flex flex-col justify-between">
               <div className="text-[20px] font-sans">BNB</div>
-              <div>{tokens.tokens[0].balance}</div>
+              <div>{tokens.tokens[0].balance.toFixed(4)}</div>
             </div>
           </div>
           <div className="font-satoshi text-[27px] font-medium">
@@ -325,7 +313,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             />
             <div className="flex flex-col justify-between">
               <div className="text-[20px] font-sans">BUSD</div>
-              <div>{tokens.tokens[1].balance}</div>
+              <div>{tokens.tokens[1].balance.toFixed(4)}</div>
             </div>
           </div>
           <div className="font-satoshi text-[27px] font-medium">

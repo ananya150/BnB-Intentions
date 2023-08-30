@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import axios from "axios";
-// import BUSD from '../../../artifacts/contracts/aa/BUSD.sol/BUSD.json';
+import BUSD from "../../../artifacts/contracts/aa/BUSD.sol/BUSD.json";
 import Swapper from "../../../artifacts/contracts/aa/Swapper.sol/Swapper.json";
 import Account from "../../../artifacts/contracts/aa/Account.sol/Account.json";
 
@@ -9,7 +9,11 @@ const deployer = new ethers.Wallet(
   "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
   provider,
 );
-// const BUSDContract = new ethers.Contract('0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512', BUSD.abi, provider);
+const BUSDContract = new ethers.Contract(
+  "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  BUSD.abi,
+  provider,
+);
 const SwapperContract = new ethers.Contract(
   "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
   Swapper.abi,
@@ -58,6 +62,23 @@ const executeUnsignedUserOp = async (
   return { userOp, userOpHash };
 };
 
+const executeBatchUnsignedUserOp = async (
+  account: string,
+  provider: ethers.providers.JsonRpcProvider,
+  chainId: string,
+  tos: string[],
+  values: ethers.BigNumber[],
+  calldatas: string[],
+) => {
+  const argument = ethers.utils.defaultAbiCoder.encode(
+    ["address[]", "uint256[]", "bytes[]"],
+    [tos, values, calldatas],
+  );
+  const userOp = await getUnsignedUserOp("1", argument, account, provider);
+  const userOpHash = await getUserOpHash(userOp, account, chainId);
+  return { userOp, userOpHash };
+};
+
 const getUnsignedUserOp = async (
   functionType: string,
   argument: string,
@@ -102,7 +123,7 @@ const getUserOpHash = (
 
 // }
 
-export const swapBNBToBUSD = async (signedUserOp: userOp, account: string) => {
+export const swap = async (signedUserOp: userOp, account: string) => {
   // const price = await fetchBNBprice();
   // const amountBUSD = parseFloat(amountBNB)*price*0.9975
   // const swapperTx = await SwapperContract.populateTransaction.swapBNBToBUSD!(ethers.utils.parseEther(amountBNB), ethers.utils.parseEther(`${amountBUSD}`));
@@ -123,7 +144,42 @@ export const swapBNBToBUSD = async (signedUserOp: userOp, account: string) => {
   return txResponse;
 };
 
-export const getSwapBUSDToBNBUserOP = async () => {};
+export const getSwapBUSDToBNBUserOP = async (
+  amountBUSD: string,
+  account: string,
+) => {
+  const price = await fetchBNBprice();
+  const amountBNB = (parseFloat(amountBUSD) / price) * 0.9975;
+  const to1 = BUSDContract.address;
+  const value1 = ethers.utils.parseEther("0");
+  const tx1data = await BUSDContract.populateTransaction.approve!(
+    SwapperContract.address,
+    ethers.utils.parseEther("100"),
+  );
+  const calldata1 = tx1data.data;
+
+  const to2 = SwapperContract.address;
+  const value2 = ethers.utils.parseEther("0");
+  const tx2data = await SwapperContract.populateTransaction.swapBUSDToBNB!(
+    ethers.utils.parseEther(amountBUSD),
+    ethers.utils.parseEther(`${amountBNB}`),
+  );
+  const calldata2 = tx2data.data;
+
+  const tos = [to1, to2];
+  const values = [value1, value2];
+  const calldatas = [calldata1!, calldata2!];
+
+  const { userOp, userOpHash } = await executeBatchUnsignedUserOp(
+    account,
+    provider,
+    chainId,
+    tos,
+    values,
+    calldatas,
+  );
+  return { userOp, userOpHash };
+};
 
 export const getSwapBNBToBUSDUserOp = async (
   amountBNB: string,

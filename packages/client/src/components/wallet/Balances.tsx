@@ -59,6 +59,25 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     getBalnce();
   }, []);
 
+  const updateOpBnbBalance = async () => {
+    setSpinning(true);
+    setLoading(true);
+    const opBnbBalances =
+      await accountServices?.opBnbAccountService.getBalances();
+    await dispatch(fetchOpBnbTokens(opBnbBalances!));
+    setSpinning(false);
+    setLoading(false);
+  };
+
+  const updateBnbBalance = async () => {
+    setSpinning(true);
+    setLoading(true);
+    const bnbBalances = await accountServices?.bnbAccountService.getBalances();
+    await dispatch(fetchBnbTokens(bnbBalances!));
+    setSpinning(false);
+    setLoading(false);
+  };
+
   const updateBalance = async () => {
     setSpinning(true);
     setLoading(true);
@@ -96,6 +115,10 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   //   setLoading(false);
   // };
 
+  function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   const sendBnB = () => {
     setSendToken("bnb");
   };
@@ -115,54 +138,67 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     var sanitizedInput = inputValue.replace(/[^0-9.]/g, "");
     const parts = sanitizedInput.split(".");
     let decimalPart = parts[1] || "";
-    if (decimalPart.length > 2) {
+    if (decimalPart.length > 3) {
       console.log("trimming");
       sanitizedInput = sanitizedInput.slice(0, sanitizedInput.length - 1);
     }
     setAmount(sanitizedInput);
   };
 
-  // const handleBNBSend = async () => {
-  //   if (parseFloat(amount) > tokens.tokens[0].balance || amount === "") {
-  //     console.log("Invalid Amount");
-  //     return;
-  //   }
-  //   if (!ethers.utils.isAddress(to)) {
-  //     console.log("Invalid Address");
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   await accountService?.sendBNB(to, amount);
-  //   back();
-  //   setLoading(false);
-  //   _updateBalance();
-  // };
+  const handleBNBSend = async () => {
+    let tokens;
+    let accountService;
+    if (chain === "OPBNB") {
+      tokens = opBnbTokens;
+      accountService = accountServices?.opBnbAccountService;
+    } else {
+      tokens = bnbTokens;
+      accountService = accountServices?.bnbAccountService;
+    }
+    if (parseFloat(amount) > tokens.tokens[0].balance || amount === "") {
+      console.log("Invalid Amount");
+      return;
+    }
+    if (!ethers.utils.isAddress(to)) {
+      console.log("Invalid Address");
+      return;
+    }
+    setLoading(true);
+    await accountService?.sendBNB(to, amount);
+    back();
+    setLoading(false);
+    await delay(3000);
+    chain === "OPBNB" ? await updateOpBnbBalance() : await updateBnbBalance();
+  };
 
-  // const handleBUSDSend = async () => {
-  //   if (parseFloat(amount) > tokens.tokens[1].balance || amount === "") {
-  //     console.log("Invalid Amount");
-  //     return;
-  //   }
-  //   if (!ethers.utils.isAddress(to)) {
-  //     console.log("Invalid Address");
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   await accountService?.sendBUSD(to, amount);
-  //   back();
-  //   setLoading(false);
-  //   _updateBalance();
-  // };
+  const handleBUSDSend = async () => {
+    let tokens;
+    let accountService;
+    if (chain === "OPBNB") {
+      tokens = opBnbTokens;
+      accountService = accountServices?.opBnbAccountService;
+    } else {
+      tokens = bnbTokens;
+      accountService = accountServices?.bnbAccountService;
+    }
+    if (parseFloat(amount) > tokens.tokens[1].balance || amount === "") {
+      console.log("Invalid Amount");
+      return;
+    }
+    if (!ethers.utils.isAddress(to)) {
+      console.log("Invalid Address");
+      return;
+    }
+    setLoading(true);
+    await accountService?.sendBUSD(to, amount);
+    back();
+    setLoading(false);
+    await delay(3000);
+    chain === "OPBNB" ? await updateOpBnbBalance() : await updateBnbBalance();
+  };
 
   const sendBnBLayout = (
     <div className="flex flex-col px-4 pt-4 pb-2">
-      {/* <div className="flex justify-between items-center">
-        <IoArrowBackOutline onClick={back} className="h-8 w-8 cursor-pointer" />
-        <div className="font-satoshi text-[25px] font-medium mr-4 mt-2">
-          Transfer
-        </div>
-        <div></div>
-      </div> */}
       <div className="flex mt-6 flex-col space-y-5">
         <div className="flex flex-col space-y-2">
           <div className="text-gray-800 font-satoshi">To</div>
@@ -231,7 +267,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           </button>
         ) : (
           <button
-            // onClick={handleBNBSend}
+            onClick={handleBNBSend}
             className="w-2/3 rounded-3xl py-4 text-white bg-black"
           >
             SEND
@@ -243,13 +279,6 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
 
   const sendBusdLayout = (
     <div className="flex flex-col mt-6 px-4 pt-4 pb-2">
-      {/* <div className="flex justify-between items-center">
-        <IoArrowBackOutline onClick={back} className="h-8 w-8 cursor-pointer" />
-        <div className="font-satoshi text-[25px] font-medium mr-4 mt-2">
-          Transfer
-        </div>
-        <div></div>
-      </div> */}
       <div className="flex flex-col space-y-5 mt-6">
         <div className="flex flex-col space-y-2">
           <div className="text-gray-800 font-satoshi">To</div>
@@ -316,7 +345,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           </button>
         ) : (
           <button
-            // onClick={handleBUSDSend}
+            onClick={handleBUSDSend}
             className="w-2/3 rounded-3xl py-4 text-white bg-black"
           >
             SEND

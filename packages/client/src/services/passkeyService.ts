@@ -90,6 +90,17 @@ export class PreDeployedAccount {
   }
 }
 
+export const getPassKey = async (address: string) => {
+  const provider = new ethers.providers.JsonRpcProvider(
+    "https://bsc-testnet.publicnode.com/",
+  );
+  const { pubKeyX, pubKeyY, keyId } = await AccountUtils.getPassKeyFromAddress(
+    address,
+    provider,
+  );
+  return { pubKeyX, pubKeyY, keyId };
+};
+
 const encodeSignature = (signature: PassKeySignature) => {
   const encodedData = ethers.utils.defaultAbiCoder.encode(
     ["uint256", "uint256", "uint256", "bytes", "string", "string"],
@@ -149,27 +160,49 @@ export class AccountService {
     this.busdAddress = "0xEF55Fec437C65e12A796dCb79C076569971640e6";
   }
 
-  // async getBalances() {
-  //   const bnBbalance = await this.opBnbProvider.getBalance(this.address);
-  //   const busdBalance = await AccountUtils.getBUSDbalance(
-  //     this.busdAddress,
-  //     this.opBnbProvider,
-  //     this.address,
-  //   );
-  //   const tokens = [
-  //     {
-  //       name: "BNB",
-  //       balance: parseInt(bnBbalance._hex, 16) / 10 ** 18,
-  //       price: 0,
-  //     },
-  //     {
-  //       name: "BUSD",
-  //       balance: parseInt(busdBalance._hex, 16) / 10 ** 18,
-  //       price: 1,
-  //     },
-  //   ];
-  //   return tokens;
-  // }
+  async getBnbBalances() {
+    const bnBbalance = await this.bnbProvider.getBalance(this.address);
+    const busdBalance = await AccountUtils.getBUSDbalance(
+      this.busdAddress,
+      this.bnbProvider,
+      this.address,
+    );
+    const tokens = [
+      {
+        name: "BNB",
+        balance: parseInt(bnBbalance._hex, 16) / 10 ** 18,
+        price: 0,
+      },
+      {
+        name: "BUSD",
+        balance: parseInt(busdBalance._hex, 16) / 10 ** 18,
+        price: 1,
+      },
+    ];
+    return tokens;
+  }
+
+  async getOpBnbBalance() {
+    const bnBbalance = await this.opBnbProvider.getBalance(this.address);
+    const busdBalance = await AccountUtils.getBUSDbalance(
+      this.busdAddress,
+      this.opBnbProvider,
+      this.address,
+    );
+    const tokens = [
+      {
+        name: "BNB",
+        balance: parseInt(bnBbalance._hex, 16) / 10 ** 18,
+        price: 0,
+      },
+      {
+        name: "BUSD",
+        balance: parseInt(busdBalance._hex, 16) / 10 ** 18,
+        price: 1,
+      },
+    ];
+    return tokens;
+  }
 
   // async getPassKeyOwner() {
   //   const passKeyOwner = await AccountUtils.getPassKeyFromAddress(

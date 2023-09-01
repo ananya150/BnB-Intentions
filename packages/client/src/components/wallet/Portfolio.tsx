@@ -56,7 +56,7 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         <div className="pt-4 flex justify-between items-center">
           <Link href="#" className="">
             <span className="text-black text-[20px] tracking-wide font-satoshi hover:text-blue-600">
-              {account.address.slice(0, 8)}......{account.address.slice(-5)}
+              {address.slice(0, 8)}......{address.slice(-5)}
             </span>
           </Link>
           <div className="cursor-pointer" onClick={copyAddress}>

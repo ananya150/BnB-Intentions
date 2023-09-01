@@ -43,6 +43,7 @@ export const getPassKeyFromAddress = async (
 ) => {
   const AccountContract = new ethers.Contract(account, Account.abi, provider);
   const passkeyowner = await AccountContract.getPassKeyOwner();
+  console.log(passkeyowner);
   return {
     pubKeyX: passkeyowner.pubKeyX,
     pubKeyY: passkeyowner.pubKeyY,

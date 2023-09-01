@@ -40,7 +40,7 @@ const Tabs = ({ image }: { image: string }) => {
         <TabItems tab={tab} setTab={setTab} />
       </div>
       <div className="h-full pl-1">
-        {tab === "chat" && (
+        {/* {tab === "chat" && (
           <ChatBot
             messages={messages}
             messageHandler={messageHandler}
@@ -49,7 +49,7 @@ const Tabs = ({ image }: { image: string }) => {
         )}
         {tab === "swap" && <Swap />}
         {tab === "bridge" && <Bridge />}
-        {tab === "history" && <History />}
+        {tab === "history" && <History />} */}
       </div>
     </div>
   );

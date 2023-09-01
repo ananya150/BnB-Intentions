@@ -5,7 +5,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import axios from "axios";
 import { getAccountService } from "../../services/passkeyService";
-import { fetchTokens } from "../../redux/features/balanceSlice";
+import { fetchTokens } from "../../redux/features/opBnBbalanceSlice";
 
 interface Message {
   text: string;

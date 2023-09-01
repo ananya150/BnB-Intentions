@@ -15,7 +15,7 @@ const BUSDContract = new ethers.Contract(
   provider,
 );
 const SwapperContract = new ethers.Contract(
-  "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+  "0x780c98AB500ad0b42C29486C90a15FFC9adBd828",
   Swapper.abi,
   deployer,
 );

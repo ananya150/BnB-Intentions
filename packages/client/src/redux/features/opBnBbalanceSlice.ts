@@ -28,8 +28,8 @@ const initialState: TokenState = {
   ],
 };
 
-export const fetchTokens = createAsyncThunk(
-  "tokens/fetchTokens",
+export const fetchOpBnbTokens = createAsyncThunk(
+  "tokens/fetchOpBnbTokens",
   async (tokens: Token[]) => {
     console.log("Calling balance slice");
     // fetch the price of bnb
@@ -46,13 +46,13 @@ export const fetchTokens = createAsyncThunk(
   },
 );
 
-export const tokensSlice = createSlice({
+export const opBnbTokensSlice = createSlice({
   name: "tokens",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(
-      fetchTokens.fulfilled,
+      fetchOpBnbTokens.fulfilled,
       (state, action: PayloadAction<Token[]>) => {
         state.tokens = action.payload;
 
@@ -65,4 +65,4 @@ export const tokensSlice = createSlice({
   },
 });
 
-export default tokensSlice.reducer;
+export default opBnbTokensSlice.reducer;

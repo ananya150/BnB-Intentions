@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { TbArrowsExchange } from "react-icons/tb";
-import { fetchTokens } from "../../redux/features/balanceSlice";
+import { fetchTokens } from "../../redux/features/opBnBbalanceSlice";
 import { getAccountService } from "../../services/passkeyService";
 import axios from "axios";
 import { BiLoaderCircle } from "react-icons/bi";

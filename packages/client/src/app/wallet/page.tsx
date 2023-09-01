@@ -16,6 +16,7 @@ import { getPassKeyFromAddress } from "@opintents/shared";
 import { ethers } from "ethers";
 import TabItems from "../../components/wallet/TabsItems";
 import Tabs from "../../components/wallet/Tabs";
+import { getPassKey } from "../../services/passkeyService";
 
 const Wallet = async () => {
   /// get session id from email
@@ -34,19 +35,15 @@ const Wallet = async () => {
   if (wallet.length === 0) {
     redirect("/create");
   }
-  // const provider = new ethers.providers.JsonRpcProvider(
-  //   "http://127.0.0.1:8545/",
-  // );
-  // const { pubKeyX, pubKeyY, keyId } = await getPassKeyFromAddress(
-  //   wallet[0],
-  //   provider,
-  // );
+
+  const { pubKeyX, pubKeyY, keyId } = await getPassKey(wallet[0]);
+  console.log(pubKeyX);
 
   return (
     <div className="w-full h-screen bg-[#14151A]">
       <div className="flex flex-col h-full">
         <Header />
-        {/* <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
+        <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
           <div className="w-3/4">
             <Tabs image={session.user.image!} />
           </div>
@@ -57,8 +54,8 @@ const Wallet = async () => {
               pubKeyY={pubKeyY._hex}
               keyId={keyId}
             />
-          </div> */}
-        {/* </div> */}
+          </div>
+        </div>
       </div>
     </div>
   );

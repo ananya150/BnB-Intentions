@@ -2,6 +2,10 @@
 import React, { useRef, useState } from "react";
 import { Button } from "../ui/button";
 import TextareaAutosize from "react-textarea-autosize";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import axios from "axios";
+import { getAccountService } from "../../services/passkeyService";
+import { fetchTokens } from "../../redux/features/balanceSlice";
 
 interface Message {
   text: string;
@@ -9,22 +13,47 @@ interface Message {
 }
 
 const ChatInput = ({ messageHandler }: { messageHandler: any }) => {
+  const account = useAppSelector((state) => state.accountSlice);
+  const dispatch = useAppDispatch();
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
 
+  const _updateBalance = async (accountService: any) => {
+    const balances = await accountService.getBalances();
+    await dispatch(fetchTokens(balances!));
+  };
+
   const sendMessage = async () => {
+    const inp = input;
+    setInput("");
     const message: Message = {
-      text: input,
+      text: inp,
       isBot: false,
     };
     messageHandler(message);
     const botReply: Message = {
-      text: "Alright I see that",
+      text: "Swapping ...",
       isBot: true,
     };
     messageHandler(botReply);
-    setInput("");
+    const resp = await axios.post("http://localhost:8000/intent", {
+      intent: inp,
+      account: account.address,
+    });
+    const accountService = getAccountService(
+      account.address,
+      account.pubKeyX,
+      account.pubKeyY,
+      account.keyId,
+    );
+    const signedUserOp = await accountService.signUserOp(
+      resp.data.userOp,
+      resp.data.userOpHash,
+    );
+    await accountService.sendUserOp(signedUserOp);
+    await _updateBalance(accountService);
   };
 
   return (

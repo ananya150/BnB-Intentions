@@ -25,27 +25,28 @@ const Wallet = async () => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
   const id = session?.user.id;
+  console.log(id);
 
-  // // const add: string[] = [];
+  // const add: string[] = [];
   const wallet: any = await getWalletById(id);
   console.log(wallet);
 
   if (wallet.length === 0) {
     redirect("/create");
   }
-  const provider = new ethers.providers.JsonRpcProvider(
-    "http://127.0.0.1:8545/",
-  );
-  const { pubKeyX, pubKeyY, keyId } = await getPassKeyFromAddress(
-    wallet[0],
-    provider,
-  );
+  // const provider = new ethers.providers.JsonRpcProvider(
+  //   "http://127.0.0.1:8545/",
+  // );
+  // const { pubKeyX, pubKeyY, keyId } = await getPassKeyFromAddress(
+  //   wallet[0],
+  //   provider,
+  // );
 
   return (
     <div className="w-full h-screen bg-[#14151A]">
       <div className="flex flex-col h-full">
         <Header />
-        <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
+        {/* <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
           <div className="w-3/4">
             <Tabs image={session.user.image!} />
           </div>
@@ -56,8 +57,8 @@ const Wallet = async () => {
               pubKeyY={pubKeyY._hex}
               keyId={keyId}
             />
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
     </div>
   );

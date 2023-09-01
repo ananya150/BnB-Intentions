@@ -13,6 +13,7 @@ import { switchToBNB, switchToOPBNB } from "../../redux/features/chainSlice";
 import { BiLoaderCircle } from "react-icons/bi";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { FiRefreshCcw } from "react-icons/fi";
+import { toast } from "react-hot-toast";
 
 interface props {
   address: string;
@@ -36,6 +37,8 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   const [spinning, setSpinning] = useState(false);
   const [isFirstTime, setIsFirstTime] = useState(true);
   const [accountServices, setAccountServices] = useState<accounts | null>(null);
+  const [addressError, setAddressError] = useState(false);
+  const [amountErr, setAmountErr] = useState(false);
 
   interface accounts {
     opBnbAccountService: OpBnbAccountService;
@@ -146,53 +149,103 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   };
 
   const handleBNBSend = async () => {
-    let tokens;
-    let accountService;
-    if (chain === "OPBNB") {
-      tokens = opBnbTokens;
-      accountService = accountServices?.opBnbAccountService;
-    } else {
-      tokens = bnbTokens;
-      accountService = accountServices?.bnbAccountService;
+    setAmountErr(false);
+    setAddressError(false);
+    const toastId = toast.loading("Sending Transaction", {
+      position: "bottom-center",
+    });
+    try {
+      let tokens;
+      let accountService;
+      if (chain === "OPBNB") {
+        tokens = opBnbTokens;
+        accountService = accountServices?.opBnbAccountService;
+      } else {
+        tokens = bnbTokens;
+        accountService = accountServices?.bnbAccountService;
+      }
+      if (parseFloat(amount) > tokens.tokens[0].balance || amount === "") {
+        console.log("Invalid Amount");
+        toast.dismiss(toastId);
+        setAmountErr(true);
+        return;
+      }
+      if (!ethers.utils.isAddress(to)) {
+        console.log("Invalid Address");
+        toast.dismiss(toastId);
+        setAddressError(true);
+        return;
+      }
+      setLoading(true);
+      await accountService?.sendBNB(to, amount);
+      back();
+      setLoading(false);
+      toast.success("Transaction Successful", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 3000,
+      });
+    } catch (e) {
+      console.error(e);
+      back();
+      toast.error("Transaction Unsuccessful", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 3000,
+      });
+      setLoading(false);
     }
-    if (parseFloat(amount) > tokens.tokens[0].balance || amount === "") {
-      console.log("Invalid Amount");
-      return;
-    }
-    if (!ethers.utils.isAddress(to)) {
-      console.log("Invalid Address");
-      return;
-    }
-    setLoading(true);
-    await accountService?.sendBNB(to, amount);
-    back();
-    setLoading(false);
     await delay(3000);
     chain === "OPBNB" ? await updateOpBnbBalance() : await updateBnbBalance();
   };
 
   const handleBUSDSend = async () => {
-    let tokens;
-    let accountService;
-    if (chain === "OPBNB") {
-      tokens = opBnbTokens;
-      accountService = accountServices?.opBnbAccountService;
-    } else {
-      tokens = bnbTokens;
-      accountService = accountServices?.bnbAccountService;
+    setAmountErr(false);
+    setAddressError(false);
+    const toastId = toast.loading("Sending Transaction", {
+      position: "bottom-center",
+    });
+    try {
+      let tokens;
+      let accountService;
+      if (chain === "OPBNB") {
+        tokens = opBnbTokens;
+        accountService = accountServices?.opBnbAccountService;
+      } else {
+        tokens = bnbTokens;
+        accountService = accountServices?.bnbAccountService;
+      }
+      if (parseFloat(amount) > tokens.tokens[1].balance || amount === "") {
+        console.log("Invalid Amount");
+        toast.dismiss(toastId);
+        setAmountErr(true);
+        return;
+      }
+      if (!ethers.utils.isAddress(to)) {
+        console.log("Invalid Address");
+        toast.dismiss(toastId);
+        setAddressError(true);
+        return;
+      }
+      setLoading(true);
+      await accountService?.sendBUSD(to, amount);
+      back();
+      setLoading(false);
+      toast.success("Transaction Successful", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 3000,
+      });
+    } catch (e) {
+      console.error(e);
+      back();
+      toast.error("Transaction Unsuccessful", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 3000,
+      });
+      setLoading(false);
     }
-    if (parseFloat(amount) > tokens.tokens[1].balance || amount === "") {
-      console.log("Invalid Amount");
-      return;
-    }
-    if (!ethers.utils.isAddress(to)) {
-      console.log("Invalid Address");
-      return;
-    }
-    setLoading(true);
-    await accountService?.sendBUSD(to, amount);
-    back();
-    setLoading(false);
     await delay(3000);
     chain === "OPBNB" ? await updateOpBnbBalance() : await updateBnbBalance();
   };
@@ -220,7 +273,9 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
               onChange={(e) => {
                 setTo(e.target.value);
               }}
-              className="h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] "
+              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+                addressError ? "border border-red-500" : ""
+              } `}
             ></input>
           </div>
         </div>
@@ -249,7 +304,9 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <input
               value={amount}
               onChange={handleAmountChange}
-              className="h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] "
+              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+                amountErr ? "border border-red-500" : ""
+              }`}
             ></input>
           </div>
         </div>
@@ -298,7 +355,9 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
               onChange={(e) => {
                 setTo(e.target.value);
               }}
-              className="h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] "
+              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+                addressError ? "border border-red-500" : ""
+              } `}
             ></input>
           </div>
         </div>
@@ -327,7 +386,9 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <input
               value={amount}
               onChange={handleAmountChange}
-              className="h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] "
+              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+                amountErr ? "border border-red-500" : ""
+              } `}
             ></input>
           </div>
         </div>

@@ -3,18 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import { notFound, redirect } from "next/navigation";
 import { getWalletById } from "../../utils/getDb";
-import CreateAccount from "../../components/create/CreateAccount";
-import {
-  getAccountService,
-  AccountService,
-} from "../../services/passkeyService";
-import Send from "../../components/wallet/Send";
 import Header from "../../components/wallet/Header";
-import ChatBot from "../../components/wallet/Chat";
 import Portfolio from "../../components/wallet/Portfolio";
-import { getPassKeyFromAddress } from "@opintents/shared";
-import { ethers } from "ethers";
-import TabItems from "../../components/wallet/TabsItems";
 import Tabs from "../../components/wallet/Tabs";
 import { getPassKey } from "../../services/passkeyService";
 
@@ -37,7 +27,6 @@ const Wallet = async () => {
   }
 
   const { pubKeyX, pubKeyY, keyId } = await getPassKey(wallet[0]);
-  console.log(pubKeyX);
 
   return (
     <div className="w-full h-screen bg-[#14151A]">
@@ -45,7 +34,13 @@ const Wallet = async () => {
         <Header />
         <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
           <div className="w-3/4">
-            <Tabs image={session.user.image!} />
+            <Tabs
+              image={session.user.image!}
+              address={wallet[0]}
+              pubKeyX={pubKeyX._hex}
+              pubKeyY={pubKeyY._hex}
+              keyId={keyId}
+            />
           </div>
           <div className="w-1/4">
             <Portfolio
@@ -59,7 +54,6 @@ const Wallet = async () => {
       </div>
     </div>
   );
-  // <Send address={add} balance={balance._hex} />;
 };
 
 export default Wallet;

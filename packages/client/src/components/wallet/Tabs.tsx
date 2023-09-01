@@ -18,7 +18,15 @@ const initialMessage: Message[] = [
   },
 ];
 
-const Tabs = ({ image }: { image: string }) => {
+interface props {
+  address: string;
+  pubKeyX: string;
+  pubKeyY: string;
+  keyId: string;
+  image: string;
+}
+
+const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
   const [tab, setTab] = useState<string>("chat");
   const [messages, setMessages] = useState<Message[]>(initialMessage);
 

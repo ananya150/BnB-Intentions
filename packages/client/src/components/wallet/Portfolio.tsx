@@ -21,7 +21,6 @@ interface props {
 const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   const [copied, setCopied] = useState(false);
 
-  const account = useAppSelector((state) => state.accountSlice);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -67,9 +66,6 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             )}
           </div>
         </div>
-        {/* <div className='py-6'>
-                    <span className='text-black text-[25px] tracking-wide font-medium font-satoshi w-full'>$365.76</span>
-                </div> */}
         <div>
           <Chart width={400} height={200} />
         </div>

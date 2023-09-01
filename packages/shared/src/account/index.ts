@@ -175,9 +175,9 @@ export const airdrop = async (
 ) => {
   const tx = {
     to: address,
-    value: ethers.utils.parseEther("0.1"),
+    value: ethers.utils.parseEther("0.005"),
   };
   await deployer.sendTransaction(tx);
   const BUSDContract = new ethers.Contract(busdAddress, BUSD.abi, deployer);
-  await BUSDContract.transfer(address, ethers.utils.parseUnits("10.0", 18));
+  await BUSDContract.transfer(address, ethers.utils.parseUnits("20.0", 18));
 };

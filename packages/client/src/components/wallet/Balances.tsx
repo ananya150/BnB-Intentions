@@ -110,13 +110,42 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     }
   };
 
-  // const requestFunds = async () => {
-  //   setLoading(true);
-  //   await accountService?.airdrop();
-  //   const balances = await accountService?.getBalances();
-  //   await dispatch(fetchTokens(balances!));
-  //   setLoading(false);
-  // };
+  const requestFunds = async () => {
+    const total =
+      opBnbTokens.tokens[0].balance * opBnbTokens.tokens[0].price +
+      opBnbTokens.tokens[1].balance +
+      bnbTokens.tokens[0].balance * bnbTokens.tokens[0].price +
+      bnbTokens.tokens[1].balance;
+    if (total > 15) {
+      toast.error("Test funds available", {
+        position: "bottom-center",
+      });
+      return;
+    }
+    const toastId = toast.loading("Airdropping test funds", {
+      position: "bottom-center",
+    });
+    setLoading(true);
+    try {
+      await accountServices?.opBnbAccountService.airdrop();
+      toast.success("Airdrop Successful", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 3000,
+      });
+      setLoading(false);
+    } catch (e) {
+      console.error(e);
+      setLoading(false);
+      toast.error("Some error occured", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 3000,
+      });
+    }
+    delay(3000);
+    await updateOpBnbBalance();
+  };
 
   function delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -497,7 +526,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           </button>
         ) : (
           <button
-            // onClick={requestFunds}
+            onClick={requestFunds}
             className="w-2/3 rounded-3xl py-4 text-white bg-black"
           >
             REQUEST FUNDS

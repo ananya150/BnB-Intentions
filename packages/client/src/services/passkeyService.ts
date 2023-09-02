@@ -199,6 +199,7 @@ export class OpBnbAccountService {
   }
 
   async airdrop() {
+    console.log(2);
     await AccountUtils.airdrop(this.deployer, this.address, this.busdAddress);
   }
 

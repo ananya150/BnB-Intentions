@@ -127,6 +127,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     });
     setLoading(true);
     try {
+      console.log("1");
       await accountServices?.opBnbAccountService.airdrop();
       toast.success("Airdrop Successful", {
         position: "bottom-center",

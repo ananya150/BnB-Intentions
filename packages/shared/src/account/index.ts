@@ -173,11 +173,16 @@ export const airdrop = async (
   address: string,
   busdAddress: string,
 ) => {
+  console.log("3");
+  const bnbAmount = ethers.utils.parseEther("0.005");
+  const busdAmount = ethers.utils.parseEther("20");
+  console.log(bnbAmount);
+  console.log(busdAmount);
   const tx = {
     to: address,
-    value: ethers.utils.parseEther("0.005"),
+    value: bnbAmount,
   };
   await deployer.sendTransaction(tx);
   const BUSDContract = new ethers.Contract(busdAddress, BUSD.abi, deployer);
-  await BUSDContract.transfer(address, ethers.utils.parseUnits("20.0", 18));
+  await BUSDContract.transfer(address, busdAmount);
 };

@@ -261,7 +261,7 @@ const Swap = () => {
           <div
             onClick={() => updateChain("OPBNB")}
             className={`${
-              chain.chainName === "OPBNB" ? "bg-black text-white" : ""
+              chain.chainName === "OPBNB" ? "bg-[#F3EF52] " : "text-white"
             } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
           >
             OPBNB
@@ -269,7 +269,7 @@ const Swap = () => {
           <div
             onClick={() => updateChain("BNB")}
             className={`${
-              chain.chainName === "BNB" ? "bg-black text-white" : ""
+              chain.chainName === "BNB" ? "bg-[#F3EF52]" : "text-white"
             } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
           >
             BNB
@@ -327,11 +327,11 @@ const Swap = () => {
               MAX{" "}
               {chain.chainName === "OPBNB"
                 ? opBnBtokenOne.name === "BNB"
-                  ? opBnbTokens.tokens[0].balance
-                  : opBnbTokens.tokens[1].balance
+                  ? opBnbTokens.tokens[0].balance.toFixed(6)
+                  : opBnbTokens.tokens[1].balance.toFixed(6)
                 : bnBtokenOne.name === "BNB"
-                ? bnbTokens.tokens[0].balance
-                : bnbTokens.tokens[1].balance}
+                ? bnbTokens.tokens[0].balance.toFixed(6)
+                : bnbTokens.tokens[1].balance.toFixed(6)}
             </div>
             <div className="text-gray-400 text-[25px] mb-2">
               ~ ${" "}

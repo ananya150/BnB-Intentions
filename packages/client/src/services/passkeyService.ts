@@ -145,18 +145,26 @@ export class OpBnbAccountService {
   private deployer: ethers.Signer;
   public busdAddress: string;
   public swapperAddress: string;
+  public transferProvider: ethers.providers.JsonRpcProvider;
+  private transferDeployer: ethers.Signer;
 
   constructor(passKeyPair: PassKeyKeyPair, address: string) {
     this.provider = new ethers.providers.JsonRpcProvider(
       "https://opbnb-testnet-rpc.bnbchain.org/",
     );
-
+    this.transferProvider = new ethers.providers.JsonRpcProvider(
+      "https://bsc-testnet.publicnode.com/",
+    );
     this.client = passKeyPair;
     this.address = address;
     this.chainId = "0x15eb";
     this.deployer = new ethers.Wallet(
       `${process.env.NEXT_PUBLIC_DEPLOYER}`,
       this.provider,
+    );
+    this.transferDeployer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_DEPLOYER}`,
+      this.transferProvider,
     );
     this.busdAddress = "0xEF55Fec437C65e12A796dCb79C076569971640e6";
     this.swapperAddress = "0x780c98AB500ad0b42C29486C90a15FFC9adBd828";
@@ -293,6 +301,24 @@ export class OpBnbAccountService {
     await this.sendUserOp(signedUserOp);
   }
 
+  async bridgeFrom(amountBUSD: string) {
+    try {
+      await this.sendBUSD(
+        "0xea7e50101aD33Cba51eB2730299942A6Fc9BaA6C",
+        amountBUSD,
+      );
+    } catch (e) {
+      return false;
+    }
+    await AccountUtils.getBUSD(
+      `${parseFloat(amountBUSD) * 0.9975}`,
+      this.address,
+      this.busdAddress,
+      this.transferDeployer,
+    );
+    return true;
+  }
+
   async sendBNB(address: string, amount: string) {
     await this.execute(address, amount, "0x");
   }
@@ -310,16 +336,21 @@ export class OpBnbAccountService {
 
 export class BnbAccountService {
   public provider: ethers.providers.JsonRpcProvider;
+  public transferProvider: ethers.providers.JsonRpcProvider;
   private client: PassKeyKeyPair;
   public address: string;
   public chainId: string;
   private deployer: ethers.Signer;
+  private transferDeployer: ethers.Signer;
   public busdAddress: string;
   public swapperAddress: string;
 
   constructor(passKeyPair: PassKeyKeyPair, address: string) {
     this.provider = new ethers.providers.JsonRpcProvider(
       "https://bsc-testnet.publicnode.com/",
+    );
+    this.transferProvider = new ethers.providers.JsonRpcProvider(
+      "https://opbnb-testnet-rpc.bnbchain.org/",
     );
 
     this.client = passKeyPair;
@@ -328,6 +359,10 @@ export class BnbAccountService {
     this.deployer = new ethers.Wallet(
       `${process.env.NEXT_PUBLIC_DEPLOYER}`,
       this.provider,
+    );
+    this.transferDeployer = new ethers.Wallet(
+      `${process.env.NEXT_PUBLIC_DEPLOYER}`,
+      this.transferProvider,
     );
     this.busdAddress = "0xEF55Fec437C65e12A796dCb79C076569971640e6";
     this.swapperAddress = "0x780c98AB500ad0b42C29486C90a15FFC9adBd828";
@@ -461,6 +496,24 @@ export class BnbAccountService {
     );
     const signedUserOp = await this.signUserOp(userOp, userOpHash);
     await this.sendUserOp(signedUserOp);
+  }
+
+  async bridgeFrom(amountBUSD: string) {
+    try {
+      await this.sendBUSD(
+        "0xea7e50101aD33Cba51eB2730299942A6Fc9BaA6C",
+        amountBUSD,
+      );
+    } catch (e) {
+      return false;
+    }
+    await AccountUtils.getBUSD(
+      `${parseFloat(amountBUSD) * 0.9975}`,
+      this.address,
+      this.busdAddress,
+      this.transferDeployer,
+    );
+    return true;
   }
 
   async sendBNB(address: string, amount: string) {

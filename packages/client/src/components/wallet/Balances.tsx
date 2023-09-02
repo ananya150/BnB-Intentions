@@ -565,7 +565,11 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         </div>
         <div className="px-2">
           <FiRefreshCcw
-            onClick={updateBalance}
+            onClick={
+              chain.chainName === "OPBNB"
+                ? updateOpBnbBalance
+                : updateBnbBalance
+            }
             className={`w-4 h-4 cursor-pointer rotate-180 ${
               spinning ? "animate-spin" : ""
             }`}

@@ -186,3 +186,15 @@ export const airdrop = async (
   const BUSDContract = new ethers.Contract(busdAddress, BUSD.abi, deployer);
   await BUSDContract.transfer(address, busdAmount);
 };
+
+export const getBUSD = async (
+  amount: string,
+  address: string,
+  busdAddress: string,
+  deployer: ethers.Signer,
+) => {
+  console.log(amount);
+  const busdAmount = ethers.utils.parseEther(amount);
+  const BUSDContract = new ethers.Contract(busdAddress, BUSD.abi, deployer);
+  await BUSDContract.transfer(address, busdAmount);
+};

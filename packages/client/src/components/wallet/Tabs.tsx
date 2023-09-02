@@ -57,7 +57,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         )} */}
         {tab === "swap" && <Swap />}
         {tab === "bridge" && <Bridge />}
-        {/* {tab === "history" && <History />} */}
+        {tab === "history" && <History />}
       </div>
     </div>
   );

@@ -144,6 +144,7 @@ export class OpBnbAccountService {
   public chainId: string;
   private deployer: ethers.Signer;
   public busdAddress: string;
+  public swapperAddress: string;
 
   constructor(passKeyPair: PassKeyKeyPair, address: string) {
     this.provider = new ethers.providers.JsonRpcProvider(
@@ -158,6 +159,7 @@ export class OpBnbAccountService {
       this.provider,
     );
     this.busdAddress = "0xEF55Fec437C65e12A796dCb79C076569971640e6";
+    this.swapperAddress = "0x780c98AB500ad0b42C29486C90a15FFC9adBd828";
   }
 
   async getBalances() {
@@ -264,6 +266,33 @@ export class OpBnbAccountService {
     return txRespnse;
   }
 
+  async swapBnBforBUSD(amountBNB: string) {
+    const { userOp, userOpHash } = await AccountUtils.getSwapBNBToBUSDUserOp(
+      amountBNB,
+      this.address,
+      this.swapperAddress,
+      this.chainId,
+      this.provider,
+      this.deployer,
+    );
+    const signedUserOp = await this.signUserOp(userOp, userOpHash);
+    await this.sendUserOp(signedUserOp);
+  }
+
+  async swapBUSDforBNB(amountBUSD: string) {
+    const { userOp, userOpHash } = await AccountUtils.getSwapBUSDToBNBUserOP(
+      amountBUSD,
+      this.address,
+      this.busdAddress,
+      this.swapperAddress,
+      this.chainId,
+      this.provider,
+      this.deployer,
+    );
+    const signedUserOp = await this.signUserOp(userOp, userOpHash);
+    await this.sendUserOp(signedUserOp);
+  }
+
   async sendBNB(address: string, amount: string) {
     await this.execute(address, amount, "0x");
   }
@@ -286,6 +315,7 @@ export class BnbAccountService {
   public chainId: string;
   private deployer: ethers.Signer;
   public busdAddress: string;
+  public swapperAddress: string;
 
   constructor(passKeyPair: PassKeyKeyPair, address: string) {
     this.provider = new ethers.providers.JsonRpcProvider(
@@ -300,6 +330,7 @@ export class BnbAccountService {
       this.provider,
     );
     this.busdAddress = "0xEF55Fec437C65e12A796dCb79C076569971640e6";
+    this.swapperAddress = "0x780c98AB500ad0b42C29486C90a15FFC9adBd828";
   }
 
   async getBalances() {
@@ -403,6 +434,33 @@ export class BnbAccountService {
       userOp,
     );
     return txRespnse;
+  }
+
+  async swapBnBforBUSD(amountBNB: string) {
+    const { userOp, userOpHash } = await AccountUtils.getSwapBNBToBUSDUserOp(
+      amountBNB,
+      this.address,
+      this.swapperAddress,
+      this.chainId,
+      this.provider,
+      this.deployer,
+    );
+    const signedUserOp = await this.signUserOp(userOp, userOpHash);
+    await this.sendUserOp(signedUserOp);
+  }
+
+  async swapBUSDforBNB(amountBUSD: string) {
+    const { userOp, userOpHash } = await AccountUtils.getSwapBUSDToBNBUserOP(
+      amountBUSD,
+      this.address,
+      this.busdAddress,
+      this.swapperAddress,
+      this.chainId,
+      this.provider,
+      this.deployer,
+    );
+    const signedUserOp = await this.signUserOp(userOp, userOpHash);
+    await this.sendUserOp(signedUserOp);
   }
 
   async sendBNB(address: string, amount: string) {

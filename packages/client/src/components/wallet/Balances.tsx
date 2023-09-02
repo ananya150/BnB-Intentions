@@ -29,7 +29,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   const bnbTokens = useAppSelector((state) => state.bnbTokens);
   const account = useAppSelector((state) => state.accountSlice);
 
-  const [chain, setChain] = useState("OPBNB");
+  const chain = useAppSelector((state) => state.chainSlice);
   const [loading, setLoading] = useState(false);
   const [to, setTo] = useState("");
   const [amount, setAmount] = useState("");
@@ -94,7 +94,6 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   };
 
   const updateChain = async (chainName: string) => {
-    setChain(chainName);
     if (chainName === "BNB") {
       dispatch(switchToBNB());
       if (isFirstTime) {
@@ -187,7 +186,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     try {
       let tokens;
       let accountService;
-      if (chain === "OPBNB") {
+      if (chain.chainName === "OPBNB") {
         tokens = opBnbTokens;
         accountService = accountServices?.opBnbAccountService;
       } else {
@@ -226,7 +225,9 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
       setLoading(false);
     }
     await delay(3000);
-    chain === "OPBNB" ? await updateOpBnbBalance() : await updateBnbBalance();
+    chain.chainName === "OPBNB"
+      ? await updateOpBnbBalance()
+      : await updateBnbBalance();
   };
 
   const handleBUSDSend = async () => {
@@ -238,7 +239,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     try {
       let tokens;
       let accountService;
-      if (chain === "OPBNB") {
+      if (chain.chainName === "OPBNB") {
         tokens = opBnbTokens;
         accountService = accountServices?.opBnbAccountService;
       } else {
@@ -277,7 +278,9 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
       setLoading(false);
     }
     await delay(3000);
-    chain === "OPBNB" ? await updateOpBnbBalance() : await updateBnbBalance();
+    chain.chainName === "OPBNB"
+      ? await updateOpBnbBalance()
+      : await updateBnbBalance();
   };
 
   const sendBnBLayout = (
@@ -317,7 +320,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 onClick={() => {
                   setAmount(
                     `${
-                      chain === "OPBNB"
+                      chain.chainName === "OPBNB"
                         ? opBnbTokens.tokens[0].balance
                         : bnbTokens.tokens[0].balance
                     }`,
@@ -326,7 +329,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 className="text-[13px] cursor-pointer font-satoshi"
               >
                 MAX:{" "}
-                {chain === "OPBNB"
+                {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[0].balance.toFixed(4)
                   : bnbTokens.tokens[0].balance.toFixed(4)}
               </div>
@@ -399,7 +402,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 onClick={() => {
                   setAmount(
                     `${
-                      chain === "OPBNB"
+                      chain.chainName === "OPBNB"
                         ? opBnbTokens.tokens[1].balance
                         : bnbTokens.tokens[1].balance
                     }`,
@@ -408,7 +411,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 className="text-[13px] cursor-pointer font-satoshi"
               >
                 MAX:{" "}
-                {chain === "OPBNB"
+                {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[1].balance.toFixed(2)
                   : bnbTokens.tokens[1].balance.toFixed(2)}
               </div>
@@ -466,7 +469,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <div className="flex flex-col justify-between">
               <div className="text-[20px] font-sans">BNB</div>
               <div>
-                {chain === "OPBNB"
+                {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[0].balance.toFixed(4)
                   : bnbTokens.tokens[0].balance.toFixed(4)}
               </div>
@@ -474,7 +477,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           </div>
           <div className="font-satoshi text-[27px] font-medium">
             $
-            {chain === "OPBNB"
+            {chain.chainName === "OPBNB"
               ? (
                   opBnbTokens.tokens[0].balance * opBnbTokens.tokens[0].price
                 ).toFixed(2)
@@ -498,7 +501,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <div className="flex flex-col justify-between">
               <div className="text-[20px] font-sans">BUSD</div>
               <div>
-                {chain === "OPBNB"
+                {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[1].balance.toFixed(4)
                   : bnbTokens.tokens[1].balance.toFixed(4)}
               </div>
@@ -506,7 +509,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           </div>
           <div className="font-satoshi text-[27px] font-medium">
             $
-            {chain === "OPBNB"
+            {chain.chainName === "OPBNB"
               ? (
                   opBnbTokens.tokens[1].balance * opBnbTokens.tokens[1].price
                 ).toFixed(2)
@@ -545,7 +548,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <div
               onClick={() => updateChain("OPBNB")}
               className={`${
-                chain === "OPBNB" ? "bg-black text-white" : ""
+                chain.chainName === "OPBNB" ? "bg-black text-white" : ""
               } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
             >
               OPBNB
@@ -553,7 +556,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <div
               onClick={() => updateChain("BNB")}
               className={`${
-                chain === "BNB" ? "bg-black text-white" : ""
+                chain.chainName === "BNB" ? "bg-black text-white" : ""
               } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
             >
               BNB

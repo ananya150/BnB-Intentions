@@ -16,14 +16,8 @@ import ConfirmTransfer from "./ConfirmTransfer";
 import { fetchOpBnbTokens } from "../../redux/features/opBnBbalanceSlice";
 import { fetchBnbTokens } from "../../redux/features/bnbBalanceSlice";
 import ConfirmSwap from "./ConfirmSwap";
+import ConfirmBridge from "./ConfirmBridge";
 
-const fetchBNBprice = async () => {
-  const response: any = await axios.get(
-    "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false&precision=2",
-  );
-  const price = response.data.binancecoin.usd;
-  return price;
-};
 interface props {
   address: string;
   pubKeyX: string;
@@ -67,13 +61,26 @@ const initialSwapConfirmationState: SwapConfirmationState = {
   toAmount: "",
 };
 
+interface BridgeConfirmationState {
+  open: boolean;
+  fromChain: string;
+  toChain: string;
+  busdAmount: string;
+}
+
+const initialBridgeConfirmationState: BridgeConfirmationState = {
+  open: false,
+  fromChain: "",
+  toChain: "",
+  busdAmount: "",
+};
+
 const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
   const [tab, setTab] = useState<string>("chat");
   const dispatch = useAppDispatch();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [accountServices, setAccountServices] = useState<accounts | null>(null);
-  const account = useAppSelector((state) => state.accountSlice);
   const chain = useAppSelector((state) => state.chainSlice);
   const [domLoaded, setDomLoaded] = useState(false);
 
@@ -85,6 +92,9 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
     useState<TransferConfirmationState>(initialtransferConfirmationState);
   const [confirmSwap, setConfirmSwap] = useState<SwapConfirmationState>(
     initialSwapConfirmationState,
+  );
+  const [confirmBridge, setConfirmBridge] = useState<BridgeConfirmationState>(
+    initialBridgeConfirmationState,
   );
   const [loading, setLoading] = useState(false);
 
@@ -102,6 +112,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
       keyId,
     );
     setAccountServices(services);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateOpBnbBalance = async () => {
@@ -129,7 +140,6 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
   };
 
   const from_swap = (args: any) => {
-    console.log("This is called");
     const price = opBnbTokens.tokens[0].price;
     const fromAsset = args.from_asset;
     const toAsset = args.to_asset;
@@ -148,9 +158,37 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
     setConfirmSwap(confirmationState);
   };
 
-  const to_swap = (args: any) => {};
+  const to_swap = (args: any) => {
+    const price = opBnbTokens.tokens[0].price;
+    const fromAsset = args.from_asset;
+    const toAsset = args.to_asset;
+    const toAmount = args.to_amount;
+    const fromAmount =
+      fromAsset === "BNB"
+        ? `${(parseFloat(toAmount) / 0.9975 / price).toFixed(6)}`
+        : `${((parseFloat(toAmount) / 0.9975) * price).toFixed(6)}`;
+    const confirmationState: SwapConfirmationState = {
+      fromAmount: fromAmount,
+      fromAsset: fromAsset,
+      open: true,
+      toAmount: toAmount,
+      toAsset: toAsset,
+    };
+    setConfirmSwap(confirmationState);
+  };
 
-  const cross_chain_swap = (args: any) => {};
+  const cross_chain_swap = (args: any) => {
+    const fromChain = args.from_chain;
+    const toChain = args.to_chain;
+    const busdAmount = args.busd_amount;
+    const confirmationState: BridgeConfirmationState = {
+      open: true,
+      fromChain: fromChain,
+      toChain: toChain,
+      busdAmount: busdAmount,
+    };
+    setConfirmBridge(confirmationState);
+  };
 
   function runFunction(name: string, args: any) {
     const updatedArguments = args.replace(/\n/g, "");
@@ -434,6 +472,66 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
     );
   };
 
+  const handleBridgeConfirmationSubmit = async () => {
+    setLoading(true);
+    if (confirmBridge.fromChain === "OPBNB") {
+      if (
+        parseFloat(confirmBridge.busdAmount) > opBnbTokens.tokens[1].balance
+      ) {
+        setConfirmBridge(initialBridgeConfirmationState);
+        await sendFunctionResponse(
+          "bridge",
+          "Swap Transaction failed because user does not have enough BUSD tokens on OPBNB chain",
+        );
+        setLoading(false);
+        return;
+      }
+      await accountServices?.opBnbAccountService.bridgeFrom(
+        confirmBridge.busdAmount,
+      );
+      setConfirmBridge(initialBridgeConfirmationState);
+      setLoading(false);
+      await sendFunctionResponse(
+        "bridge",
+        "Bridge successful from OPBNB to BSC",
+      );
+      return;
+    } else if (confirmBridge.fromChain === "BSC") {
+      if (parseFloat(confirmBridge.busdAmount) > bnbTokens.tokens[1].balance) {
+        setConfirmBridge(initialBridgeConfirmationState);
+        await sendFunctionResponse(
+          "bridge",
+          "Swap Transaction failed because user does not have enough BUSD tokens on OPBNB chain",
+        );
+        setLoading(false);
+        return;
+      }
+      await accountServices?.bnbAccountService.bridgeFrom(
+        confirmBridge.busdAmount,
+      );
+      setConfirmBridge(initialBridgeConfirmationState);
+      setLoading(false);
+      await sendFunctionResponse(
+        "bridge",
+        "Bridge successful from BSC to OPBNB",
+      );
+      return;
+    } else {
+      setConfirmBridge(initialBridgeConfirmationState);
+      await sendFunctionResponse("bridge", "Bridging Chain not supported");
+      setLoading(false);
+      return;
+    }
+  };
+
+  const handleBridgeConfirmationCancle = async () => {
+    setConfirmBridge(initialBridgeConfirmationState);
+    await sendFunctionResponse(
+      "bridge",
+      "User decided to cancelled the transaction",
+    );
+  };
+
   const messageHandler = async (role: string, message: string) => {
     const original = messages;
 
@@ -506,6 +604,17 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
           fromAmount={confirmSwap.fromAmount}
           toAsset={confirmSwap.toAsset}
           toAmount={confirmSwap.toAmount}
+        />
+      )}
+      {domLoaded && (
+        <ConfirmBridge
+          onOpen={confirmBridge.open}
+          loading={loading}
+          fromChain={confirmBridge.fromChain}
+          toChain={confirmBridge.toChain}
+          busdAmount={confirmBridge.busdAmount}
+          handleBridgeConfirmationSubmit={handleBridgeConfirmationSubmit}
+          handleBridgeConfirmationCancle={handleBridgeConfirmationCancle}
         />
       )}
     </div>

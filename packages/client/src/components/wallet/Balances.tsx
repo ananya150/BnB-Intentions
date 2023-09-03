@@ -202,7 +202,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         return;
       }
       setLoading(true);
-      await accountService?.sendBNB(to, amount);
+      const txResp = await accountService?.sendBNB(to, amount);
       back();
       setLoading(false);
       toast.success("Transaction Successful", {

@@ -316,7 +316,8 @@ export class OpBnbAccountService {
   }
 
   async sendBNB(address: string, amount: string) {
-    await this.execute(address, amount, "0x");
+    const txRespnse = await this.execute(address, amount, "0x");
+    return txRespnse;
   }
 
   async sendBUSD(address: string, amount: string) {
@@ -326,7 +327,8 @@ export class OpBnbAccountService {
       address,
       amount,
     );
-    await this.execute(this.busdAddress, "0", calldata!);
+    const txResponse = await this.execute(this.busdAddress, "0", calldata!);
+    return txResponse;
   }
 }
 
@@ -513,7 +515,8 @@ export class BnbAccountService {
   }
 
   async sendBNB(address: string, amount: string) {
-    await this.execute(address, amount, "0x");
+    const txRespnse = await this.execute(address, amount, "0x");
+    return txRespnse;
   }
 
   async sendBUSD(address: string, amount: string) {
@@ -523,6 +526,7 @@ export class BnbAccountService {
       address,
       amount,
     );
-    await this.execute(this.busdAddress, "0", calldata!);
+    const txResp = await this.execute(this.busdAddress, "0", calldata!);
+    return txResp;
   }
 }

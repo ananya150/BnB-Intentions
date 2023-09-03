@@ -69,6 +69,7 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
+    "react-markdown": "^8.0.7",
     "react-redux": "^8.1.2",
     "react-scripts": "5.0.1",
     "react-textarea-autosize": "^8.5.3",

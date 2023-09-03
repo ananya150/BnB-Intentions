@@ -217,7 +217,12 @@ export class OpBnbAccountService {
   }
 
   async sendUserOp(userOp: any) {
-    await AccountUtils.sendSignedUserOp(this.address, this.deployer, userOp);
+    const txResp = await AccountUtils.sendSignedUserOp(
+      this.address,
+      this.deployer,
+      userOp,
+    );
+    return txResp;
   }
 
   // execute functions
@@ -280,7 +285,8 @@ export class OpBnbAccountService {
       this.deployer,
     );
     const signedUserOp = await this.signUserOp(userOp, userOpHash);
-    await this.sendUserOp(signedUserOp);
+    const txResp = await this.sendUserOp(signedUserOp);
+    return txResp;
   }
 
   async swapBUSDforBNB(amountBUSD: string) {
@@ -294,7 +300,8 @@ export class OpBnbAccountService {
       this.deployer,
     );
     const signedUserOp = await this.signUserOp(userOp, userOpHash);
-    await this.sendUserOp(signedUserOp);
+    const txResp = await this.sendUserOp(signedUserOp);
+    return txResp;
   }
 
   async bridgeFrom(amountBUSD: string) {
@@ -416,7 +423,12 @@ export class BnbAccountService {
   }
 
   async sendUserOp(userOp: any) {
-    await AccountUtils.sendSignedUserOp(this.address, this.deployer, userOp);
+    const txResp = await AccountUtils.sendSignedUserOp(
+      this.address,
+      this.deployer,
+      userOp,
+    );
+    return txResp;
   }
 
   // execute functions
@@ -479,7 +491,8 @@ export class BnbAccountService {
       this.deployer,
     );
     const signedUserOp = await this.signUserOp(userOp, userOpHash);
-    await this.sendUserOp(signedUserOp);
+    const txResp = await this.sendUserOp(signedUserOp);
+    return txResp;
   }
 
   async swapBUSDforBNB(amountBUSD: string) {
@@ -493,7 +506,8 @@ export class BnbAccountService {
       this.deployer,
     );
     const signedUserOp = await this.signUserOp(userOp, userOpHash);
-    await this.sendUserOp(signedUserOp);
+    const txResp = await this.sendUserOp(signedUserOp);
+    return txResp;
   }
 
   async bridgeFrom(amountBUSD: string) {

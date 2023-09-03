@@ -17,6 +17,13 @@ import { fetchOpBnbTokens } from "../../redux/features/opBnBbalanceSlice";
 import { fetchBnbTokens } from "../../redux/features/bnbBalanceSlice";
 import ConfirmSwap from "./ConfirmSwap";
 
+const fetchBNBprice = async () => {
+  const response: any = await axios.get(
+    "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false&precision=2",
+  );
+  const price = response.data.binancecoin.usd;
+  return price;
+};
 interface props {
   address: string;
   pubKeyX: string;
@@ -53,11 +60,11 @@ interface SwapConfirmationState {
 }
 
 const initialSwapConfirmationState: SwapConfirmationState = {
-  open: true,
-  fromAsset: "BNB",
-  toAsset: "BUSD",
-  fromAmount: "1",
-  toAmount: "220",
+  open: false,
+  fromAsset: "",
+  toAsset: "",
+  fromAmount: "",
+  toAmount: "",
 };
 
 const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
@@ -121,7 +128,25 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
     setConfirmTransfer(confirmationState);
   };
 
-  const from_swap = (args: any) => {};
+  const from_swap = (args: any) => {
+    console.log("This is called");
+    const price = opBnbTokens.tokens[0].price;
+    const fromAsset = args.from_asset;
+    const toAsset = args.to_asset;
+    const fromAmount = args.from_amount;
+    const toAmount =
+      fromAsset === "BNB"
+        ? `${(parseFloat(fromAmount) * price * 0.9975).toFixed(6)}`
+        : `${((parseFloat(fromAmount) / price) * 0.9975).toFixed(6)}`;
+    const confirmationState: SwapConfirmationState = {
+      fromAmount: fromAmount,
+      fromAsset: fromAsset,
+      open: true,
+      toAmount: toAmount,
+      toAsset: toAsset,
+    };
+    setConfirmSwap(confirmationState);
+  };
 
   const to_swap = (args: any) => {};
 
@@ -286,9 +311,128 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
     }
   };
 
-  const handleSwapConfirmationSubmit = async () => {};
+  const handleSwapConfirmationSubmit = async () => {
+    setLoading(true);
+    if (chain.chainName === "OPBNB") {
+      if (confirmSwap.fromAsset === "BNB") {
+        if (
+          parseFloat(confirmSwap.fromAmount) > opBnbTokens.tokens[0].balance
+        ) {
+          setConfirmSwap(initialSwapConfirmationState);
+          await sendFunctionResponse(
+            "swap",
+            "Swap Transaction failed because user does not have enough BNB tokens on OPBNB chain",
+          );
+          setLoading(false);
+          return;
+        }
 
-  const handleSwapConfirmationCancle = async () => {};
+        const txResponse =
+          await accountServices?.opBnbAccountService.swapBnBforBUSD(
+            confirmSwap.fromAmount,
+          );
+        setConfirmSwap(initialSwapConfirmationState);
+        await sendFunctionResponse(
+          "swap",
+          `The Swap of BNB to BUSD was successful with a transaction hash ${txResponse.hash}`,
+        );
+        setLoading(false);
+        await updateOpBnbBalance();
+        return;
+      } else if (confirmSwap.fromAsset === "BUSD") {
+        if (
+          parseFloat(confirmSwap.fromAmount) > opBnbTokens.tokens[1].balance
+        ) {
+          setConfirmSwap(initialSwapConfirmationState);
+          await sendFunctionResponse(
+            "swap",
+            "Swap Transaction failed because user does not have enough BUSD tokens on OPBNB chain",
+          );
+          setLoading(false);
+          return;
+        }
+
+        const txResponse =
+          await accountServices?.opBnbAccountService.swapBUSDforBNB(
+            confirmSwap.fromAmount,
+          );
+        setConfirmSwap(initialSwapConfirmationState);
+        await sendFunctionResponse(
+          "swap",
+          `The swap of BUSD to BNB was successful with a transaction hash ${txResponse.hash}`,
+        );
+        setLoading(false);
+        await updateOpBnbBalance();
+        return;
+      } else {
+        setConfirmSwap(initialSwapConfirmationState);
+        await sendFunctionResponse("swap", "Token not supported");
+        setLoading(false);
+        return;
+      }
+    } else {
+      if (confirmSwap.fromAsset === "BNB") {
+        if (parseFloat(confirmSwap.fromAmount) > bnbTokens.tokens[0].balance) {
+          setConfirmSwap(initialSwapConfirmationState);
+          await sendFunctionResponse(
+            "swap",
+            "Swap Transaction failed because user does not have enough BNB tokens on OPBNB chain",
+          );
+          setLoading(false);
+          return;
+        }
+
+        const txResponse =
+          await accountServices?.bnbAccountService.swapBnBforBUSD(
+            confirmSwap.fromAmount,
+          );
+        setConfirmSwap(initialSwapConfirmationState);
+        await sendFunctionResponse(
+          "swap",
+          `The Swap of BNB to BUSD was successful with a transaction hash ${txResponse.hash}`,
+        );
+        setLoading(false);
+        await updateBnbBalance();
+        return;
+      } else if (confirmSwap.fromAsset === "BUSD") {
+        if (parseFloat(confirmSwap.fromAmount) > bnbTokens.tokens[1].balance) {
+          setConfirmSwap(initialSwapConfirmationState);
+          await sendFunctionResponse(
+            "swap",
+            "Swap Transaction failed because user does not have enough BUSD tokens on OPBNB chain",
+          );
+          setLoading(false);
+          return;
+        }
+
+        const txResponse =
+          await accountServices?.bnbAccountService.swapBUSDforBNB(
+            confirmSwap.fromAmount,
+          );
+        setConfirmSwap(initialSwapConfirmationState);
+        await sendFunctionResponse(
+          "swap",
+          `The swap of BUSD to BNB was successful with a transaction hash ${txResponse.hash}`,
+        );
+        setLoading(false);
+        await updateBnbBalance();
+        return;
+      } else {
+        setConfirmSwap(initialSwapConfirmationState);
+        await sendFunctionResponse("swap", "Token not supported");
+        setLoading(false);
+        return;
+      }
+    }
+  };
+
+  const handleSwapConfirmationCancle = async () => {
+    setConfirmSwap(initialSwapConfirmationState);
+    await sendFunctionResponse(
+      "swap",
+      "User decided to cancelled the transaction",
+    );
+  };
 
   const messageHandler = async (role: string, message: string) => {
     const original = messages;
@@ -358,8 +502,8 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
           handleSwapConfirmationCancle={handleSwapConfirmationCancle}
           handleSwapConfirmationSubmit={handleSwapConfirmationSubmit}
           onOpen={confirmSwap.open}
-          fromAsset={confirmSwap.fromAmount}
-          fromAmount={confirmSwap.fromAsset}
+          fromAsset={confirmSwap.fromAsset}
+          fromAmount={confirmSwap.fromAmount}
           toAsset={confirmSwap.toAsset}
           toAmount={confirmSwap.toAmount}
         />

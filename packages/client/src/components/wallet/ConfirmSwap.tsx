@@ -11,6 +11,7 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import { BiLoaderCircle } from "react-icons/bi";
 
 const ConfirmSwap = ({
   onOpen,
@@ -30,7 +31,7 @@ const ConfirmSwap = ({
         onEscapeKeyDown={handleSwapConfirmationCancle}
       >
         <DialogHeader>
-          <DialogTitle className="text-[24px]">Confirm Transfer</DialogTitle>
+          <DialogTitle className="text-[24px]">Confirm Swap</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-8">
           <DialogDescription>
@@ -39,18 +40,26 @@ const ConfirmSwap = ({
           </DialogDescription>
         </div>
         <DialogFooter className="flex justify-between w-full">
-          <Button
-            onClick={handleSwapConfirmationCancle}
-            className="bg-red-500 hover:bg-red-600"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSwapConfirmationSubmit}
-            className="bg-green-500 hover:bg-green-600"
-          >
-            Transfer
-          </Button>
+          {loading ? (
+            <div>
+              <BiLoaderCircle className=" animate-spin w-9 h-9" />
+            </div>
+          ) : (
+            <div className="flex justify-between w-full">
+              <Button
+                onClick={handleSwapConfirmationCancle}
+                className="bg-red-500 hover:bg-red-600"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSwapConfirmationSubmit}
+                className="bg-green-500 hover:bg-green-600"
+              >
+                Swap
+              </Button>
+            </div>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

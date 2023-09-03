@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@next-auth/upstash-redis-adapter": "^3.0.4",
-    "@opintents/shared": "workspace:^",
+    "@opintents/shared": "^0.0.0",
     "@passwordless-id/webauthn": "^1.2.6",
     "@peculiar/asn1-ecc": "^2.3.6",
     "@peculiar/asn1-schema": "^2.3.6",

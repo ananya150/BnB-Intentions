@@ -29,7 +29,7 @@ const Wallet = async () => {
   return (
     <div className="w-full h-screen bg-[#14151A]">
       <div className="flex flex-col h-full">
-        <Header />
+        <Header image={session.user.image!} />
         <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
           <div className="w-3/4">
             <Tabs

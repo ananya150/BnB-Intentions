@@ -3,9 +3,7 @@ import React from "react";
 import { authOptions } from "../../lib/auth";
 import Dropdown from "./Dropdown";
 
-const Header = async () => {
-  const session = await getServerSession(authOptions);
-
+const Header = ({ image }: { image: string }) => {
   return (
     <div className="w-full">
       <div className="py-5 px-12 flex justify-between w-full items-center">
@@ -22,7 +20,7 @@ const Header = async () => {
         </div>
         <div className="flex space-x-20 items-center">
           <div className="">
-            <Dropdown image={session?.user.image!} />
+            <Dropdown image={image!} />
           </div>
         </div>
       </div>

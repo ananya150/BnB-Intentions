@@ -16,11 +16,9 @@ const Wallet = async () => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
   const id = session?.user.id;
-  console.log(id);
 
   // const add: string[] = [];
   const wallet: any = await getWalletById(id);
-  console.log(wallet);
 
   if (wallet.length === 0) {
     redirect("/create");

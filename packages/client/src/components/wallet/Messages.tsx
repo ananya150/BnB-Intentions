@@ -5,8 +5,8 @@ import { cn } from "../../lib/utils";
 import { useState, useRef, useEffect } from "react";
 
 interface Message {
-  text: string;
-  isBot: boolean;
+  role: string;
+  content: string;
 }
 
 interface props {
@@ -24,32 +24,33 @@ const Messages = ({ messages, image }: props) => {
     >
       <div ref={scrollDownRef} />
 
-      {messages.map((message, index) => {
-        const isUser = !message.isBot;
+      {messages.reverse().map((message, index) => {
+        const isUser = message.role === "user";
+        const isBot = message.role === "assistant";
         const hasNextMessageFromSameUser =
-          messages[index - 1]?.isBot === messages[index].isBot;
+          messages[index - 1]?.role === messages[index].role;
 
         return (
-          <div className="chat-message" key={index}>
+          <div className={`chat-message`} key={index}>
             <div className={cn("flex items-end", { "justify-end": isUser })}>
               <div
                 className={cn(
                   "flex flex-col space-y-2 text-base max-w-xs mx-2",
                   {
                     "order-1 items-end": isUser,
-                    "order-2 items-start": !isUser,
+                    "order-2 items-start": !isBot,
                   },
                 )}
               >
                 <span
                   className={cn("px-4 py-2 rounded-lg inline-block", {
                     "bg-indigo-600 text-white": isUser,
-                    "bg-gray-200 text-gray-900": !isUser,
+                    "bg-gray-200 text-gray-900": !isBot,
                     "rounded-br-none": !hasNextMessageFromSameUser && isUser,
-                    "rounded-bl-none": !hasNextMessageFromSameUser && !isUser,
+                    "rounded-bl-none": !hasNextMessageFromSameUser && !isBot,
                   })}
                 >
-                  {message.text}{" "}
+                  {message.content}{" "}
                 </span>
               </div>
 
@@ -60,7 +61,7 @@ const Messages = ({ messages, image }: props) => {
                   }`,
                   {
                     "order-2": isUser,
-                    "order-1": !isUser,
+                    "order-1": !isBot,
                     invisible: hasNextMessageFromSameUser,
                   },
                 )}

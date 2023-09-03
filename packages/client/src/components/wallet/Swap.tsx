@@ -100,7 +100,6 @@ const Swap = () => {
     const parts = sanitizedInput.split(".");
     let decimalPart = parts[1] || "";
     if (decimalPart.length > 4) {
-      console.log("trimming");
       sanitizedInput = sanitizedInput.slice(0, sanitizedInput.length - 1);
     }
     setTokenOneAmount(sanitizedInput);
@@ -119,7 +118,6 @@ const Swap = () => {
     const parts = sanitizedInput.split(".");
     let decimalPart = parts[1] || "";
     if (decimalPart.length > 4) {
-      console.log("trimming");
       sanitizedInput = sanitizedInput.slice(0, sanitizedInput.length - 1);
     }
     setTokenTwoAmount(sanitizedInput);

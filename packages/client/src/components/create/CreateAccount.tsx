@@ -24,7 +24,6 @@ const CreateAccount = ({
   credId: string[];
 }) => {
   const router = useRouter();
-  console.log(userId);
   const [loading, setLoading] = useState(false);
   const [someErrorOccured, setSomeErrorOccured] = useState(false);
 

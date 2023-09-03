@@ -31,7 +31,6 @@ const initialState: TokenState = {
 export const fetchOpBnbTokens = createAsyncThunk(
   "tokens/fetchOpBnbTokens",
   async (tokens: Token[]) => {
-    console.log("Calling balance slice");
     // fetch the price of bnb
     try {
       const response: any = await axios.get(

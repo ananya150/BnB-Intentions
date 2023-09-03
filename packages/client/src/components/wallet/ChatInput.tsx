@@ -5,11 +5,10 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import axios from "axios";
 import { getAccountService } from "../../services/passkeyService";
-import { fetchTokens } from "../../redux/features/opBnBbalanceSlice";
 
 interface Message {
-  text: string;
-  isBot: boolean;
+  role: string;
+  content: string;
 }
 
 const ChatInput = ({ messageHandler }: { messageHandler: any }) => {
@@ -20,40 +19,15 @@ const ChatInput = ({ messageHandler }: { messageHandler: any }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
 
-  const _updateBalance = async (accountService: any) => {
-    const balances = await accountService.getBalances();
-    await dispatch(fetchTokens(balances!));
-  };
+  // const _updateBalance = async (accountService: any) => {
+  //   const balances = await accountService.getBalances();
+  //   await dispatch(fetchTokens(balances!));
+  // };
 
   const sendMessage = async () => {
     const inp = input;
     setInput("");
-    const message: Message = {
-      text: inp,
-      isBot: false,
-    };
-    messageHandler(message);
-    const botReply: Message = {
-      text: "Swapping ...",
-      isBot: true,
-    };
-    messageHandler(botReply);
-    const resp = await axios.post("http://localhost:8000/intent", {
-      intent: inp,
-      account: account.address,
-    });
-    const accountService = getAccountService(
-      account.address,
-      account.pubKeyX,
-      account.pubKeyY,
-      account.keyId,
-    );
-    const signedUserOp = await accountService.signUserOp(
-      resp.data.userOp,
-      resp.data.userOpHash,
-    );
-    await accountService.sendUserOp(signedUserOp);
-    await _updateBalance(accountService);
+    messageHandler("user", inp);
   };
 
   return (

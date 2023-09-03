@@ -5,7 +5,6 @@ import { addToWallet } from "../../../../utils/setDb";
 
 export async function POST(req: Request) {
   try {
-    console.log("api called");
     const { address, keyId, keyHash } = await req.json();
 
     const session = await getServerSession(authOptions);

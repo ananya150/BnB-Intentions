@@ -49,7 +49,6 @@ export class PreDeployedAccount {
         utils.randomChallenge(),
         username,
       );
-      console.log(passKeyPair);
       // deploy account on opBnB
       console.log("Deploying account");
       const address = await AccountUtils.deployAccount(
@@ -67,7 +66,6 @@ export class PreDeployedAccount {
         passKeyPair.pubKeyY._hex,
         passKeyPair.keyId,
       );
-      console.log(address);
       if (address === null) {
         return null;
       }
@@ -78,7 +76,6 @@ export class PreDeployedAccount {
         keyId: passKeyPair.keyId,
         keyHash: passKeyPair.keyHash._hex,
       });
-      console.log(response);
       if (response.status !== 200) {
         return null;
       }
@@ -209,7 +206,6 @@ export class OpBnbAccountService {
   }
 
   async airdrop() {
-    console.log(2);
     await AccountUtils.airdrop(this.deployer, this.address, this.busdAddress);
   }
 

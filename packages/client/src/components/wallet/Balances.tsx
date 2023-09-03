@@ -126,7 +126,6 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     });
     setLoading(true);
     try {
-      console.log("1");
       await accountServices?.opBnbAccountService.airdrop();
       toast.success("Airdrop Successful", {
         position: "bottom-center",
@@ -171,7 +170,6 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
     const parts = sanitizedInput.split(".");
     let decimalPart = parts[1] || "";
     if (decimalPart.length > 3) {
-      console.log("trimming");
       sanitizedInput = sanitizedInput.slice(0, sanitizedInput.length - 1);
     }
     setAmount(sanitizedInput);
@@ -194,13 +192,11 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         accountService = accountServices?.bnbAccountService;
       }
       if (parseFloat(amount) > tokens.tokens[0].balance || amount === "") {
-        console.log("Invalid Amount");
         toast.dismiss(toastId);
         setAmountErr(true);
         return;
       }
       if (!ethers.utils.isAddress(to)) {
-        console.log("Invalid Address");
         toast.dismiss(toastId);
         setAddressError(true);
         return;
@@ -247,13 +243,11 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         accountService = accountServices?.bnbAccountService;
       }
       if (parseFloat(amount) > tokens.tokens[1].balance || amount === "") {
-        console.log("Invalid Amount");
         toast.dismiss(toastId);
         setAmountErr(true);
         return;
       }
       if (!ethers.utils.isAddress(to)) {
-        console.log("Invalid Address");
         toast.dismiss(toastId);
         setAddressError(true);
         return;

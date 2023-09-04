@@ -23,8 +23,8 @@ There are two environment variables files.
 \
 In packages/client copy the contents of .env.example to .env.local
 
-Use a new account for NEXT_PUBLIC_DEPLOYER and fund it on both BSC and OPBNB
-chains.
+Use a new account for NEXT_PUBLIC_DEPLOYER and fund it with at least 1 BNB on
+both BSC testnet and OPBNB testnet chains.
 
 This way contract address will be same on both chains.
 

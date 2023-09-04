@@ -18,7 +18,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "compile": "yarn hardhat compile",
-    "deploy": "hardhat deploy --network mumbai"
+    "deploy:contracts": "hardhat run scripts/deploy.ts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-foundry": "^1.0.0",

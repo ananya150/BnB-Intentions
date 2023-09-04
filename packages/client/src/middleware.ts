@@ -1,6 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { rateLimiter } from "./lib/rate-limiter";
 
 export default withAuth(
   async function middleware(req) {
@@ -39,7 +40,3 @@ export default withAuth(
     },
   },
 );
-
-// export const config = {
-//   matchter: ['/', '/', '/wallet', '/create'],
-// }

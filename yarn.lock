@@ -3750,6 +3750,7 @@ __metadata:
     "@types/node": ^16.18.43
     "@types/react": ^18.2.21
     "@types/react-dom": ^18.2.7
+    "@upstash/ratelimit": ^0.4.4
     "@upstash/redis": ^1.22.0
     "@visx/curve": latest
     "@visx/event": latest
@@ -5902,7 +5903,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@upstash/redis@npm:^1.22.0":
+"@upstash/core-analytics@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "@upstash/core-analytics@npm:0.0.6"
+  dependencies:
+    "@upstash/redis": ^1.19.3
+  checksum: 4d952984b1a7dd6c9b7d2ed6e597b6d64909ab3ed822088a0e014f6598f0c8cf25ac39ec6b72481c67ba9ea27afce1596c18ecb6e5f5f0837811cc600660f137
+  languageName: node
+  linkType: hard
+
+"@upstash/ratelimit@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "@upstash/ratelimit@npm:0.4.4"
+  dependencies:
+    "@upstash/core-analytics": ^0.0.6
+  checksum: 3d80c14dacf137089662757a0ee29ddb88d4074d9a662ee405b766943d1b2215d76a4244b88b85dd93eff0ccd0e4b1157a68990195215431b89f5b42c0d6aeb8
+  languageName: node
+  linkType: hard
+
+"@upstash/redis@npm:^1.19.3, @upstash/redis@npm:^1.22.0":
   version: 1.22.0
   resolution: "@upstash/redis@npm:1.22.0"
   dependencies:

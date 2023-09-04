@@ -43,6 +43,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.43",
+    "@upstash/ratelimit": "^0.4.4",
     "@upstash/redis": "^1.22.0",
     "@visx/curve": "latest",
     "@visx/event": "latest",

@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { chatCompletionRequest } from "../../../lib/openai";
+import { rateLimiter } from "../../../lib/rate-limiter";
 
 const systemMessage: Message = {
   role: "system",
@@ -17,7 +18,23 @@ const systemMessage: Message = {
   `,
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const ip = req.ip ?? "127.0.0.1";
+  console.log(`rate limiter called from ip ${ip}`);
+  try {
+    const { success } = await rateLimiter.limit(ip);
+    if (!success) {
+      console.log("Request rate limited");
+      const resp: Message = {
+        role: "assistant",
+        content:
+          "Rate Limiter applied. Request cancelled. Asking questions too fast.",
+      };
+      return NextResponse.json({ resp }, { status: 200 });
+    }
+  } catch (e) {
+    return new NextResponse("Something went wrong", { status: 400 });
+  }
   try {
     console.log("open ai api called");
     const { messages } = await req.json();

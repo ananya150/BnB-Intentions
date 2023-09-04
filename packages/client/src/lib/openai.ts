@@ -56,7 +56,7 @@ const openAiFunctions = [
         to: {
           type: "string",
           description:
-            "The ethereum address where the token needs to be transferred. For example 0xea7e50101aD33Cba51eB2730299942A6Fc9BaA6C ",
+            "The ethereum address where the token needs to be transferred ",
         },
         amount: {
           type: "string",

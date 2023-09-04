@@ -165,7 +165,7 @@ const Bridge = () => {
     <div className="w-full h-full flex flex-col space-y-[3vh] ">
       <div className="flex justify-between items-center px-[2vw] py-[2vh]">
         <div className="text-white font-satoshi text-[1.6vw] font-medium">
-          BRIDGE
+          Bridge
         </div>
       </div>
       <div className="flex flex-col space-y-6 px-[2vw] w-full relative">

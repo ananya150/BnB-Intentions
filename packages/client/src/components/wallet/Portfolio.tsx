@@ -80,7 +80,7 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 )}
               </div>
             </div>
-            <div className="flex justify-center w-full">
+            <div className="flex justify-center ">
               <Chart width={width / 5} height={width / 10} />
             </div>
           </div>

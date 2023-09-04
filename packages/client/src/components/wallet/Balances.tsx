@@ -537,7 +537,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         ) : (
           <button
             onClick={requestFunds}
-            className="w-2/3 rounded-2xl py-[0.6vw] md:rounded-3xl md:py-[0.6vw] md:text-[0.8vw] text-[13px] text-white bg-black"
+            className="w-2/3 rounded-2xl py-[0.8vw] md:rounded-3xl md:py-[0.6vw] md:text-[0.8vw] text-[13px] text-white bg-black"
           >
             REQUEST FUNDS
           </button>

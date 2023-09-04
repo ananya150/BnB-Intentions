@@ -3,6 +3,7 @@ import CreateAccount from "../../components/create/CreateAccount";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import { notFound, redirect } from "next/navigation";
+import { getWalletById } from "../../utils/getDb";
 
 const Create = async () => {
   /// get userId from sessin
@@ -17,11 +18,22 @@ const Create = async () => {
   if (!session) notFound();
   const userId = session?.user.id;
 
-  const credId: string[] = [];
+  // const add: string[] = [];
+  const wallet: any = await getWalletById(userId);
+
+  if (wallet.length !== 0) {
+    redirect("/wallet");
+  }
 
   return (
     <div>
-      <CreateAccount userId={userId} credId={credId} />
+      <div className="hidden md:block">
+        <CreateAccount userId={userId} name={session.user.name!} />
+      </div>
+      <div className="md:hidden flex flex-col h-screen justify-center items-center px-12">
+        Interface only available in Desktop right now. Mobile interface coming
+        soon.
+      </div>
     </div>
   );
 };

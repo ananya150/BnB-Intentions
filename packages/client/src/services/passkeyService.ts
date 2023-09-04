@@ -7,6 +7,7 @@ import {
 import { utils } from "@passwordless-id/webauthn";
 import * as AccountUtils from "@opintents/shared";
 import axios from "axios";
+import { addToWallet } from "../utils/setDb";
 
 // Pre Deployment Class for Account Setup and Deployment;
 export class PreDeployedAccount {
@@ -40,51 +41,42 @@ export class PreDeployedAccount {
     return this.client;
   }
 
-  async register(username: string) {
-    try {
-      console.log("Registering user", username);
-      // create passkey
-      console.log("Creating Passkey pair");
-      const passKeyPair = await this.client.registerPassKey(
-        utils.randomChallenge(),
-        username,
-      );
-      // deploy account on opBnB
-      console.log("Deploying account");
-      const address = await AccountUtils.deployAccount(
-        this.accountFactory,
-        this.opBnbDeployer,
-        passKeyPair.pubKeyX._hex,
-        passKeyPair.pubKeyY._hex,
-        passKeyPair.keyId,
-      );
-      // deploy on bnb
-      await AccountUtils.deployAccount(
-        this.accountFactory,
-        this.bnbDeployer,
-        passKeyPair.pubKeyX._hex,
-        passKeyPair.pubKeyY._hex,
-        passKeyPair.keyId,
-      );
-      if (address === null) {
-        return null;
-      }
-      // save to db
-      console.log("adding to db");
-      const response = await axios.post("/api/account/register", {
-        address: address,
-        keyId: passKeyPair.keyId,
-        keyHash: passKeyPair.keyHash._hex,
-      });
-      if (response.status !== 200) {
-        return null;
-      }
-      // return AccountService
-      return new OpBnbAccountService(passKeyPair, address);
-    } catch (e) {
-      console.error(e);
-      return null;
+  async register(username: string, id: string) {
+    // create passkey
+    console.log("Creating Passkey pair");
+    const passKeyPair = await this.client.registerPassKey(
+      utils.randomChallenge(),
+      username,
+    );
+    // deploy account on opBnB
+    console.log("Deploying account");
+    const address = await AccountUtils.deployAccount(
+      this.accountFactory,
+      this.opBnbDeployer,
+      passKeyPair.pubKeyX._hex,
+      passKeyPair.pubKeyY._hex,
+      passKeyPair.keyId,
+    );
+    // deploy on bnb
+    await AccountUtils.deployAccount(
+      this.accountFactory,
+      this.bnbDeployer,
+      passKeyPair.pubKeyX._hex,
+      passKeyPair.pubKeyY._hex,
+      passKeyPair.keyId,
+    );
+    if (address === null) {
+      throw Error;
     }
+    console.log(address);
+    // save to db
+    console.log("adding to db");
+    const resp = await axios.post("/api/account/register", {
+      address: address,
+    });
+    console.log(resp);
+    // return AccountService
+    return new OpBnbAccountService(passKeyPair, address);
   }
 }
 

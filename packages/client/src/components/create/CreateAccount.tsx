@@ -3,47 +3,43 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import axios from "axios";
 import { PreDeployedAccount } from "../../services/passkeyService";
 import { useRouter } from "next/navigation";
 import { BiLoaderCircle } from "react-icons/bi";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
 
-const CreateAccount = ({
-  userId,
-  credId,
-}: {
-  userId: string;
-  credId: string[];
-}) => {
+const CreateAccount = ({ userId, name }: { userId: string; name: string }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [someErrorOccured, setSomeErrorOccured] = useState(false);
+  const [walletDeploymentRes, setWalletDeploymentRes] = useState<null | string>(
+    null,
+  );
 
   const createPassKey = async () => {
+    const toastId = toast.loading(`Deploying your account`, {
+      position: "bottom-center",
+    });
     try {
       setLoading(true);
-      console.log("Creating an account");
       const preDeployedAccount = new PreDeployedAccount();
-      const resp = await preDeployedAccount.register("testAccount");
-      if (resp === null) {
-        setSomeErrorOccured(true);
-        setLoading(false);
-        return;
-      }
+      const resp = await preDeployedAccount.register(name, userId);
       console.log("Wallet deployed");
-      router.push("/wallet");
+      toast.success("Wallet Created", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 3000,
+      });
+      setLoading(false);
+      setWalletDeploymentRes("success");
     } catch (e) {
       console.log(e);
       setLoading(false);
-      setSomeErrorOccured(true);
+      toast.error("Something went wrong, Try reloading the window", {
+        position: "bottom-center",
+        id: toastId,
+        duration: 5000,
+      });
+      setLoading(false);
+      setWalletDeploymentRes("fail");
     }
   };
 
@@ -56,26 +52,10 @@ const CreateAccount = ({
     }
   };
 
-  const dialog = (
-    <Dialog open={someErrorOccured}>
-      {/* <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
-      </DialogTrigger> */}
-      <DialogContent
-        className="sm:max-w-[425px]"
-        onEscapeKeyDown={() => {
-          setSomeErrorOccured(false);
-        }}
-      >
-        <DialogHeader>
-          <DialogTitle>Failed to deploy</DialogTitle>
-          <DialogDescription className="py-3">
-            Some Error Occured while deploying you account.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
-  );
+  const route = async () => {
+    setLoading(true);
+    router.push("/wallet");
+  };
 
   return (
     <div className="flex h-screen bg-[#14151A]">
@@ -99,29 +79,51 @@ const CreateAccount = ({
           </div>
         </div>
         <div className="pr-10 h-1/2 flex flex-col justify-top items-center pt-10">
-          {loading ? (
+          {walletDeploymentRes === null ? (
+            loading ? (
+              <Button
+                variant="secondary"
+                className="h-[60px] w-[300px] rounded-xl hover:bg-[#F3EF52] bg-[#fff699]"
+              >
+                <span className="w-[250px] text-[17px] font-satoshi">
+                  Deploying your account
+                </span>
+                <BiLoaderCircle className="animate-spin w-6 h-6" />
+              </Button>
+            ) : (
+              <Button
+                onClick={createPassKey}
+                variant="secondary"
+                className="h-[60px] w-[300px] rounded-xl hover:bg-[#F3EF52] bg-[#fff699]"
+              >
+                <span className="w-[300px] text-[17px] font-satoshi">
+                  Create PassKey
+                </span>
+              </Button>
+            )
+          ) : walletDeploymentRes === "fail" ? (
             <Button
               variant="secondary"
-              className="h-[60px] w-[300px] rounded-xl hover:bg-[#fff699]"
+              className="h-[60px] w-[300px] rounded-xl hover:bg-[#F3EF52] bg-[#fff699]"
             >
-              <span className="w-[250px] text-[17px] font-satoshi">
-                Deploying your account
-              </span>
-              <BiLoaderCircle className="animate-spin w-6 h-6" />
+              <span className="w-[250px] text-[17px] font-satoshi">Failed</span>
             </Button>
           ) : (
             <Button
-              onClick={createPassKey}
+              onClick={route}
               variant="secondary"
-              className="h-[60px] w-[300px] rounded-xl hover:bg-[#fff699]"
+              className="h-[60px] w-[300px] rounded-xl hover:bg-[#F3EF52] bg-[#fff699]"
             >
-              <span className="w-[300px] text-[17px] font-satoshi">
-                Create PassKey
-              </span>
+              {loading ? (
+                <BiLoaderCircle className="animate-spin w-6 h-6" />
+              ) : (
+                <span className="w-[300px] text-[17px] font-satoshi">
+                  Explore wallet
+                </span>
+              )}
             </Button>
           )}
         </div>
-        {dialog}
       </div>
     </div>
   );

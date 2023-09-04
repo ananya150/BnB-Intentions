@@ -5,7 +5,7 @@ import { addToWallet } from "../../../../utils/setDb";
 
 export async function POST(req: Request) {
   try {
-    const { address, keyId, keyHash } = await req.json();
+    const { address } = await req.json();
 
     const session = await getServerSession(authOptions);
 
@@ -21,14 +21,13 @@ export async function POST(req: Request) {
 
     // add the account to db
     try {
-      await addToWallet(session.user.id, address, keyId, keyHash);
+      await addToWallet(session.user.id, address);
     } catch (error) {
       console.log(error);
       return new Response("An error occured while adding to db", {
         status: 400,
       });
     }
-
     return new Response("Wallet Registered", { status: 200 });
   } catch (error) {
     console.log(error);

@@ -456,32 +456,32 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   );
 
   const balances = (
-    <div className="flex flex-col md:justify-between space-y-3 md:pt-7 pt-4">
+    <div className="flex flex-col md:justify-between space-y-3 md:pt-4 pt-4">
       <div className="flex flex-col md:space-y-5 space-y-3">
         <div
           onClick={sendBnB}
           className="flex justify-between items-center cursor-pointer hover:bg-[#f7f486] px-2 md:py-2 py-1 rounded-xl"
         >
           <div className="flex space-x-4 items-center">
-            <div className="bg-black rounded-full md:w-[65px] md:h-[65px] w-[40px] h-[40px] md:py-3 md:px-3 px-[7px] py-[7px]">
+            <div className="bg-black rounded-full md:w-[3vw] md:h-[3vw] w-[40px] h-[40px] md:py-[0.45vw] md:px-[0.45vw] px-[7px] py-[7px]">
               <Image
                 src="/Bnb2.png"
                 alt="logo"
                 height={80}
                 width={80}
-                className="md:w-[42px] md:h-[42px] w-[26px] h-[26px]"
+                className="md:w-[2.1vw] md:h-[2.1vw] w-[26px] h-[26px]"
               />
             </div>
             <div className="flex flex-col justify-between">
-              <div className="md:text-[20px] text-[12px] font-sans">BNB</div>
-              <div className="md:text-[17px] text-[10px] ">
+              <div className="md:text-[0.9vw] text-[12px] font-sans">BNB</div>
+              <div className="md:text-[0.8vw] text-[10px] ">
                 {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[0].balance.toFixed(4)
                   : bnbTokens.tokens[0].balance.toFixed(4)}
               </div>
             </div>
           </div>
-          <div className="font-satoshi md:text-[27px] text-[15px] font-medium">
+          <div className="font-satoshi md:text-[1.6vw] text-[15px] font-medium">
             $
             {chain.chainName === "OPBNB"
               ? (
@@ -502,18 +502,18 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
               alt="logo"
               height={100}
               width={100}
-              className="md:w-[65px] md:h-[65px] h-[40px] w-[40px]"
+              className="md:w-[3vw] md:h-[3vw] h-[40px] w-[40px]"
             />
             <div className="flex flex-col justify-between">
-              <div className="md:text-[20px] text-[12px] font-sans">BUSD</div>
-              <div className="md:text-[17px] text-[10px]">
+              <div className="md:text-[0.9vw] text-[12px] font-sans">BUSD</div>
+              <div className="md:text-[0.8vw] text-[10px]">
                 {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[1].balance.toFixed(4)
                   : bnbTokens.tokens[1].balance.toFixed(4)}
               </div>
             </div>
           </div>
-          <div className="font-satoshi md:text-[27px] text-[15px] font-medium">
+          <div className="font-satoshi md:text-[1.6vw] text-[15px] font-medium">
             $
             {chain.chainName === "OPBNB"
               ? (
@@ -532,12 +532,12 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
       <div className="w-full flex justify-center md:mt-0 pt-3">
         {loading ? (
           <button className="w-2/3 rounded-2xl py-2 md:rounded-3xl md:py-4 text-white bg-black flex justify-center">
-            <BiLoaderCircle className="text-white animate-spin md:w-6 md:h-6 w-3 h-3" />
+            <BiLoaderCircle className="text-white animate-spin md:w-4 md:h-4 w-3 h-3" />
           </button>
         ) : (
           <button
             onClick={requestFunds}
-            className="w-2/3 rounded-2xl py-2 md:rounded-3xl md:py-4 md:text-[17px] text-[13px] text-white bg-black"
+            className="w-2/3 rounded-2xl py-[0.6vw] md:rounded-3xl md:py-[0.6vw] md:text-[0.8vw] text-[13px] text-white bg-black"
           >
             REQUEST FUNDS
           </button>
@@ -547,15 +547,15 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   );
 
   return (
-    <div className="flex h-full flex-col md:space-y-4 space-y-2">
-      <div className="flex justify-between md:mt-6 mt-4 items-center">
+    <div className="flex h-full flex-col min-h-[39vh] space-y-[2vw]">
+      <div className="flex justify-between md:mt-3 mt-4 items-center">
         <div className="">
-          <div className="flex px-2 space-x-4">
+          <div className="flex px-[0.7vw] space-x-4">
             <div
               onClick={() => updateChain("OPBNB")}
               className={`${
                 chain.chainName === "OPBNB" ? "bg-black text-white" : ""
-              } text-[10px] md:text-[16px] h-[24px] md:h-[35px] md:px-10 py-1 px-6 rounded-2xl cursor-pointer duration-100`}
+              } text-[10px] md:text-[1vw] h-[24px] md:h-[2vw] md:px-[2vw] py-1 px-[1vw] rounded-2xl cursor-pointer duration-100`}
             >
               OPBNB
             </div>
@@ -563,20 +563,20 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
               onClick={() => updateChain("BNB")}
               className={`${
                 chain.chainName === "BNB" ? "bg-black text-white" : ""
-              } text-[10px] md:text-[16px] h-[24px] md:h-[35px] md:px-10 py-1 px-6 rounded-2xl cursor-pointer duration-100`}
+              } text-[10px] md:text-[1vw] h-[24px] md:h-[2vw] md:px-[2vw] py-1 px-[1vw] rounded-2xl cursor-pointer duration-100`}
             >
               BSC
             </div>
           </div>
         </div>
-        <div className="px-2">
+        <div className="px-[0.3vw]">
           <FiRefreshCcw
             onClick={
               chain.chainName === "OPBNB"
                 ? updateOpBnbBalance
                 : updateBnbBalance
             }
-            className={`md:w-4 md:h-4 w-3 h-3 cursor-pointer rotate-180 ${
+            className={`w-3 h-3 cursor-pointer rotate-180 ${
               spinning ? "animate-spin" : ""
             }`}
           />

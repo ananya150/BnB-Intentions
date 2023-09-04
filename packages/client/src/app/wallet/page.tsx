@@ -28,11 +28,13 @@ const Wallet = async () => {
 
   return (
     <div>
-      <div className="w-full h-screen bg-[#14151A] md:block hidden">
+      <div className="w-full max-h-screen h-screen bg-[#14151A] md:block hidden">
         <div className="flex flex-col h-full">
-          <Header image={session.user.image!} />
-          <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
-            <div className="w-3/4">
+          <div className="h-1/6">
+            <Header image={session.user.image!} />
+          </div>
+          <div className="w-full h-5/6 pt-[4vh] pb-[3vh] flex px-12 space-x-6">
+            <div className="w-3/4 h-full">
               <Tabs
                 image={session.user.image!}
                 address={wallet[0]}
@@ -41,7 +43,7 @@ const Wallet = async () => {
                 keyId={keyId}
               />
             </div>
-            <div className="w-1/4">
+            <div className="w-1/4 h-full">
               <Portfolio
                 address={wallet[0]}
                 pubKeyX={pubKeyX._hex}

@@ -20,6 +20,7 @@ interface props {
 
 const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   const [copied, setCopied] = useState(false);
+  const [width, setWidth] = useState(0);
 
   const dispatch = useAppDispatch();
 
@@ -31,6 +32,8 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
       keyId: keyId,
     };
     dispatch(setAccount(state));
+    console.log("Window idth");
+    setWidth(window.innerWidth);
   }, []);
 
   function delay(ms: number) {
@@ -46,33 +49,33 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
 
   return (
     <div>
-      <div className="hidden md:block">
-        <div className="h-full w-full bg-[#F3EF52] rounded-2xl py-6 px-6 flex flex-col space-y-2 ">
-          <div className="h-1/2">
+      <div className="hidden md:block h-[76vh]">
+        <div className="h-full w-full bg-[#F3EF52] rounded-2xl py-[1.2vw] px-[1vw] flex flex-col space-y-2 ">
+          <div className="min-h-[32vh] flex flex-col justify-between">
             <div className="">
-              <span className="text-black text-[32px] tracking-wide font-medium font-satoshi w-full">
+              <span className="text-black text-[2vw] tracking-wide font-medium font-satoshi w-full">
                 Portfolio
               </span>
             </div>
-            <div className="pt-4 flex justify-between items-center">
+            <div className="flex justify-between items-center">
               <Link href="#" className="">
-                <span className="text-black text-[20px] tracking-wide font-satoshi hover:text-blue-600">
+                <span className="text-black text-[1.2vw] tracking-wide font-satoshi hover:text-blue-600">
                   {address.slice(0, 8)}......{address.slice(-5)}
                 </span>
               </Link>
               <div className="cursor-pointer" onClick={copyAddress}>
                 {copied ? (
-                  <FaCheck className="h-4 w-4" />
+                  <FaCheck className="h-3 w-3" />
                 ) : (
-                  <BiSolidCopy className="h-5 w-5" />
+                  <BiSolidCopy className="h-4 w-4" />
                 )}
               </div>
             </div>
-            <div className="mt-3">
-              <Chart width={400} height={200} />
+            <div className="flex justify-center w-full">
+              <Chart width={width / 5} height={width / 10} />
             </div>
           </div>
-          <div className="h-1/2">
+          <div className="h-7/12 mt-[1vw]">
             <Balances
               address={address}
               pubKeyX={pubKeyX}

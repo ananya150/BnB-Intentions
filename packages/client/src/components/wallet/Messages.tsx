@@ -22,7 +22,7 @@ const Messages = ({ messages, image }: props) => {
   return (
     <div
       id="messages"
-      className={`flex max-h-[605px] flex-1 space-y-6 flex-col gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch `}
+      className={`flex max-h-[59vh] flex-1 space-y-6 flex-col gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch `}
     >
       <div ref={scrollDownRef} />
 

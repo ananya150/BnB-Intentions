@@ -270,7 +270,7 @@ const Swap = () => {
               chain.chainName === "BNB" ? "bg-[#F3EF52]" : "text-white"
             } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
           >
-            BNB
+            BSC
           </div>
         </div>
       </div>

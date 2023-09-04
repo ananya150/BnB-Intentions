@@ -186,7 +186,7 @@ const Bridge = () => {
                 />
               </div>
               <div className="text-[22px] text-gray-300 tracking-wide font-satoshi font-medium">
-                {chain.chainName}
+                {chain.chainName === "OPBNB" ? "OPBNB" : "BSC"}
               </div>
             </div>
             <div>
@@ -243,7 +243,7 @@ const Bridge = () => {
                 />
               </div>
               <div className="text-[22px] text-gray-300 tracking-wide font-satoshi font-medium">
-                {chain.chainName === "OPBNB" ? "BNB" : "OPBNB"}
+                {chain.chainName === "OPBNB" ? "BSC" : "OPBNB"}
               </div>
             </div>
             <div>

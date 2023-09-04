@@ -553,7 +553,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 chain.chainName === "BNB" ? "bg-black text-white" : ""
               } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
             >
-              BNB
+              BSC
             </div>
           </div>
         </div>

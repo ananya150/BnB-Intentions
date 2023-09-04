@@ -6,20 +6,20 @@ import SignInButton from "../components/home/signInButton";
 
 const cards = [
   {
-    heading: "AI powered Intents",
-    info: "Just specify your intents and let AI and Experts find the best route.",
+    heading: "AI based wallet",
+    info: "AI powered chatbot that helps you with everything related to wallet and cryptocurrencies.",
   },
   {
-    heading: "Cross-chain",
-    info: "Move your funds across the BNB ecosystem within seconds.",
+    heading: "Intent based wallet",
+    info: "Just specify what you want and let specialized actors find the optimal path.",
   },
   {
     heading: "Account Abstraction",
-    info: "Experience  passkeys, gas abstraction, etc for the best user experience.",
+    info: "Experience passkeys, gas abstraction, batch transactions for the best user experience.",
   },
   {
-    heading: "Non-Custodial Wallet",
-    info: "Own you assets. No need to trust any third party for good user experience.",
+    heading: "Cross chain",
+    info: "Instant cross chain transfers between the BNB ecosystem.",
   },
 ];
 

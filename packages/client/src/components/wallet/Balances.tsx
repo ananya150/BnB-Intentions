@@ -456,7 +456,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   );
 
   const balances = (
-    <div className="flex flex-col md:space-y-10 space-y-3 md:pt-7 pt-4">
+    <div className="flex flex-col md:justify-between space-y-3 md:pt-7 pt-4">
       <div className="flex flex-col md:space-y-5 space-y-3">
         <div
           onClick={sendBnB}
@@ -547,7 +547,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   );
 
   return (
-    <div className="flex flex-col md:space-y-4 space-y-2">
+    <div className="flex h-full flex-col md:space-y-4 space-y-2">
       <div className="flex justify-between md:mt-6 mt-4 items-center">
         <div className="">
           <div className="flex px-2 space-x-4">

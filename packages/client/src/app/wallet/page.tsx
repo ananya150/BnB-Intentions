@@ -52,8 +52,17 @@ const Wallet = async () => {
           </div>
         </div>
       </div>
-      <div className="md:hidden w-full bg-[#14151A]">
-        <Header image={session.user.image!} />
+      <div className="md:hidden flex flex-col h-screen justify-center items-center px-12">
+        {/* <Header image={session.user.image!} />
+        <div className="w-full my-20">
+          <Tabs
+            image={session.user.image!}
+            address={wallet[0]}
+            pubKeyX={pubKeyX._hex}
+            pubKeyY={pubKeyY._hex}
+            keyId={keyId}
+          />
+        </div>
         <div className="flex flex-col">
           <Portfolio
             address={wallet[0]}
@@ -61,7 +70,9 @@ const Wallet = async () => {
             pubKeyY={pubKeyY._hex}
             keyId={keyId}
           />
-        </div>
+        </div> */}
+        Interface only available in Desktop right now. Mobile interface coming
+        soon.
       </div>
     </div>
   );

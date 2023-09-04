@@ -28,7 +28,7 @@ interface props {
 
 const LoadingMessage: Message = {
   role: "assistant",
-  content: "thinking",
+  content: "....",
 };
 
 interface TransferConfirmationState {
@@ -562,14 +562,14 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
 
   return (
     <div
-      className={`h-full ${
+      className={`h-full mx-3 md:mx-0 ${
         tab === "chat" ? "bg-[#27292F]" : "bg-[#252831]"
       }  rounded-2xl`}
     >
       <div className="flex flex-col justify-center w-full">
         <TabItems tab={tab} setTab={setTab} />
       </div>
-      <div className="h-full pl-1">
+      <div className="md:h-full min-h-[75vh] md:min-h-0 pl-1 ">
         {tab === "chat" && (
           <ChatBot
             messages={messages}

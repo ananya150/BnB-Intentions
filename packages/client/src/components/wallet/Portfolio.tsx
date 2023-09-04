@@ -47,8 +47,8 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   return (
     <div>
       <div className="hidden md:block">
-        <div className="h-full w-full bg-[#F3EF52] rounded-2xl py-6 px-6 flex flex-col ">
-          <div>
+        <div className="h-full w-full bg-[#F3EF52] rounded-2xl py-6 px-6 flex flex-col space-y-2 ">
+          <div className="h-1/2">
             <div className="">
               <span className="text-black text-[32px] tracking-wide font-medium font-satoshi w-full">
                 Portfolio
@@ -68,11 +68,11 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 )}
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               <Chart width={400} height={200} />
             </div>
           </div>
-          <div className="">
+          <div className="h-1/2">
             <Balances
               address={address}
               pubKeyX={pubKeyX}

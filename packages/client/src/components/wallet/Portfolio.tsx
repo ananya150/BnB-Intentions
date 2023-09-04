@@ -23,6 +23,7 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   const [width, setWidth] = useState(0);
 
   const dispatch = useAppDispatch();
+  const chain = useAppSelector((state) => state.chainSlice);
 
   useEffect(() => {
     const state: AccountSlice = {
@@ -58,7 +59,15 @@ const Portfolio = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
               </span>
             </div>
             <div className="flex justify-between items-center">
-              <Link href="#" className="">
+              <Link
+                href={`${
+                  chain.chainName === "OPBNB"
+                    ? `https://opbnbscan.com/address/${address}`
+                    : `https://testnet.bscscan.com/address/${address}`
+                }`}
+                target="_blank"
+                className=""
+              >
                 <span className="text-black text-[1.2vw] tracking-wide font-satoshi hover:text-blue-600">
                   {address.slice(0, 8)}......{address.slice(-5)}
                 </span>

@@ -17,11 +17,21 @@ interface props {
 
 const Messages = ({ messages, image }: props) => {
   const scrollDownRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<any>(null);
   console.log(messages);
+
+  const scrollToBottom = () => {
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <div
       id="messages"
+      ref={chatContainerRef}
       className={`flex max-h-[59vh] flex-1 space-y-6 flex-col gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch `}
     >
       <div ref={scrollDownRef} />

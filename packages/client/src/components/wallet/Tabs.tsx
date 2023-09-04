@@ -257,7 +257,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmTransfer(initialtransferConfirmationState);
         await sendFunctionResponse(
           "transfer",
-          `The transfer of BNB was successful with a transaction hash ${txResponse.hash}`,
+          `The transfer of BNB was successful. Please return this link to the user https://opbnbscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateOpBnbBalance();
@@ -282,7 +282,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmTransfer(initialtransferConfirmationState);
         await sendFunctionResponse(
           "transfer",
-          `The transfer of BUSD was successful with a transaction hash ${txResponse.hash}`,
+          `The transfer of BUSD was successful . Please return this link to the user https://opbnbscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateOpBnbBalance();
@@ -312,7 +312,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmTransfer(initialtransferConfirmationState);
         await sendFunctionResponse(
           "transfer",
-          `The transfer of BNB was successful with a transaction hash ${txResponse.hash}`,
+          `The transfer of BNB was successful . Please return this link to the user https://testnet.bscscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateBnbBalance();
@@ -335,7 +335,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmTransfer(initialtransferConfirmationState);
         await sendFunctionResponse(
           "transfer",
-          `The transfer of BUSD was successful with a transaction hash ${txResponse.hash}`,
+          `The transfer of BUSD was successful . Please return this link to the user https://testnet.bscscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateBnbBalance();
@@ -372,7 +372,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmSwap(initialSwapConfirmationState);
         await sendFunctionResponse(
           "swap",
-          `The Swap of BNB to BUSD was successful with a transaction hash ${txResponse.hash}`,
+          `The Swap of BNB to BUSD was successful . Please return this link to the user https://opbnbscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateOpBnbBalance();
@@ -397,7 +397,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmSwap(initialSwapConfirmationState);
         await sendFunctionResponse(
           "swap",
-          `The swap of BUSD to BNB was successful with a transaction hash ${txResponse.hash}`,
+          `The swap of BUSD to BNB was successful . Please return this link to the user https://opbnbscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateOpBnbBalance();
@@ -427,7 +427,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmSwap(initialSwapConfirmationState);
         await sendFunctionResponse(
           "swap",
-          `The Swap of BNB to BUSD was successful with a transaction hash ${txResponse.hash}`,
+          `The Swap of BNB to BUSD was successful . Please return this link to the user https://testnet.bscscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateBnbBalance();
@@ -450,7 +450,7 @@ const Tabs = ({ address, pubKeyX, pubKeyY, keyId, image }: props) => {
         setConfirmSwap(initialSwapConfirmationState);
         await sendFunctionResponse(
           "swap",
-          `The swap of BUSD to BNB was successful with a transaction hash ${txResponse.hash}`,
+          `The swap of BUSD to BNB was successful . Please return this link to the user https://testnet.bscscan.com/tx/${txResponse.hash}`,
         );
         setLoading(false);
         await updateBnbBalance();

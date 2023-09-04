@@ -22,7 +22,7 @@ const Dropdown = ({ image }: { image: string }) => {
           alt="Profile"
           height={60}
           width={60}
-          className="rounded-full md:w-[50px] md:h-[50px] h-[35px] w-[35px]"
+          className="rounded-full md:w-[3vw] md:h-[3vw] h-[35px] w-[35px]"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent

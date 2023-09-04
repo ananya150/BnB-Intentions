@@ -162,13 +162,13 @@ const Bridge = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col space-y-10 ">
-      <div className="flex justify-between items-center px-8 py-5">
-        <div className="text-white font-satoshi text-[30px] font-medium">
+    <div className="w-full h-full flex flex-col space-y-[3vh] ">
+      <div className="flex justify-between items-center px-[2vw] py-[2vh]">
+        <div className="text-white font-satoshi text-[1.6vw] font-medium">
           BRIDGE
         </div>
       </div>
-      <div className="flex flex-col space-y-6 px-8 w-full relative">
+      <div className="flex flex-col space-y-6 px-[2vw] w-full relative">
         <div className="h-[200px] bg-[#32363E] flex rounded-2xl justify-between px-6 pt-5 pb-3">
           <div className="flex flex-col justify-between h-full">
             <div className="flex space-x-5 items-center">
@@ -182,10 +182,10 @@ const Bridge = () => {
                   alt="token"
                   width={100}
                   height={100}
-                  className="w-[35px] h-[35px]"
+                  className="w-[2vw] h-[2vw]"
                 />
               </div>
-              <div className="text-[22px] text-gray-300 tracking-wide font-satoshi font-medium">
+              <div className="text-[1.2vw] text-gray-300 tracking-wide font-satoshi font-medium">
                 {chain.chainName === "OPBNB" ? "OPBNB" : "BSC"}
               </div>
             </div>
@@ -195,7 +195,7 @@ const Bridge = () => {
                 value={tokenOneAmount}
                 autoFocus
                 placeholder="0.00"
-                className="h-[90px] outline outline-none w-1/2 text-[40px] px-4 bg-transparent text-white placeholder-gray-600"
+                className="h-[5vw] outline outline-none w-1/2 text-[2vw] px-4 bg-transparent text-white placeholder-gray-600"
               />
             </div>
           </div>
@@ -208,14 +208,14 @@ const Bridge = () => {
               //       : bnBtokenOne.balance,
               //   );
               // }}
-              className="text-white px-2 py-2 text-[20px] cursor-pointer"
+              className="text-white px-2 py-2 text-[1.2vw] cursor-pointer"
             >
               MAX{" "}
               {chain.chainName === "OPBNB"
                 ? opBnbTokens.tokens[1].balance.toFixed(6)
                 : bnbTokens.tokens[1].balance.toFixed(6)}
             </div>
-            <div className="text-gray-400 text-[25px] mb-2">
+            <div className="text-gray-400 text-[1.3vw] mb-2">
               ~ $ {tokenOneAmount}
             </div>
           </div>
@@ -239,10 +239,10 @@ const Bridge = () => {
                   alt="token"
                   width={100}
                   height={100}
-                  className="w-[35px] h-[35px]"
+                  className="w-[2vw] h-[2vw]"
                 />
               </div>
-              <div className="text-[22px] text-gray-300 tracking-wide font-satoshi font-medium">
+              <div className="text-[1.2vw] text-gray-300 tracking-wide font-satoshi font-medium">
                 {chain.chainName === "OPBNB" ? "BSC" : "OPBNB"}
               </div>
             </div>
@@ -251,13 +251,13 @@ const Bridge = () => {
                 onChange={handleAmount2Change}
                 value={tokenTwoAmount}
                 placeholder="0.00"
-                className="h-[90px] outline outline-none w-1/2 text-[40px] px-4 bg-transparent text-white placeholder-gray-600"
+                className="h-[5vw] outline outline-none w-1/2 text-[2vw] px-4 bg-transparent text-white placeholder-gray-600"
               />
             </div>
           </div>
           <div className="flex flex-col justify-between  h-full">
             <div></div>
-            <div className="text-gray-400 text-[25px] mb-2">
+            <div className="text-gray-400 text-[1.3vw] mb-2">
               ~ $ {tokenTwoAmount}
             </div>
           </div>
@@ -265,13 +265,13 @@ const Bridge = () => {
       </div>
       <div className="px-8 flex justify-center">
         {loading ? (
-          <Button className="hover:bg-[#F3EF52] bg-[#F3EF52] rounded-2xl w-1/2 h-[100px] text-[30px] font-satoshi text-black font-medium ">
-            <BiLoaderCircle className=" animate-spin w-9 h-9" />
+          <Button className="hover:bg-[#F3EF52] bg-[#F3EF52] rounded-2xl w-1/2 h-[5.3vw] text-[1.8vw] font-satoshi text-black font-medium ">
+            <BiLoaderCircle className=" animate-spin w-7 h-7" />
           </Button>
         ) : (
           <Button
             onClick={handleBridge}
-            className="hover:bg-[#F3EF52] bg-[#F3EF52] rounded-2xl w-1/2 h-[100px] text-[30px] font-satoshi text-black font-medium "
+            className="hover:bg-[#F3EF52] bg-[#F3EF52] rounded-2xl w-1/2 h-[5.3vw] text-[1.8vw] font-satoshi text-black font-medium "
           >
             BRIDGE
           </Button>

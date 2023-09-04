@@ -26,7 +26,8 @@
     "test": "yarn workspaces foreach --topological --verbose run test",
     "test:watch": "yarn workspaces foreach --parallel --interlaced run test:watch",
     "client:dev": "yarn workspace @opintents/client dev",
-    "shared:deploy": "yarn workspace @opintents/shared deploy:contracts"
+    "shared:deploy": "yarn workspace @opintents/shared deploy:contracts",
+    "shared:build": "yarn workspace @opintents/shared build"
   },
   "lint-staged": {
     "*": "prettier --write --ignore-unknown"

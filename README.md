@@ -60,6 +60,14 @@ In the root directory run
   yarn shared:deploy
 ```
 
+### Building shared package
+
+In the root directory run
+
+```bash
+  yarn shared:build
+```
+
 ### Configuring client
 
 \

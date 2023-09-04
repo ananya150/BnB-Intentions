@@ -8,7 +8,7 @@ const Header = ({ image }: { image: string }) => {
     <div className="w-full">
       <div className="py-5 px-12 flex justify-between w-full items-center">
         <div>
-          <span className="text-[#FFE900] font-semibold text-[50px] font-satoshi">
+          <span className="text-[#FFE900] font-semibold text-[25px] md:text-[50px] font-satoshi">
             OpIntents
           </span>
         </div>

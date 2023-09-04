@@ -27,27 +27,40 @@ const Wallet = async () => {
   const { pubKeyX, pubKeyY, keyId } = await getPassKey(wallet[0]);
 
   return (
-    <div className="w-full h-screen bg-[#14151A]">
-      <div className="flex flex-col h-full">
+    <div>
+      <div className="w-full h-screen bg-[#14151A] md:block hidden">
+        <div className="flex flex-col h-full">
+          <Header image={session.user.image!} />
+          <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
+            <div className="w-3/4">
+              <Tabs
+                image={session.user.image!}
+                address={wallet[0]}
+                pubKeyX={pubKeyX._hex}
+                pubKeyY={pubKeyY._hex}
+                keyId={keyId}
+              />
+            </div>
+            <div className="w-1/4">
+              <Portfolio
+                address={wallet[0]}
+                pubKeyX={pubKeyX._hex}
+                pubKeyY={pubKeyY._hex}
+                keyId={keyId}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="md:hidden w-full bg-[#14151A]">
         <Header image={session.user.image!} />
-        <div className="w-full h-full pt-12 pb-8 flex px-12 space-x-6">
-          <div className="w-3/4">
-            <Tabs
-              image={session.user.image!}
-              address={wallet[0]}
-              pubKeyX={pubKeyX._hex}
-              pubKeyY={pubKeyY._hex}
-              keyId={keyId}
-            />
-          </div>
-          <div className="w-1/4">
-            <Portfolio
-              address={wallet[0]}
-              pubKeyX={pubKeyX._hex}
-              pubKeyY={pubKeyY._hex}
-              keyId={keyId}
-            />
-          </div>
+        <div className="flex flex-col">
+          <Portfolio
+            address={wallet[0]}
+            pubKeyX={pubKeyX._hex}
+            pubKeyY={pubKeyY._hex}
+            keyId={keyId}
+          />
         </div>
       </div>
     </div>

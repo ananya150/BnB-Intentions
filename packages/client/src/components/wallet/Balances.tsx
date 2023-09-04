@@ -278,38 +278,44 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   };
 
   const sendBnBLayout = (
-    <div className="flex flex-col px-4 pt-4 pb-2">
-      <div className="flex mt-6 flex-col space-y-5">
-        <div className="flex flex-col space-y-2">
-          <div className="text-gray-800 font-satoshi">To</div>
+    <div className="flex flex-col px-1 md:pt-4 pb-2">
+      <div className="flex md:mt-6 mt-4 flex-col space-y-3 md:space-y-5">
+        <div className="flex md:flex-col md:space-y-2 space-x-10 md:space-x-0 items-center md:items-start">
+          <div className="text-gray-800 md:text-base text-[12px] font-satoshi">
+            To
+          </div>
           <div id="input-container" className="w-full">
-            <div className="my-[5px] h-[40px] mx-2 flex space-x-2 items-center px-4 rounded-xl">
-              <div className="bg-black py-1 px-1 rounded-full">
+            <div className="my-[5px] h-[40px] mx-2 flex space-x-2 items-center px-2 rounded-xl">
+              <div className="bg-black py-1  px-1 mb-2 md:mb-1 rounded-full">
                 <Image
                   src="/Bnb2.png"
                   alt="logo"
                   height={80}
                   width={80}
-                  className="w-[20px] h-[20px]"
+                  className="md:w-[20px] md:h-[20px] w-[16px] h-[16px]"
                 />
               </div>
-              <div className="text-[13px] font-satoshi">BNB</div>
+              <div className="md:text-[13px] text-[11px] pb-2 md:pb-0 font-satoshi">
+                BNB
+              </div>
             </div>
             <input
               value={to}
               onChange={(e) => {
                 setTo(e.target.value);
               }}
-              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+              className={`md:h-[50px] h-[40px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent md:pl-[140px] pl-[90px] text-[10px] md:text-base ${
                 addressError ? "border border-red-500" : ""
               } `}
             ></input>
           </div>
         </div>
-        <div className="flex flex-col space-y-2">
-          <div className="text-gray-800 font-satoshi">Amount</div>
+        <div className="flex md:flex-col md:space-y-2 space-x-3 md:space-x-0 items-center md:items-start">
+          <div className="text-gray-800 md:text-base text-[12px] font-satoshi">
+            Amount
+          </div>
           <div id="input-container" className="w-full">
-            <div className="flex flex-col justify-center h-[40px] my-[5px] items-center px-4 ml-3 rounded-xl">
+            <div className="flex flex-col justify-center h-[30px] my-[5px] items-center px-4 ml-1 rounded-xl">
               <div
                 onClick={() => {
                   setAmount(
@@ -320,7 +326,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                     }`,
                   );
                 }}
-                className="text-[13px] cursor-pointer font-satoshi"
+                className="md:text-[13px] text-[10px] mt-2 cursor-pointer font-satoshi"
               >
                 MAX:{" "}
                 {chain.chainName === "OPBNB"
@@ -331,7 +337,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <input
               value={amount}
               onChange={handleAmountChange}
-              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+              className={`md:h-[50px] h-[40px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent md:pl-[140px] pl-[90px] text-[10px] md:text-base ${
                 amountErr ? "border border-red-500" : ""
               }`}
             ></input>
@@ -343,16 +349,16 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           onClick={back}
           className="w-1/3 rounded-3xl py-1 px-4 text-white bg-black flex flex-col justify-center items-center"
         >
-          <IoArrowBackOutline className="h-8 w-8 cursor-pointer text-white" />
+          <IoArrowBackOutline className="md:h-8 md:w-8 h-4 w-5 cursor-pointer text-white" />
         </button>
         {loading ? (
-          <button className="w-2/3 rounded-3xl py-4 text-white bg-black flex justify-center">
-            <BiLoaderCircle className="text-white animate-spin w-6 h-6" />
+          <button className="w-2/3 rounded-3xl md:py-4 py-2 text-white bg-black flex justify-center">
+            <BiLoaderCircle className="text-white animate-spin md:w-6 md:h-6 w-3 h-3" />
           </button>
         ) : (
           <button
             onClick={handleBNBSend}
-            className="w-2/3 rounded-3xl py-4 text-white bg-black"
+            className="w-2/3 rounded-3xl md:py-4 py-2 text-white bg-black md:text-base text-[12px]"
           >
             SEND
           </button>
@@ -362,36 +368,42 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   );
 
   const sendBusdLayout = (
-    <div className="flex flex-col mt-6 px-4 pt-4 pb-2">
-      <div className="flex flex-col space-y-5 mt-6">
-        <div className="flex flex-col space-y-2">
-          <div className="text-gray-800 font-satoshi">To</div>
+    <div className="flex flex-col px-1 md:pt-4 pb-2">
+      <div className="flex md:mt-6 mt-4 flex-col space-y-3 md:space-y-5">
+        <div className="flex md:flex-col md:space-y-2 space-x-10 md:space-x-0 items-center md:items-start">
+          <div className="text-gray-800 md:text-base text-[12px] font-satoshi">
+            To
+          </div>
           <div id="input-container" className="w-full">
-            <div className="my-[5px] h-[40px] mx-2 flex space-x-2 items-center  px-4 rounded-xl">
+            <div className="my-[5px] h-[40px] mx-2 flex space-x-2 items-center px-2 rounded-xl">
               <Image
                 src="/Busd.png"
                 alt="logo"
                 height={100}
                 width={100}
-                className="w-[30px] h-[30px]"
+                className="md:w-[30px] w-[25px] md:h-[30px] mb-2 md:mb-0 h-[25px]"
               />
-              <div className="text-[13px] font-satoshi">BUSD</div>
+              <div className="md:text-[13px] text-[11px] pb-2 md:pb-0 font-satoshi">
+                BUSD
+              </div>
             </div>
             <input
               value={to}
               onChange={(e) => {
                 setTo(e.target.value);
               }}
-              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+              className={`md:h-[50px] h-[40px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent md:pl-[140px] pl-[90px] text-[10px] md:text-base ${
                 addressError ? "border border-red-500" : ""
               } `}
             ></input>
           </div>
         </div>
-        <div className="flex flex-col space-y-2">
-          <div className="text-gray-800 font-satoshi">Amount</div>
+        <div className="flex md:flex-col md:space-y-2 space-x-3 md:space-x-0 items-center md:items-start">
+          <div className="text-gray-800 md:text-base text-[12px] font-satoshi">
+            Amount
+          </div>
           <div id="input-container" className="w-full">
-            <div className="flex flex-col justify-center h-[40px] my-[5px] items-center px-6 ml-3 rounded-xl">
+            <div className="flex flex-col justify-center h-[30px] my-[5px] items-center px-4 ml-1 rounded-xl">
               <div
                 onClick={() => {
                   setAmount(
@@ -402,7 +414,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                     }`,
                   );
                 }}
-                className="text-[13px] cursor-pointer font-satoshi"
+                className="md:text-[13px] text-[10px] mt-2 cursor-pointer font-satoshi"
               >
                 MAX:{" "}
                 {chain.chainName === "OPBNB"
@@ -413,9 +425,9 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
             <input
               value={amount}
               onChange={handleAmountChange}
-              className={`h-[50px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent pl-[140px] ${
+              className={`md:h-[50px] h-[40px] w-full rounded-2xl bg-[#f8f597] outline outline-transparent md:pl-[140px] pl-[90px] text-[10px] md:text-base ${
                 amountErr ? "border border-red-500" : ""
-              } `}
+              }`}
             ></input>
           </div>
         </div>
@@ -425,16 +437,16 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
           onClick={back}
           className="w-1/3 rounded-3xl py-1 px-4 text-white bg-black flex flex-col justify-center items-center"
         >
-          <IoArrowBackOutline className="h-8 w-8 cursor-pointer text-white" />
+          <IoArrowBackOutline className="md:h-8 md:w-8 h-4 w-5 cursor-pointer text-white" />
         </button>
         {loading ? (
-          <button className="w-2/3 rounded-3xl py-4 text-white bg-black flex justify-center">
-            <BiLoaderCircle className="text-white animate-spin w-6 h-6" />
+          <button className="w-2/3 rounded-3xl md:py-4 py-2 text-white bg-black flex justify-center">
+            <BiLoaderCircle className="text-white animate-spin md:w-6 md:h-6 w-3 h-3" />
           </button>
         ) : (
           <button
             onClick={handleBUSDSend}
-            className="w-2/3 rounded-3xl py-4 text-white bg-black"
+            className="w-2/3 rounded-3xl md:py-4 py-2 text-white bg-black md:text-base text-[12px]"
           >
             SEND
           </button>
@@ -444,32 +456,32 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   );
 
   const balances = (
-    <div className="flex flex-col space-y-10 pt-9">
-      <div className="flex flex-col space-y-6">
+    <div className="flex flex-col md:space-y-10 space-y-3 md:pt-7 pt-4">
+      <div className="flex flex-col md:space-y-5 space-y-3">
         <div
           onClick={sendBnB}
-          className="flex justify-between items-center cursor-pointer hover:bg-[#f7f486] px-2 py-2 rounded-xl"
+          className="flex justify-between items-center cursor-pointer hover:bg-[#f7f486] px-2 md:py-2 py-1 rounded-xl"
         >
           <div className="flex space-x-4 items-center">
-            <div className="bg-black rounded-full w-[65px] h-[65px] py-3 px-3">
+            <div className="bg-black rounded-full md:w-[65px] md:h-[65px] w-[40px] h-[40px] md:py-3 md:px-3 px-[7px] py-[7px]">
               <Image
                 src="/Bnb2.png"
                 alt="logo"
                 height={80}
                 width={80}
-                className="w-[42px] h-[42px]"
+                className="md:w-[42px] md:h-[42px] w-[26px] h-[26px]"
               />
             </div>
             <div className="flex flex-col justify-between">
-              <div className="text-[20px] font-sans">BNB</div>
-              <div>
+              <div className="md:text-[20px] text-[12px] font-sans">BNB</div>
+              <div className="md:text-[17px] text-[10px] ">
                 {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[0].balance.toFixed(4)
                   : bnbTokens.tokens[0].balance.toFixed(4)}
               </div>
             </div>
           </div>
-          <div className="font-satoshi text-[27px] font-medium">
+          <div className="font-satoshi md:text-[27px] text-[15px] font-medium">
             $
             {chain.chainName === "OPBNB"
               ? (
@@ -482,7 +494,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         </div>
         <div
           onClick={sendBusd}
-          className="flex justify-between items-center cursor-pointer hover:bg-[#f7f486] px-2 py-2 rounded-xl"
+          className="flex justify-between items-center cursor-pointer hover:bg-[#f7f486] px-2 md:py-2 py-1 rounded-xl"
         >
           <div className="flex space-x-4 items-center">
             <Image
@@ -490,18 +502,18 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
               alt="logo"
               height={100}
               width={100}
-              className="w-[65px] h-[65px]"
+              className="md:w-[65px] md:h-[65px] h-[40px] w-[40px]"
             />
             <div className="flex flex-col justify-between">
-              <div className="text-[20px] font-sans">BUSD</div>
-              <div>
+              <div className="md:text-[20px] text-[12px] font-sans">BUSD</div>
+              <div className="md:text-[17px] text-[10px]">
                 {chain.chainName === "OPBNB"
                   ? opBnbTokens.tokens[1].balance.toFixed(4)
                   : bnbTokens.tokens[1].balance.toFixed(4)}
               </div>
             </div>
           </div>
-          <div className="font-satoshi text-[27px] font-medium">
+          <div className="font-satoshi md:text-[27px] text-[15px] font-medium">
             $
             {chain.chainName === "OPBNB"
               ? (
@@ -517,15 +529,15 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
         This wallet is a proof of concept for Intents Architecture with Account
         Abstraction and is meant for testing purposes only.
       </div> */}
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center md:mt-0 pt-3">
         {loading ? (
-          <button className="w-2/3 rounded-3xl py-4 text-white bg-black flex justify-center">
-            <BiLoaderCircle className="text-white animate-spin w-6 h-6" />
+          <button className="w-2/3 rounded-2xl py-2 md:rounded-3xl md:py-4 text-white bg-black flex justify-center">
+            <BiLoaderCircle className="text-white animate-spin md:w-6 md:h-6 w-3 h-3" />
           </button>
         ) : (
           <button
             onClick={requestFunds}
-            className="w-2/3 rounded-3xl py-4 text-white bg-black"
+            className="w-2/3 rounded-2xl py-2 md:rounded-3xl md:py-4 md:text-[17px] text-[13px] text-white bg-black"
           >
             REQUEST FUNDS
           </button>
@@ -535,15 +547,15 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
   );
 
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex justify-between mt-6 items-center">
+    <div className="flex flex-col md:space-y-4 space-y-2">
+      <div className="flex justify-between md:mt-6 mt-4 items-center">
         <div className="">
           <div className="flex px-2 space-x-4">
             <div
               onClick={() => updateChain("OPBNB")}
               className={`${
                 chain.chainName === "OPBNB" ? "bg-black text-white" : ""
-              } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
+              } text-[10px] md:text-[16px] h-[24px] md:h-[35px] md:px-10 py-1 px-6 rounded-2xl cursor-pointer duration-100`}
             >
               OPBNB
             </div>
@@ -551,7 +563,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
               onClick={() => updateChain("BNB")}
               className={`${
                 chain.chainName === "BNB" ? "bg-black text-white" : ""
-              } px-10 py-1 rounded-2xl cursor-pointer duration-100`}
+              } text-[10px] md:text-[16px] h-[24px] md:h-[35px] md:px-10 py-1 px-6 rounded-2xl cursor-pointer duration-100`}
             >
               BSC
             </div>
@@ -564,7 +576,7 @@ const Balances = ({ address, pubKeyX, pubKeyY, keyId }: props) => {
                 ? updateOpBnbBalance
                 : updateBnbBalance
             }
-            className={`w-4 h-4 cursor-pointer rotate-180 ${
+            className={`md:w-4 md:h-4 w-3 h-3 cursor-pointer rotate-180 ${
               spinning ? "animate-spin" : ""
             }`}
           />
